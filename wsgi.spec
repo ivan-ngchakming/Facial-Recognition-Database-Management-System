@@ -37,7 +37,6 @@ a = Analysis(['wsgi.py'],
              cipher=block_cipher,
              noarchive=False)
 
-# a.datas += Tree('./scipy-extra-dll', prefix=None)
 
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
