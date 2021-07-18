@@ -1,4 +1,4 @@
-# Flask React Example
+# Facial Recognition Database Management System
 
 Using flask backend, react frontend, and packaged into a single deployable *.exe file using pyinstaller.
 
@@ -7,9 +7,14 @@ Using flask backend, react frontend, and packaged into a single deployable *.exe
 ### Development
 
 #### Server
-setup python virtual environment using requirements.txt
+setup conda python environment using `environment.yml`
 
 run flask server using `flask run` or python `python app.py`
+
+update `environment.yml` by running 
+```
+conda env export > environment.yml --no-builds
+```
 
 #### Client
 browse to client directory `cd client` and install nodejs packages with `npm install` or `yarn install`
