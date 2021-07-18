@@ -1,35 +1,41 @@
 # Facial Recognition Database Management System
 
-Using flask backend, react frontend, and packaged into a single deployable *.exe file using pyinstaller.
+## Introduction
+Facial Recognition Database Management System (FRDMS) is a facial recognition system made for everyone. 
 
-## Usage
+Powered by python, dlib and react, and packaged into a single executable that can be used by anyone with zero dependencies required.
 
-### Development
 
-#### Server
-setup conda python environment using `environment.yml`
+## Features
+### Facial Recognition 
+Find a face match by supplying an input image, and the system will search the database to locate possible matches
 
-run flask server using `flask run` or python `python app.py`
+### Web Crawling 
+Launch web crawling workers to craw through social platforms for images and profiles
 
-update `environment.yml` by running 
+### Personnel Classification
+Face profiles can be classified into multiple groups using supervised or unsupervised machine learning models
+
+### Automatic Profile Creation
+Supply large amount of unlabelled images into the system to be classified by person.
+New unnamed profile can be created automatically when input photo fail to match any existing profiles
+Data crawled from social medias will be used to populate newly created profile as much as possible.
+
+### Live Video Recognition
+Identify known faces in the database from a live video
+
+
+## Setup Development Environment
+Server
 ```
-conda env export > environment.yml --no-builds
+conda env create -f environment.yml -n face
+conda activate face
+python app.py
 ```
 
-#### Client
-browse to client directory `cd client` and install nodejs packages with `npm install` or `yarn install`
-
-Start development frontend client using `npm run start` or `yarn start`
-
-
-### Production
-Build react app using `npm run build` or `yarn build`
-
-Start application using `python wsgi.py`
-
-#### Freeze Application
-To run application in environments without python installed
-
-Build frozen executable using `flask build`
-
-Frozen wsgi.exe will be created in the `/dist` directory
+Client
+```
+cd client
+yarn install
+yarn start
+```
