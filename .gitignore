@@ -256,3 +256,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+
+# FRDMS
+face_recognition_models
