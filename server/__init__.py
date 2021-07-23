@@ -1,46 +1,36 @@
-import os
-from flask import Flask, jsonify
+from flask import Flask
 from flask_cors import CORS
 
-from .facial_recognition.main import process_img
+from flask_migrate import Migrate
+from .database import db
+from .config import Config
+
 
 app = Flask(__name__, static_folder='../client/build/', static_url_path='/')
 CORS(app, resources=r"/api/*", origins="http://localhost:3000")
+app.config.from_object(Config)
 
 
-# Routes
+# Setup database
+db.init_app(app)
+
+# Setup migration
+migrate = Migrate(app, db, directory=app.config['MIGRATION_DIR'])
+
 
 @app.route("/")
 def react_app():
     return app.send_static_file('index.html')
 
 
-@app.route("/app")
-def protected_react_app():
-    return app.send_static_file('index.html')
+# Register CLI Groups
+from .commands import cli
+
+app.cli.add_command(cli)
 
 
-@app.route("/api/hello")
-def hello_world():
-    return jsonify("Hello World!")
-
-
-@app.route("/api/img")
-def img():
-    face_locations, face_landmarks_list, image = process_img()
-    print(face_locations)
-    return jsonify(face_locations)
-
-
-@app.route("/ping")
-def ping():
-    return jsonify("pong")
-
-
-# Commands
-
-@app.cli.command("build")
-def build():
-    os.system("cd client & yarn build")
-    # os.system("""pyinstaller --clean --onefile --icon=client/build/favicon.ico --add-data client/build/;client/build/ wsgi.py""")
-    os.system("pyinstaller --clean --onefile wsgi.spec")
+@app.shell_context_processor
+def make_shell_context():
+    return {
+        'db': db,
+    }
