@@ -1,13 +1,15 @@
-import React, {Component} from "react";
-import { withStyles } from "@material-ui/core/styles";
-import ResizeObserver from 'react-resize-observer';
+import React, { useCallback, useState, useEffect } from "react";
+import { makeStyles } from '@material-ui/core/styles';
+// import ResizeObserver from 'react-resize-observer';
+import { useResizeDetector } from 'react-resize-detector';
 
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     flex: 1,
     justifyContent: 'center',
     position: 'relative',
+    height: '100%',
   },
   box: {
     position: "absolute,",
@@ -22,39 +24,37 @@ const styles = (theme) => ({
     position: 'absolute', 
     zIndex: 99,
   },
-});
+}));
 
 
-class ImageAnnotator extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      imgWidth: 0,
-      imgHeight: 0,
-    }
-  }
+export default function ImageAnnotator({src, faceLocations }) {
+  const classes = useStyles();
+  const [imgWidth, setImgWidth] = useState(0);
+  const [imgHeight, setImgHeight] = useState(0);
 
-  componentDidMount() {}
+  const onResize = useCallback((width, height) => {
+    setImgHeight(height);
+    setImgWidth(width);
+  }, []);
 
-  componentDidUpdate(prevProps, prevState) {}
+  const { ref } = useResizeDetector({
+    handleHeight: false,
+    // refreshMode: 'throttle',
+    refreshRate: 1000,
+    onResize
+  });
 
-  handleImageLoaded = (rect) => {
-    this.setState({
-      imgWidth: rect.width,
-      imgHeight: rect.height,
-    })
-  }
 
-  drawReac = (top, right, bottom, left, width, height, index=0) => {
-    const _width = ( right - left ) / width * this.state.imgWidth;
-    const _height = ( bottom - top ) / height * this.state.imgHeight;
-    const _top = top * this.state.imgHeight / height;
-    const _left = left * this.state.imgWidth / width;
+  const drawReac = (top, right, bottom, left, oImgWidth, oImgHeight, index=0) => {
+    const _width = ( right - left ) / oImgWidth * imgWidth;
+    const _height = ( bottom - top ) / oImgHeight * imgHeight;
+    const _left = left * imgWidth / oImgWidth;
+    const _top = top * imgHeight / oImgHeight;
 
     return (
       <div
         key={`rect-${index}`}
-        className={this.props.classes.rect}
+        className={classes.rect}
         style={{
           width: _width,
           height: _height,
@@ -65,26 +65,22 @@ class ImageAnnotator extends Component {
     )
   }
 
-  render() {
-    const { classes, src, faceLocations } = this.props;
-    return(
-      <React.Fragment>
-        <div className={classes.container}>
-          <ResizeObserver
-            onResize={(rect) => this.handleImageLoaded(rect)}
-          />
-          <img
-            src={src} 
-            className={[classes.image, classes.box].join(' ')} 
-          />
-          {faceLocations.map((data, index) => (
-            this.drawReac(...data, index)
-          ))}
-        </div>
-      </React.Fragment>
-    )
-  }
+  return(
+    <React.Fragment>
+      <div className={classes.container}>
+        {/* <ResizeObserver
+          onResize={(rect) => this.handleImageLoaded(rect)}
+        /> */}
+        <img
+          src={src} 
+          ref={ref}
+          className={[classes.image, classes.box].join(' ')} 
+        />
+        {faceLocations.map((data, index) => (
+          drawReac(...data, index)
+        ))}
+      </div>
+    </React.Fragment>
+  )
 }
-
-export default withStyles(styles, { withTheme: true })(ImageAnnotator);
 
