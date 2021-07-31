@@ -40,5 +40,9 @@ export const theme = createTheme({
     secondary: {
       main: colorScheme['Independence'],
     },
+    background: {
+      main: colorScheme['Manatee'],
+    },
+    white: "#FFFFFF",
   }
 })

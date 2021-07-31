@@ -1,0 +1,56 @@
+type Query {
+    photo(id: ID!): Photo!
+    identifyFace(id: String!): IdentifyFaceTask!
+}
+
+type Mutation {
+    photo(rbytes: String): Photo!
+    identifyFace(faceId: Int!): IdentifyFaceTask! 
+}
+
+type Profile {
+    id: ID!
+    name: String
+}
+type Photo {
+    id: ID
+    url: String
+    width: Int
+    height: Int
+    rbytes: String
+    faces: [Face]
+}
+
+type Face {
+    id: ID!
+    location: [Int]
+    landmarks: Landmark
+    encoding: [Float]
+    photo: Photo
+    profile: Profile
+}
+
+type Landmark {
+    chin: [[Int]]
+    left_eyebrow: [[Int]]
+    right_eyebrow: [[Int]]
+    nose_bridge: [[Int]]
+    nose_tip: [[Int]]
+    left_eye: [[Int]]
+    right_eye: [[Int]]
+    top_lip: [[Int]]
+    bottom_lip: [[Int]]
+}
+
+type IdentifyFaceTask {
+    id: String!
+    status: String
+    current: Int
+    total: Int
+    result: [IdentifyFaceResult]
+}
+
+type IdentifyFaceResult {
+    id: Int
+    score: Float
+}
