@@ -64,7 +64,7 @@ export default function ImageAnnotator({src, faceLocations }) {
       />
     )
   }
-
+  
   return(
     <React.Fragment>
       <div className={classes.container}>

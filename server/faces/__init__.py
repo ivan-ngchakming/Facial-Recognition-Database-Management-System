@@ -1,1 +1,1 @@
-from recognition import *  # noqa
+from .recognition import *  # noqa

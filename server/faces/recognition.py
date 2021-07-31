@@ -1,11 +1,9 @@
-import face_recognition
+from . import face_recognition
+from PIL import Image
 
-
-def process_img(filename):
-    image = face_recognition.load_image_file(filename)
-
+def process_img(image):
     face_locations = face_recognition.face_locations(image)
     face_landmarks = face_recognition.face_landmarks(image)
     face_encodings = face_recognition.face_encodings(image)
 
-    return face_locations, face_landmarks, face_encodings
+    return list(zip(face_locations, face_landmarks, face_encodings))

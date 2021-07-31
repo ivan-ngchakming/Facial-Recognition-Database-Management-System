@@ -5,6 +5,10 @@ Facial Recognition Database Management System (FRDMS) is a facial recognition sy
 
 Powered by python, dlib and react, and packaged into a single executable that can be used by anyone with zero dependencies required.
 
+## Install
+Redis
+https://github.com/dmajkic/redis/downloads
+
 
 ## Features
 ### Facial Recognition 
