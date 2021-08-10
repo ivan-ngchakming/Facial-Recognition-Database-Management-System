@@ -45,3 +45,9 @@ def resolve_identify_face(_, info, id):
             'result': task.info.get('result', None)
         }
     return data
+
+
+@query.field("photos")
+def resolve_photos(_, info):
+    return Photo.query.all()
+

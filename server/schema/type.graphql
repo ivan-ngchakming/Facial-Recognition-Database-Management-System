@@ -2,11 +2,13 @@ type Query {
     photo(id: ID!): Photo!
     profile(id: ID!): Profile!
     identifyFace(id: String!): IdentifyFaceTask!
+    photos: [Photo]
 }
 
 type Mutation {
     photo(rbytes: String): Photo!
     identifyFace(faceId: Int!): IdentifyFaceTask! 
+    assignFaceToProfile(faceId: Int!, profileId: Int!): Face!
 }
 
 type Profile {

@@ -34,14 +34,12 @@ class FacialRecognition extends Component {
   }
 
   componentDidMount = () => {
-    if (this.props.location.state.imageId) {
+    if (this.props.location.state && this.props.location.state.imageId) {
       this.setState({imgId: this.props.location.state.imageId}, () => {
         this.fetchImage(this.state.imgId);
       })
     }
   }
-
-  componentDidUpdate = (prevProps, prevState) => {}
 
   updateFaceState = (faces, faceLocations) => {
     // TODO: Rewrite this into a utils function
