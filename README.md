@@ -10,9 +10,20 @@ Redis
 https://github.com/dmajkic/redis/downloads
 
 
+
+
 ## Features
 ### Facial Recognition 
 Find a face match by supplying an input image, and the system will search the database to locate possible matches
+
+1. face identification
+
+    Classifies a face to a specific identity selected from existing profile in the database
+
+2. face verification
+
+    Determine whether a pair of faces belongs to the same identity
+    so un-identified faces can be grouped together
 
 ### Web Crawling 
 Launch web crawling workers to craw through social platforms for images and profiles

@@ -1,5 +1,6 @@
 type Query {
     photo(id: ID!): Photo!
+    profile(id: ID!): Profile!
     identifyFace(id: String!): IdentifyFaceTask!
 }
 
@@ -11,13 +12,16 @@ type Mutation {
 type Profile {
     id: ID!
     name: String
+    facesCount: Int
+    thumbnail: Face
+    faces: [Face]
 }
+
 type Photo {
-    id: ID
-    url: String
-    width: Int
-    height: Int
-    rbytes: String
+    id: ID!
+    width: Int!
+    height: Int!
+    array: String!
     faces: [Face]
 }
 

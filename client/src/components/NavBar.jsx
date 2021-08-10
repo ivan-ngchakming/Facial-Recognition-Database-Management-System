@@ -94,6 +94,10 @@ export default function NavBar({children}) {
       text: "Facial Recognition",
       url: "/facial-recognition",
     },
+    {
+      text: "Images",
+      url: "/images",
+    },
   ]
 
   return(

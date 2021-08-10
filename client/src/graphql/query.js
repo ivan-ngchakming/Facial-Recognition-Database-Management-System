@@ -2,7 +2,6 @@ export const PHOTO = `
   query myQuery ($id: ID!){
     photo (id: $id){
       id
-      url
       width
       height
       faces {
@@ -39,6 +38,24 @@ export const IDENTIFYFACE = `
       result {
         id
         score
+      }
+    }
+  }
+`
+
+export const PROFILE = `
+  query profile($id: ID!) {
+    profile (id: $id) {
+      id
+      name
+      facesCount
+      thumbnail {
+        location
+        photo {
+          id
+          width
+          height
+        }
       }
     }
   }

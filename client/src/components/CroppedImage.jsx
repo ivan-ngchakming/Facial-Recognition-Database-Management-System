@@ -1,14 +1,4 @@
-import { AppBar, Avatar, Drawer, IconButton, List, ListItem, ListItemText, SvgIcon, Toolbar } from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { useHistory } from 'react-router-dom';
-import MenuIcon from '@material-ui/icons/Menu';
-import clsx from 'clsx';
-import React from "react";
-
-
-
-
+import React, { useEffect } from "react";
 
 export default function CroppedImage({img, faceLocation, imgWidth=100, padding=50}) {
 
@@ -17,6 +7,10 @@ export default function CroppedImage({img, faceLocation, imgWidth=100, padding=5
   const oHeight = imgHeight / (faceLocation[1] - faceLocation[3] + padding*2) * faceLocation[5];
   const xOffset = oWidth * (faceLocation[3] - padding) / faceLocation[4];
   const yOffset = oHeight * (faceLocation[0] - padding) / faceLocation[5];
+
+  useEffect(() => {
+    // console.debug(faceLocation)
+  }, [faceLocation])
 
   return(
     <React.Fragment>
