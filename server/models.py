@@ -5,6 +5,24 @@ from .database import db
 from .faces import face_recognition
 
 
+class Profile(db.Model):
+	__tablename__ = 'profile'
+
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(100), nullable=False)
+
+	# One-to-one relationship
+	thumbnail_id = db.Column(db.Integer, db.ForeignKey('face.id'))
+	thumbnail = db.relationship("Face", uselist=False, foreign_keys=thumbnail_id)
+
+	@property
+	def faces_count(self):
+		return len(self.faces)
+	
+	def __repr__(self):
+		return f"<Profile {self.name}({self.id})>"
+
+
 class Face(db.Model):
 	__tablename__ = 'face'
 
@@ -15,7 +33,10 @@ class Face(db.Model):
 
 	# Many-to-one relationship
 	profile_id = db.Column(db.Integer, db.ForeignKey('profile.id'))
-	profile = db.relationship("Profile", uselist=False, backref=db.backref("faces", cascade="all,delete"))
+	profile = db.relationship(
+		"Profile", uselist=False, backref=db.backref("faces", cascade="all,delete"),
+		foreign_keys=profile_id
+	)
 
 	# Many-to-one relationship
 	photo_id = db.Column(db.Integer, db.ForeignKey('photo.id'))
@@ -59,16 +80,3 @@ class Photo(db.Model):
 		return f"<Photo {self.id} ({len(self.faces)} faces)>"
 
 
-class Profile(db.Model):
-	__tablename__ = 'profile'
-
-	id = db.Column(db.Integer, primary_key=True)
-	name = db.Column(db.String(100), nullable=False)
-
-	# One-to-one relationship
-	thumbnail_id = db.Column(db.Integer, db.ForeignKey('photo.id'))
-	thumbnail = db.relationship("Photo", uselist=False, backref=db.backref("thumbnail_profile", uselist=False))
-
-
-	def __repr__(self):
-		return f"<Profile {self.name}({self.id})>"

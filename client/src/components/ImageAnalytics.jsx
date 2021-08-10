@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import ResizeObserver from 'react-resize-observer';
 import FaceCards from "../components/FaceCards";
 import ImageAnnotator from "../components/ImageAnnotator";
-
+import ProfileCards from "./ProfileCards";
 
 const MIN_GRID_HEIGHT = 400;
 
@@ -33,12 +33,20 @@ const useStyles = makeStyles((theme) => ({
 export default function ImageAnalytics({image, data}) {
   const classes = useStyles();
   const [imgGridHeight, setImgGridHeight] = useState(0);
+  const [selectedFace, setSelectedFace] = useState(null);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const updateImgGridHeight = (gridHeight) => {
     const height = window.innerWidth >= 960 ? (
       Math.max(MIN_GRID_HEIGHT, gridHeight)
     ) : '100%';
     setImgGridHeight(height);
+  }
+
+  const handleFaceClick = (face, task) => {
+    // console.debug("Clicked ", face, task);
+    setSelectedFace(face);
+    setSelectedTask(task)
   }
 
   return (
@@ -65,6 +73,7 @@ export default function ImageAnalytics({image, data}) {
             <FaceCards 
               img={image}
               data={data}
+              onClick={handleFaceClick}
             />
           </Paper>
         </Grid>
@@ -72,8 +81,17 @@ export default function ImageAnalytics({image, data}) {
         <Zoom in style={{transitionDelay: '20ms'}}>
         <Grid item xs={12} md={4}>
           <Paper className={classes.result}>
+            {selectedFace && `${selectedTask.result.length} profile${selectedTask.result.length > 1? 's':''} matched`}
             <Typography>
-              Some Analytical results
+              {selectedFace ? (
+                <ProfileCards
+                  face={selectedFace}
+                  task={selectedTask}
+                />
+              ):(
+                "Select a face"
+              )}
+              
             </Typography>
           </Paper>
         </Grid>

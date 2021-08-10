@@ -5,7 +5,7 @@ import ImageAnalytics from "../components/ImageAnalytics";
 import { graphqlQuery } from "../graphql";
 import { PHOTO as PHOTO_GQL_M, IDENTIFYFACE as IDENTIFYFACE_GQL_M } from '../graphql/mutation';
 import { PHOTO as PHOTO_GQL_Q, IDENTIFYFACE as IDENTIFYFACE_GQL_Q } from '../graphql/query';
-import { getFaceLocations, makeObjectCopy } from "../utils";
+import { getFaceLocations } from "../utils";
 import UploadImage from "../components/UploadImage";
 
 
@@ -34,9 +34,11 @@ class FacialRecognition extends Component {
   }
 
   componentDidMount = () => {
-    this.setState({imgId: 2}, () => {
-      this.fetchImage(this.state.imgId);
-    })
+    if (this.props.location.state.imageId) {
+      this.setState({imgId: this.props.location.state.imageId}, () => {
+        this.fetchImage(this.state.imgId);
+      })
+    }
   }
 
   componentDidUpdate = (prevProps, prevState) => {}

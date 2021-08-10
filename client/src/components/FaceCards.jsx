@@ -18,26 +18,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function FaceCards({img, data}) {
+export default function FaceCards({img, data, onClick}) {
   const classes = useStyles();
+  const [selectedIndex, setSelectedIndex] = useState(-1);
   
+  const handleClick = (face, task, index) => {
+    onClick(face, task);
+    setSelectedIndex(index)
+  }
+
   return (
-    // <React.Fragment>
-      
-      <div className={classes.root}>
-        <List>
-          {data.map((face, index) => (
-            <React.Fragment>
-            <FaceCard 
-              index={index}
-              face={face}
-              img={img}
-            />
-            {(index < data.length-1) && <Divider variant="fullWidth" component="li" />}
-            </React.Fragment>
-          ))}
-        </List>
-      </div>
-    // </React.Fragment>
+    <div className={classes.root}>
+      <List>
+        {data.map((face, index) => (
+          <React.Fragment>
+          <FaceCard 
+            index={index}
+            face={face}
+            img={img}
+            selected={index === selectedIndex}
+            onClick={handleClick}
+          />
+          {(index < data.length-1) && <Divider key={`divider-${index}`} variant="fullWidth" component="li" />}
+          </React.Fragment>
+        ))}
+      </List>
+    </div>
   )
 }

@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import CroppedImage from "./CroppedImage";
-import { Box, ListItem, ListItemAvatar, ListItemText, Typography } from "@material-ui/core";
+import { Chip, ListItem, ListItemAvatar, ListItemText, Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-import LinearProgressWithLabel from './LinearProgressWithLabel';
+import React, { useEffect, useState } from 'react';
 import { graphqlQuery } from "../graphql";
 import { IDENTIFYFACE as IDENTIFYFACE_GQL_M } from '../graphql/mutation';
-import { IDENTIFYFACE as IDENTIFYFACE_GQL_Q } from '../graphql/query';
+import { IDENTIFYFACE as IDENTIFYFACE_GQL_Q, PROFILE as PROFILE_GQL_Q } from '../graphql/query';
 import { roundOff } from '../utils';
+import CroppedImage from "./CroppedImage";
+import LinearBarsProgress from './LinearBarsProgress';
+import LinearProgressWithLabel from './LinearProgressWithLabel';
 
 const useStyles = makeStyles((theme) => ({
   faceCard: {
@@ -14,59 +15,85 @@ const useStyles = makeStyles((theme) => ({
   },
   inline: {
     display: 'inline',
-  }
+  },
+  tagWrapper: {
+    marginTop: theme.spacing(1),
+  },
+  tag: {
+    marginRight: theme.spacing(1),
+  },
 }));
 
-export default function FaceCard({index, img, face}) {
+export default function FaceCard({index, img, face, selected, onClick}) {
   const classes = useStyles();
   const [task, setTask] = useState(null);
   const [profile, setProfile] = useState(null);
-  const [isMatched, setIsMatched] = useState(false);
+  const [status, setStatus] = useState(false);
 
-  const fetchProfile = (profileId) => {
-
+  const fetchProfile = (profileId, nextStatus) => {
+    graphqlQuery(PROFILE_GQL_Q, {id: profileId}).then(res => {
+      setProfile(res.profile);
+      setStatus(nextStatus);
+    }).catch(error => console.log(error))
   }
 
   const startTask = (faceId) => {
     graphqlQuery(IDENTIFYFACE_GQL_M, {faceId: faceId}).then(res => {
       setTask(res.identifyFace);
-    })
+    }).catch(error => console.log(error))
   }
 
   const updateTaskStatus = (faceId) => {
     const taskId = `face-identify-${faceId}`;
     graphqlQuery(IDENTIFYFACE_GQL_Q, {id: taskId}).then(res => {
       setTask(res.identifyFace);
-    })
+    }).catch(error => console.log(error))
   }
 
   useEffect(() => {
-    console.log("task updated", isMatched, face, task);
+    // console.log("status updated", status);
+    // console.log('task', task)
 
-    if (face.face.profile) {
-      setIsMatched(true);
-      setProfile(face.face.profile);
-    }
-
-    if (!isMatched && task && !face.face.profile) {
-      if (task.status === 'SUCCESS') {
-        setIsMatched(true);
-        fetchProfile();
+    // Initialize status value on mount
+    if (!status) {
+      if (face.face.profile) {
+        fetchProfile(face.face.profile.id, 'saved');
+      } else {
+        setStatus('startingTask')
       }
     }
 
-    if (!isMatched && !task) {
+    if (status === 'startingTask') {
       startTask(parseInt(face.face.id));
-    } else if (!isMatched && task) {
-      setTimeout(function() {
-        updateTaskStatus(parseInt(face.face.id));
-      }, 500);
+      setStatus('matching');
+    } 
+    
+    if (status === 'matching' && task) {
+      if (task.status === 'PROGRESS' || task.status === 'PENDING') {
+        setTimeout(function() {
+          updateTaskStatus(parseInt(face.face.id));
+        }, 500);
+      }
+      else if (task.status === 'SUCCESS') {
+        fetchProfile(task.result[0].id, 'matched');
+      }
     }
-  }, [task]);
+
+  }, [status, task]);
+
+  useEffect(() => {
+    console.log("profile updated", profile);
+  }, [profile]);
 
   return (
-    <Box>
-      <ListItem key={`face-${index}`} button className={classes.faceCard}>
+    <React.Fragment>
+      <ListItem 
+        key={`face-${index}`} 
+        button 
+        onClick={() => {onClick(face, task, index)}} 
+        className={classes.faceCard}
+        selected={selected}
+      >
         <ListItemAvatar>
           <CroppedImage
             img={img}
@@ -74,8 +101,7 @@ export default function FaceCard({index, img, face}) {
           />
         </ListItemAvatar>
         
-        { isMatched ? (
-          face.face.profile ? (
+          { status === 'matched' && (
             <ListItemText
               style={{marginLeft: "10%"}}
               primary={
@@ -83,7 +109,7 @@ export default function FaceCard({index, img, face}) {
                   variant="h6"
                   color="textPrimary"
                 >
-                  {face.face.profile.name}
+                  {profile.name}
                 </Typography>
               }
               
@@ -95,58 +121,75 @@ export default function FaceCard({index, img, face}) {
                   className={classes.inline}
                   color="textPrimary"
                 >
-                  {`100% Match`}
+                  {task ? `${roundOff((1-task.result[0].score) * 100, 2)}% Match` : `100% Match`}
                 </Typography>
-                
+
+                <LinearBarsProgress value={roundOff((1-task.result[0].score) * 100, 2)} />
+
                 </React.Fragment>
               }
             />
-          ) : (
-            <ListItemText
-              style={{marginLeft: "10%"}}
-              primary={
-                <Typography
-                  variant="h6"
-                  color="textPrimary"
-                >
-                  {"Matched Person"}
-                </Typography>
-              }
-              
-              secondary={
-                <React.Fragment>
-                <Typography
-                  component="span"
-                  variant="body1"
-                  className={classes.inline}
-                  color="textPrimary"
-                >
-                  {`${roundOff((1-task.result[0].score) * 100, 2)}% Match`}
-                </Typography>
-                
-                </React.Fragment>
-              }
-            />
-          )
+          )}
           
-        ) : (
-          <ListItemText
-            style={{marginLeft: "10%"}}
-            primary={
-              <Typography
-                variant="body1"
-                color="textPrimary"
-              >
-                {task ? "Matching..." : "Pending..."}
-              </Typography>
-            }
-            secondary={
-              <LinearProgressWithLabel value={task ? task.current / task.total * 100 : 0} />
-            }
-          />
-        )}
+          { status === 'saved' && (
+            <ListItemText
+              style={{marginLeft: "10%"}}
+              primary={
+                <Typography
+                  variant="h6"
+                  color="textPrimary"
+                >
+                  {profile.name}
+                </Typography>
+              }
+              
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body1"
+                    className={classes.inline}
+                    color="textPrimary"
+                  >
+                    {"25 | United State"}
+                    {/* <br />
+                    {"Actress | model"} */}
+                  </Typography>
+                  
+                  <div className={classes.tagWrapper}>
+                    {['Actress', 'model'].map((tag, index)=> (
+                      <Chip
+                        key={index}
+                        label={tag}
+                        className={classes.tag}
+                        color="primary"
+                        size="small"
+                      />
+                    ))}
+                  </div>
+                </React.Fragment>
+              }
+            />
+          )}
+
+          { status === 'matching' && (
+            <ListItemText
+              style={{marginLeft: "10%"}}
+              primary={
+                <Typography
+                  variant="body1"
+                  color="textPrimary"
+                >
+                  {task ? "Matching..." : "Pending..."}
+                </Typography>
+              }
+              secondary={
+                <LinearProgressWithLabel value={task ? task.current / task.total * 100 : 0} />
+              }
+            />
+          )}
 
       </ListItem>
-    </Box>
+    </React.Fragment>
   )
 }

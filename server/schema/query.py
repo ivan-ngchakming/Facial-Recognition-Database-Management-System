@@ -17,6 +17,13 @@ def resolve_photo(_, info, id):
     return photo
 
 
+@query.field("profile")
+def resolve_profile(_, info, id):
+    with runtime(f"Query profile id:{id}", logger):
+        profile = Profile.query.get(id)
+    return profile
+
+
 @query.field("identifyFace")
 def resolve_identify_face(_, info, id):
     from ..tasks import face_identify
