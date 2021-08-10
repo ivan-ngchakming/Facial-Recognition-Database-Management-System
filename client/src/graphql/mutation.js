@@ -42,3 +42,20 @@ export const IDENTIFYFACE = `
     }
   }
 `
+
+export const ASSIGN_FACE_TO_PROFILE = `
+  mutation assignFaceToProfile($faceId: Int!, $profileId: Int!) {
+    assignFaceToProfile(faceId: $faceId, profileId: $profileId) {
+      id
+      profile {
+        id
+        name
+        facesCount
+        thumbnail {
+          id
+          location
+        }
+      }
+    }
+  }
+`

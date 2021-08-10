@@ -44,7 +44,6 @@ export default function ImageAnalytics({image, data}) {
   }
 
   const handleFaceClick = (face, task) => {
-    // console.debug("Clicked ", face, task);
     setSelectedFace(face);
     setSelectedTask(task)
   }
@@ -81,7 +80,7 @@ export default function ImageAnalytics({image, data}) {
         <Zoom in style={{transitionDelay: '20ms'}}>
         <Grid item xs={12} md={4}>
           <Paper className={classes.result}>
-            {selectedFace && `${selectedTask.result.length} profile${selectedTask.result.length > 1? 's':''} matched`}
+            
             <Typography>
               {selectedFace ? (
                 <ProfileCards

@@ -1,8 +1,8 @@
 import logging
 
-from ariadne import MutationType
+from ariadne import MutationType, convert_kwargs_to_snake_case
 
-from ..models import Photo, Face
+from ..models import Photo, Face, Profile
 from ..database import db
 from ..utils.dev import runtime
 from ..utils.image import decode_img
@@ -26,10 +26,11 @@ def resolve_photo(_, info, rbytes):
 
 
 @mutation.field("identifyFace")
-def resolve_identify_face(_, info, faceId):
+@convert_kwargs_to_snake_case
+def resolve_identify_face(_, info, face_id):
     from ..tasks import face_identify
     logger.debug(f"Starting identify face task")
-    task_id = f'face-identify-{faceId}'
+    task_id = f'face-identify-{face_id}'
     
     task = face_identify.AsyncResult(task_id)
     if task.state == 'SUCCESS':
@@ -43,7 +44,7 @@ def resolve_identify_face(_, info, faceId):
         }
         return data
     else:
-        task = face_identify.apply_async((faceId,), task_id=task_id)
+        task = face_identify.apply_async((face_id,), task_id=task_id)
         logger.debug(f"Started task id:{task.id} with state:{task.state}")
         return {
             'id': task.id,
@@ -51,3 +52,16 @@ def resolve_identify_face(_, info, faceId):
             'total': 1,
             'status': task.state,
         }
+
+
+@mutation.field("assignFaceToProfile")
+@convert_kwargs_to_snake_case
+def resolve_assign_face_to_profile(_, info, face_id, profile_id):
+    logger.debug(f"Appending face id:{face_id} to profile id:{profile_id}")
+    face = Face.query.get(face_id)
+    profile = Profile.query.get(profile_id)
+    
+    profile.faces.append(face)
+    db.session.commit()
+
+    return face

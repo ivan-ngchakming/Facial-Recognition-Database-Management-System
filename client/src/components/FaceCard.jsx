@@ -51,9 +51,6 @@ export default function FaceCard({index, img, face, selected, onClick}) {
   }
 
   useEffect(() => {
-    // console.log("status updated", status);
-    // console.log('task', task)
-
     // Initialize status value on mount
     if (!status) {
       if (face.face.profile) {

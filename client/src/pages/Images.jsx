@@ -2,7 +2,7 @@ import { withStyles } from "@material-ui/core/styles";
 import React, { Component } from "react";
 import { Button, Container, Typography } from "@material-ui/core";
 import Gallery from "../components/Gallery";
-
+import { graphqlQuery } from "../graphql";
 
 const styles = (theme) => ({
 
@@ -17,7 +17,9 @@ class Images extends Component {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.fetchImages();
+  }
 
   componentDidUpdate(prevProps, prevState) {}
 
@@ -28,6 +30,25 @@ class Images extends Component {
         imageId: imageId,
       }
     });
+  }
+
+  fetchImages = () => {
+    graphqlQuery(`query photos {
+      photos {
+        id
+      }
+    }`, {}).then(res => {
+      this.setState({
+        images: res.photos.map(photo => (
+            {
+              id: photo.id,
+              source: `/api/image/${photo.id}`
+            }
+          ))
+      })
+    }).catch(error => {
+      console.error(error);
+    })
   }
 
   render() {
