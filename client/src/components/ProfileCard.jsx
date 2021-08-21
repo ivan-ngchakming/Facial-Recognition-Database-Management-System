@@ -86,10 +86,10 @@ export default function ProfileCard({profileId, score, index, selected, onClick}
                   className={classes.inline}
                   color="textPrimary"
                 >
-                  {`${roundOff((1-score) * 100, 2)}% Match`}
+                  {`${roundOff(score * 100, 2)}% Match`}
                 </Typography>
 
-                <LinearBarsProgress value={roundOff((1-score) * 100, 2)} />
+                <LinearBarsProgress value={roundOff(score * 100, 2)} />
 
                 </React.Fragment>
               }

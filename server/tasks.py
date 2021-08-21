@@ -6,6 +6,7 @@ from tqdm import tqdm
 from celery import current_app
 from celery.utils.log import get_task_logger
 
+from .faces.arcface.utils import cosine_similarity_batch
 from .models import *
 from .faces import face_recognition
 
@@ -51,8 +52,9 @@ def face_identify(self, face_id):
     for i, profile in enumerate(profiles):
         logger.info(f"Updating status to check face distance with profile {profile.name} id:{profile.id}")
         self.update_state(state='PROGRESS', meta={'profile': profile.id, 'current': i, 'total': total})
-        known_encoding = [face.encoding for face in profile.faces]
-        distances = face_recognition.face_distance(known_encoding, encoding_to_check)
+        known_encodings = [face.encoding for face in profile.faces]
+        # distances = face_recognition.face_distance(known_encodings, encoding_to_check)
+        distances = cosine_similarity_batch(encoding_to_check, known_encodings)
         score =  sum(distances) / len(distances)
         scores.append({'id': profile.id, 'score': score})
 
@@ -60,6 +62,7 @@ def face_identify(self, face_id):
         logger.info(f"Score: {score}")
 
     scores.sort(key=lambda x: x['score'])  # Sort by score
+    scores = scores[::-1]
     logger.info(f"All profiles compared, final score: {scores}")
 
     return {'current': total, 'total': total, 'result': scores}

@@ -1,5 +1,5 @@
 from . import face_recognition
-from PIL import Image
+
 
 def process_img(image):
     face_locations = face_recognition.face_locations(image)

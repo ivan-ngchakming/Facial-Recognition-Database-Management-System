@@ -51,6 +51,7 @@ export default function FaceCard({index, img, face, selected, onClick}) {
   }
 
   useEffect(() => {
+    console.debug(status, task);
     // Initialize status value on mount
     if (!status) {
       if (face.face.profile) {
@@ -72,7 +73,15 @@ export default function FaceCard({index, img, face, selected, onClick}) {
         }, 500);
       }
       else if (task.status === 'SUCCESS') {
-        fetchProfile(task.result[0].id, 'matched');
+        if (task.result && task.result.length > 0) {
+          fetchProfile(task.result[0].id, 'matched');
+        }
+        if (!task.result) {
+          // Task status is success but no result returned, refetch results.
+          setTimeout(function() {
+            updateTaskStatus(parseInt(face.face.id));
+          }, 500);
+        }
       }
     }
 
@@ -118,10 +127,10 @@ export default function FaceCard({index, img, face, selected, onClick}) {
                   className={classes.inline}
                   color="textPrimary"
                 >
-                  {task ? `${roundOff((1-task.result[0].score) * 100, 2)}% Match` : `100% Match`}
+                  {task ? `${roundOff((task.result[0].score) * 100, 2)}% Match` : `100% Match`}
                 </Typography>
 
-                <LinearBarsProgress value={roundOff((1-task.result[0].score) * 100, 2)} />
+                <LinearBarsProgress value={roundOff((task.result[0].score) * 100, 2)} />
 
                 </React.Fragment>
               }

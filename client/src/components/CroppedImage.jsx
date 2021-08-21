@@ -1,13 +1,17 @@
 import React, { useEffect } from "react";
 
-export default function CroppedImage({img, faceLocation, imgWidth=100, padding=50}) {
+export default function CroppedImage({img, faceLocation, imgWidth=100, padding=100}) {
+  const [top_x, top_y, bottom_x, bottom_y, width, height] = faceLocation;
 
-  const imgHeight = imgWidth * (faceLocation[1] - faceLocation[3]) / (faceLocation[2] - faceLocation[0]);
-  const oWidth = imgWidth / (faceLocation[2] - faceLocation[0] + padding*2) * faceLocation[4];
-  const oHeight = imgHeight / (faceLocation[1] - faceLocation[3] + padding*2) * faceLocation[5];
-  const xOffset = oWidth * (faceLocation[3] - padding) / faceLocation[4];
-  const yOffset = oHeight * (faceLocation[0] - padding) / faceLocation[5];
+  const _width = Math.abs( top_x - bottom_x );
+  const _height = Math.abs( top_y - bottom_y );
 
+  const imgHeight = imgWidth * ( _height / height ) / (_width / width);
+  const oWidth = imgWidth / ( _width + padding*2 ) * width;
+  const oHeight = imgHeight / ( _height + padding*2 ) * height;
+  const xOffset = oWidth * ( top_x - padding ) / width;
+  const yOffset = oHeight * ( top_y - padding ) / height * 1.25;
+  
   useEffect(() => {
     // console.debug(faceLocation)
   }, [faceLocation])
@@ -17,7 +21,7 @@ export default function CroppedImage({img, faceLocation, imgWidth=100, padding=5
       <div
         style={{
           width: `${imgWidth}px`,
-          height: `${imgHeight}px`,
+          height: `${imgWidth}px`,
           borderRadius: "5%",
           overflow: "hidden",
         }}
@@ -25,7 +29,6 @@ export default function CroppedImage({img, faceLocation, imgWidth=100, padding=5
         <img 
           style={{
             width: `${oWidth}px`,
-            height: `${oHeight}px`,
             marginLeft: `-${xOffset}px`,
             marginTop: `-${yOffset}px`,
           }}
