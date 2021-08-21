@@ -11,6 +11,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
   },
+  btn: {
+    minWidth: '120px',
+    margin: theme.spacing(0, 1)
+  }
 }));
 
 export default function ProfileCards({face, task}) {
@@ -67,8 +71,16 @@ export default function ProfileCards({face, task}) {
               color="primary"
               disabled={selectedIndex === -1}
               onClick={handleSaveFaceToProfile}
+              className={classes.btn}
             >
               Save
+            </Button>
+            <Button 
+              variant="contained" 
+              color="primary"
+              className={classes.btn}
+            >
+              New Profile
             </Button>
           </div>
           

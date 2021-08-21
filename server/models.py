@@ -1,8 +1,11 @@
+from server.faces.arcface.model_zoo import landmark
 import numpy as np
 import PIL
+import cv2
 
 from .database import db
-from .faces import face_recognition
+from .faces.arcface import face_app
+from .faces.recognition import face_recognition
 
 
 class Profile(db.Model):
@@ -62,15 +65,31 @@ class Photo(db.Model):
 		self.width, self.height = image.size
 		self.array = np.array(image)
 
-		face_locations = face_recognition.face_locations(self.array)
-		face_landmarks = face_recognition.face_landmarks(self.array)
-		face_encodings = face_recognition.face_encodings(self.array)
+		cvimg = cv2.cvtColor(self.array, cv2.COLOR_RGB2BGR)
+		arcfaces = face_app.get(cvimg)
 
-		face_info = list(zip(face_locations, face_landmarks, face_encodings))
-		print(f"{len(face_info)} faces found in image")
-		for location, landmarks, encoding in face_info:
-			face = Face(location=location, landmarks=landmarks, encoding=encoding)
+		face_locations = face_recognition.face_locations(self.array)
+		print(face_locations)
+
+		print(f"{len(arcfaces)} faces found in picture")
+		for arcface in arcfaces:
+			print(arcface.location)
+			face = Face(
+				location=arcface.location,
+				landmarks=arcface.landmark_2d_106,
+				encoding=arcface.embedding,
+			)
 			self.faces.append(face)
+		
+		# face_locations = face_recognition.face_locations(self.array)
+		# face_landmarks = face_recognition.face_landmarks(self.array)
+		# face_encodings = face_recognition.face_encodings(self.array)
+
+		# face_info = list(zip(face_locations, face_landmarks, face_encodings))
+		# print(f"{len(face_info)} faces found in image")
+		# for location, landmarks, encoding in face_info:
+		# 	face = Face(location=location, landmarks=landmarks, encoding=encoding)
+		# 	self.faces.append(face)
 
 	@property
 	def image(self):

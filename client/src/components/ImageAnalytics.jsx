@@ -1,4 +1,4 @@
-import { Grid, Paper, Typography, Zoom } from "@material-ui/core";
+import { Button, Grid, Paper, Typography, Zoom } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react';
 import ResizeObserver from 'react-resize-observer';
@@ -27,10 +27,14 @@ const useStyles = makeStyles((theme) => ({
   scroll: {
     overflowY: 'scroll',
   },
+  lowerGrid: {
+    display: 'flex',
+    justifyContent: 'right',
+  },
 }));
 
 
-export default function ImageAnalytics({image, data}) {
+export default function ImageAnalytics({image, data, callback}) {
   const classes = useStyles();
   const [imgGridHeight, setImgGridHeight] = useState(0);
   const [selectedFace, setSelectedFace] = useState(null);
@@ -45,7 +49,11 @@ export default function ImageAnalytics({image, data}) {
 
   const handleFaceClick = (face, task) => {
     setSelectedFace(face);
-    setSelectedTask(task)
+    setSelectedTask(task);
+  }
+
+  const resetImage = () => {
+    callback();
   }
 
   return (
@@ -95,6 +103,11 @@ export default function ImageAnalytics({image, data}) {
           </Paper>
         </Grid>
         </Zoom>
+        <Grid item xs={12} md={12} className={classes.lowerGrid}>
+          <Button onClick={resetImage}>
+            Analyse New Image
+          </Button>
+        </Grid>
       </Grid>
     </div>
   )

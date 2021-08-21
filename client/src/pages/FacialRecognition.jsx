@@ -85,6 +85,14 @@ class FacialRecognition extends Component {
     })
   }
 
+  imageAnalyticsCallBack = () => {
+    this.setState({
+      faces: null,
+      imgId: null,
+      isUploading: false,
+    })
+  }
+
   render() {
     const { classes } = this.props;
     const { imgId, isUploading, faces } = this.state;
@@ -114,6 +122,7 @@ class FacialRecognition extends Component {
             <ImageAnalytics 
               image={`/api/image/${imgId}`}
               data={faces}
+              callback={this.imageAnalyticsCallBack}
             />
           )}
           

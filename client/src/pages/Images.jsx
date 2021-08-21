@@ -50,7 +50,7 @@ class Images extends Component {
       console.error(error);
     })
   }
-
+  
   render() {
     const { classes } = this.props;
     const { images } = this.state;

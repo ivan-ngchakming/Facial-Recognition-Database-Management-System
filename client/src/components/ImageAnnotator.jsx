@@ -45,11 +45,16 @@ export default function ImageAnnotator({src, faceLocations }) {
   });
 
 
-  const drawReac = (top, right, bottom, left, oImgWidth, oImgHeight, index=0) => {
-    const _width = ( right - left ) / oImgWidth * imgWidth;
-    const _height = ( bottom - top ) / oImgHeight * imgHeight;
-    const _left = left * imgWidth / oImgWidth;
-    const _top = top * imgHeight / oImgHeight;
+  const drawReac = (top_x, top_y, bottom_x, bottom_y, oImgWidth, oImgHeight, index=0) => {
+    // const _width = ( right - left ) / oImgWidth * imgWidth;
+    // const _height = ( bottom - top ) / oImgHeight * imgHeight;
+    // const _left = left * imgWidth / oImgWidth;
+    // const _top = top * imgHeight / oImgHeight;
+
+    const _width = Math.abs( top_x - bottom_x) / oImgWidth * imgWidth;
+    const _height = Math.abs( top_y - bottom_y ) / oImgHeight * imgHeight;
+    const _left = top_x * imgWidth / oImgWidth;
+    const _top = top_y * imgHeight / oImgHeight;
 
     return (
       <div
@@ -64,7 +69,7 @@ export default function ImageAnnotator({src, faceLocations }) {
       />
     )
   }
-  
+
   return(
     <React.Fragment>
       <div className={classes.container}>
@@ -72,7 +77,7 @@ export default function ImageAnnotator({src, faceLocations }) {
           onResize={(rect) => this.handleImageLoaded(rect)}
         /> */}
         <img
-          src={src} 
+          src={src}
           ref={ref}
           className={[classes.image, classes.box].join(' ')} 
         />
