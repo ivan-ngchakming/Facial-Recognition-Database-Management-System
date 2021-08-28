@@ -1,13 +1,13 @@
+type_defs = """
 type Query {
-    photo(id: ID!): Photo!
-    profile(id: ID!): Profile!
-    identifyFace(id: String!): IdentifyFaceTask!
+    photo(photoId: ID!): Photo!
+    profile(profileId: ID!): Profile!
+    identifyFace(faceId: ID!): [IdentifyFaceResult]!
     photos: [Photo]
 }
 
 type Mutation {
     photo(rbytes: String): Photo!
-    identifyFace(faceId: Int!): IdentifyFaceTask! 
     assignFaceToProfile(faceId: Int!, profileId: Int!): Face!
 }
 
@@ -48,15 +48,8 @@ type Landmark {
     bottom_lip: [[Int]]
 }
 
-type IdentifyFaceTask {
-    id: String!
-    status: String
-    current: Int
-    total: Int
-    result: [IdentifyFaceResult]
-}
-
 type IdentifyFaceResult {
     id: Int
     score: Float
 }
+"""

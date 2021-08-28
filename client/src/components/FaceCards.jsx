@@ -22,8 +22,8 @@ export default function FaceCards({img, data, onClick}) {
   const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = useState(-1);
   
-  const handleClick = (face, task, index) => {
-    onClick(face, task);
+  const handleClick = (face, matchResults, index) => {
+    onClick(face, matchResults);
     setSelectedIndex(index)
   }
 

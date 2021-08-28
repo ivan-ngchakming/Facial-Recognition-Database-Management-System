@@ -85,6 +85,11 @@ export default function NavBar({children}) {
     setOpen(false);
   }
 
+  const handleNavClick = (page) => {
+    handleDrawerClose()
+    history.push(page.url)
+  };
+
   const menuData = [
     {
       text: "Home",
@@ -141,7 +146,7 @@ export default function NavBar({children}) {
           {menuData.map((page, index) => (
             <ListItem 
               button 
-              onClick={() => history.push(page.url)} 
+              onClick={() => {handleNavClick(page)}}
               key={page.url}
             >
               <ListItemText key={"nav-text-" & page.text} primary={page.text}/>

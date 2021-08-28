@@ -38,7 +38,7 @@ export default function ImageAnalytics({image, data, callback}) {
   const classes = useStyles();
   const [imgGridHeight, setImgGridHeight] = useState(0);
   const [selectedFace, setSelectedFace] = useState(null);
-  const [selectedTask, setSelectedTask] = useState(null);
+  const [selectedMatchResults, setSelectedMatchResults] = useState(null);
 
   const updateImgGridHeight = (gridHeight) => {
     const height = window.innerWidth >= 960 ? (
@@ -47,9 +47,9 @@ export default function ImageAnalytics({image, data, callback}) {
     setImgGridHeight(height);
   }
 
-  const handleFaceClick = (face, task) => {
+  const handleFaceClick = (face, matchResults) => {
     setSelectedFace(face);
-    setSelectedTask(task);
+    setSelectedMatchResults(matchResults);
   }
 
   const resetImage = () => {
@@ -93,7 +93,7 @@ export default function ImageAnalytics({image, data, callback}) {
               {selectedFace ? (
                 <ProfileCards
                   face={selectedFace}
-                  task={selectedTask}
+                  matchResults={selectedMatchResults}
                 />
               ):(
                 "Select a face"

@@ -3,11 +3,11 @@ import { withStyles } from "@material-ui/core/styles";
 import React, { Component } from "react";
 import ImageAnalytics from "../components/ImageAnalytics";
 import { graphqlQuery } from "../graphql";
-import { PHOTO as PHOTO_GQL_M, IDENTIFYFACE as IDENTIFYFACE_GQL_M } from '../graphql/mutation';
-import { PHOTO as PHOTO_GQL_Q, IDENTIFYFACE as IDENTIFYFACE_GQL_Q } from '../graphql/query';
+import { PHOTO as PHOTO_GQL_M } from '../graphql/mutation';
+import { PHOTO as PHOTO_GQL_Q } from '../graphql/query';
 import { getFaceLocations } from "../utils";
 import UploadImage from "../components/UploadImage";
-
+import { withRouter } from "react-router-dom";
 
 
 const styles = (theme) => ({
@@ -34,12 +34,26 @@ class FacialRecognition extends Component {
   }
 
   componentDidMount = () => {
-    if (this.props.location.state && this.props.location.state.imageId) {
-      this.setState({imgId: this.props.location.state.imageId}, () => {
+    const search = this.props.location.search;
+    const imgId = new URLSearchParams(search).get('id');
+    if (imgId) {
+      this.setState({imgId: imgId}, () => {
         this.fetchImage(this.state.imgId);
       })
     }
   }
+
+  componentDidUpdate(prevProp) {
+    if (prevProp.location.search !== this.props.location.search) {
+      const search = this.props.location.search;
+      const imgId = new URLSearchParams(search).get('id');
+      if (imgId) {
+        this.setState({imgId: imgId}, () => {
+          this.fetchImage(this.state.imgId);
+        })
+      }
+    }
+  };
 
   updateFaceState = (faces, faceLocations) => {
     // TODO: Rewrite this into a utils function
@@ -74,7 +88,7 @@ class FacialRecognition extends Component {
 
   fetchImage = (id) => {
     this.setState({isUploading: true, imgId: id}, () => {
-      graphqlQuery(PHOTO_GQL_Q, {id: id}).then(res => {
+      graphqlQuery(PHOTO_GQL_Q, {photoId: id}).then(res => {
         console.debug("Fetched photo", res)
         const faceLocations = getFaceLocations(res.photo);
         this.updateFaceState(res.photo.faces, faceLocations);
@@ -132,5 +146,4 @@ class FacialRecognition extends Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(FacialRecognition);
-
+export default withRouter(withStyles(styles, { withTheme: true })(FacialRecognition));

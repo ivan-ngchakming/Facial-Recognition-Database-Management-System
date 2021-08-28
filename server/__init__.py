@@ -1,15 +1,16 @@
+import os
 import logging
 
 from ariadne import graphql_sync
 from ariadne.constants import PLAYGROUND_HTML
 from flask import Flask, jsonify, request
+from flask.logging import default_handler
 from flask_cors import CORS
 from flask_migrate import Migrate
 
 from .config import Config
 from .database import db
 from .schema import schema
-from .utils.celery import make_celery
 from .utils.image import img_arr_to_file
 from .utils.logging import get_console_handler
 
@@ -33,9 +34,6 @@ db.init_app(app)
 
 # Setup migration
 migrate = Migrate(app, db, directory=app.config['MIGRATION_DIR'])
-
-# Celery
-celery_app = make_celery(app)
 
 
 @app.route("/")
@@ -78,11 +76,11 @@ def post_image(id):
 
 
 # Register CLI Groups
-from .commands import build_cli, celery_cli, data_cli
+from .commands import build_cli, data_cli, dev_cli
 
 app.cli.add_command(build_cli)
-app.cli.add_command(celery_cli)
 app.cli.add_command(data_cli)
+app.cli.add_command(dev_cli)
 
 
 @app.shell_context_processor
@@ -90,3 +88,12 @@ def make_shell_context():
     return {
         'db': db,
     }
+
+
+with app.test_request_context():
+    db_path = app.config['DATABASE_PATH']
+    if not os.path.isfile(db_path):
+        app.logger.info("Database not found, creating ...")
+        db.create_all()
+    else:
+        app.logger.info(f"Existing database found at {db_path}. Connected to database.")

@@ -5,7 +5,6 @@ import cv2
 
 from .database import db
 from .faces.arcface import face_app
-from .faces.recognition import face_recognition
 
 
 class Profile(db.Model):
@@ -67,10 +66,7 @@ class Photo(db.Model):
 
 		cvimg = cv2.cvtColor(self.array, cv2.COLOR_RGB2BGR)
 		arcfaces = face_app.get(cvimg)
-
-		face_locations = face_recognition.face_locations(self.array)
-		print(face_locations)
-
+		
 		print(f"{len(arcfaces)} faces found in picture")
 		for arcface in arcfaces:
 			print(arcface.location)

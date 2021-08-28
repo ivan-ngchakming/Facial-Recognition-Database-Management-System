@@ -46,12 +46,7 @@ export default function Image({image}) {
   }
 
   const handleClick = () => {
-    history.push({
-      pathname:`/facial-recognition`,
-      state: {
-        imageId: image.id,
-      },
-    });
+    history.push(`/facial-recognition?id=${image.id}`);
   }
 
   return (

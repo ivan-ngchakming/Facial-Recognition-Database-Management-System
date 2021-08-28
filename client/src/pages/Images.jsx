@@ -1,8 +1,8 @@
 import { withStyles } from "@material-ui/core/styles";
 import React, { Component } from "react";
-import { Button, Container, Typography } from "@material-ui/core";
 import Gallery from "../components/Gallery";
 import { graphqlQuery } from "../graphql";
+import { withRouter } from "react-router-dom";
 
 const styles = (theme) => ({
 

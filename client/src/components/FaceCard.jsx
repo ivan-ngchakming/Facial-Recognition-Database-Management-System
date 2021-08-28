@@ -1,13 +1,12 @@
-import { Chip, ListItem, ListItemAvatar, ListItemText, Typography } from "@material-ui/core";
+import { Box, Chip, ListItem, ListItemAvatar, ListItemText, Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from 'react';
 import { graphqlQuery } from "../graphql";
-import { IDENTIFYFACE as IDENTIFYFACE_GQL_M } from '../graphql/mutation';
 import { IDENTIFYFACE as IDENTIFYFACE_GQL_Q, PROFILE as PROFILE_GQL_Q } from '../graphql/query';
 import { roundOff } from '../utils';
 import CroppedImage from "./CroppedImage";
+import LinearProgress from '@material-ui/core/LinearProgress';
 import LinearBarsProgress from './LinearBarsProgress';
-import LinearProgressWithLabel from './LinearProgressWithLabel';
 
 const useStyles = makeStyles((theme) => ({
   faceCard: {
@@ -22,70 +21,56 @@ const useStyles = makeStyles((theme) => ({
   tag: {
     marginRight: theme.spacing(1),
   },
+  loadingBar: {
+    marginTop: theme.spacing(2),
+  }
 }));
 
 export default function FaceCard({index, img, face, selected, onClick}) {
   const classes = useStyles();
-  const [task, setTask] = useState(null);
   const [profile, setProfile] = useState(null);
   const [status, setStatus] = useState(false);
+  const [matchResults, setMatchResults] = useState(null);
 
   const fetchProfile = (profileId, nextStatus) => {
-    graphqlQuery(PROFILE_GQL_Q, {id: profileId}).then(res => {
+    graphqlQuery(PROFILE_GQL_Q, {profileId: profileId}).then(res => {
       setProfile(res.profile);
       setStatus(nextStatus);
     }).catch(error => console.log(error))
   }
 
-  const startTask = (faceId) => {
-    graphqlQuery(IDENTIFYFACE_GQL_M, {faceId: faceId}).then(res => {
-      setTask(res.identifyFace);
-    }).catch(error => console.log(error))
-  }
-
-  const updateTaskStatus = (faceId) => {
-    const taskId = `face-identify-${faceId}`;
-    graphqlQuery(IDENTIFYFACE_GQL_Q, {id: taskId}).then(res => {
-      setTask(res.identifyFace);
-    }).catch(error => console.log(error))
+  const identifyFace = (faceId) => {
+    console.debug("Identifying face", faceId)
+    graphqlQuery(IDENTIFYFACE_GQL_Q, {faceId: faceId}).then(res => {
+      console.debug(res.identifyFace);
+      setMatchResults(res.identifyFace);
+    }).catch(error => console.log(error));
   }
 
   useEffect(() => {
-    console.debug(status, task);
     // Initialize status value on mount
     if (!status) {
       if (face.face.profile) {
         fetchProfile(face.face.profile.id, 'saved');
       } else {
-        setStatus('startingTask')
+        setStatus('matching');
+        identifyFace(parseInt(face.face.id));
       }
     }
 
-    if (status === 'startingTask') {
-      startTask(parseInt(face.face.id));
-      setStatus('matching');
-    } 
-    
-    if (status === 'matching' && task) {
-      if (task.status === 'PROGRESS' || task.status === 'PENDING') {
-        setTimeout(function() {
-          updateTaskStatus(parseInt(face.face.id));
-        }, 500);
-      }
-      else if (task.status === 'SUCCESS') {
-        if (task.result && task.result.length > 0) {
-          fetchProfile(task.result[0].id, 'matched');
-        }
-        if (!task.result) {
-          // Task status is success but no result returned, refetch results.
-          setTimeout(function() {
-            updateTaskStatus(parseInt(face.face.id));
-          }, 500);
-        }
+  }, [status]);
+
+  useEffect(() => {
+    if (matchResults && matchResults.length > 0) {
+      if (!profile || matchResults[0].id !== profile.id) {
+        fetchProfile(matchResults[0].id, 'matched')
       }
     }
-
-  }, [status, task]);
+    if (matchResults && matchResults.length === 0) {
+      // No results matched.
+      setStatus('matched');
+    }
+  }, [matchResults]);
 
   useEffect(() => {
     console.log("profile updated", profile);
@@ -96,7 +81,7 @@ export default function FaceCard({index, img, face, selected, onClick}) {
       <ListItem 
         key={`face-${index}`} 
         button 
-        onClick={() => {onClick(face, task, index)}} 
+        onClick={() => {onClick(face, matchResults, index)}} 
         className={classes.faceCard}
         selected={selected}
       >
@@ -115,7 +100,7 @@ export default function FaceCard({index, img, face, selected, onClick}) {
                   variant="h6"
                   color="textPrimary"
                 >
-                  {profile.name}
+                  {matchResults.length === 0 ? "No Match" : profile.name}
                 </Typography>
               }
               
@@ -127,10 +112,15 @@ export default function FaceCard({index, img, face, selected, onClick}) {
                   className={classes.inline}
                   color="textPrimary"
                 >
-                  {task ? `${roundOff((task.result[0].score) * 100, 2)}% Match` : `100% Match`}
+                  { matchResults.length > 0 && `${roundOff((matchResults[0].score) * 100, 2)}% Match`}
+                  { matchResults.length === 0 && "No Match Found"}
                 </Typography>
-
-                <LinearBarsProgress value={roundOff((task.result[0].score) * 100, 2)} />
+                
+                { matchResults.length > 0 ? (
+                  <LinearBarsProgress value={roundOff((matchResults[0].score) * 100, 2)} />
+                ): (
+                  <LinearBarsProgress value={0} />
+                )}
 
                 </React.Fragment>
               }
@@ -186,11 +176,11 @@ export default function FaceCard({index, img, face, selected, onClick}) {
                   variant="body1"
                   color="textPrimary"
                 >
-                  {task ? "Matching..." : "Pending..."}
+                  Matching...
                 </Typography>
               }
               secondary={
-                <LinearProgressWithLabel value={task ? task.current / task.total * 100 : 0} />
+                  <LinearProgress className={classes.loadingBar}/>
               }
             />
           )}

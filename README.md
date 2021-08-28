@@ -49,9 +49,8 @@ Identify known faces in the database from a live video
 ## Setup Development Environment
 Server
 ```
-conda env create -f environment.yml -n face
-conda activate face
-python app.py
+pipenv install
+pipenv run python app.py
 ```
 
 Client
