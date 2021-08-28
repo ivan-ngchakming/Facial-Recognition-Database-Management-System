@@ -1,5 +1,5 @@
 import React from 'react';
-import Gallery from '../../components/Gallery';
+import Gallery from '../../components/images/Gallery';
 
 export default {
   component: Gallery,

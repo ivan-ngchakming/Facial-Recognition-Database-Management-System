@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import FaceCard from './FaceCard';
 import { makeStyles } from '@material-ui/core/styles';
 import { Divider, List } from "@material-ui/core";

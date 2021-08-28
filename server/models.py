@@ -15,7 +15,13 @@ class Profile(db.Model):
 
 	# One-to-one relationship
 	thumbnail_id = db.Column(db.Integer, db.ForeignKey('face.id'))
-	thumbnail = db.relationship("Face", uselist=False, foreign_keys=thumbnail_id)
+	thumbnail = db.relationship(
+		"Face", 
+		uselist=False, 
+		foreign_keys=thumbnail_id, 
+		primaryjoin="Profile.thumbnail_id==Face.id",
+		post_update=True,
+	)
 
 	@property
 	def faces_count(self):

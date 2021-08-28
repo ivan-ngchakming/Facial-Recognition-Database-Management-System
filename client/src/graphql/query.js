@@ -7,21 +7,18 @@ export const PHOTO = `
       faces {
         id
         location
-        landmarks {
-          chin
-          left_eyebrow
-          right_eyebrow
-          nose_bridge
-          nose_tip
-          left_eye
-          right_eye
-          top_lip
-          bottom_lip
-        }
-        encoding
         profile {
           id
           name
+          thumbnail {
+            id
+            location
+            photo {
+              id
+              width
+              height
+            }
+          }
         }
       }
     }
