@@ -27,12 +27,11 @@ export default function ProfileCard({profileId, score, index, selected, onClick}
   const [profile, setProfile] = useState({});
 
   const fetchProfile = (profileId) => {
-    graphqlQuery(PROFILE_GQL_Q, {id: profileId}).then(res => {
-      // console.debug("Profile fetched for profile card " + key, res.profile);
+    graphqlQuery(PROFILE_GQL_Q, {profileId: profileId}).then(res => {
       setProfile(res.profile);
     }).catch(error => console.log(error))
   }
-
+  
   useEffect(() => {
     if (Object.keys(profile).length === 0) {
       fetchProfile(profileId);

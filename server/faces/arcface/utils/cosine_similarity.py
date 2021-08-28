@@ -5,10 +5,10 @@ def cosine_similarity(x, y):
     return np.dot(x, y) / (np.sqrt(np.dot(x, x)) * np.sqrt(np.dot(y, y)))
 
 
-def cosine_similarity_batch_loop(unknown_face, known_faces):
-    return np.array([
-        cosine_similarity(unknown_face, known_face) for known_face in known_faces
-    ])
+# def cosine_similarity_batch_loop(unknown_face, known_faces):
+#     return np.array([
+#         cosine_similarity(unknown_face, known_face) for known_face in known_faces
+#     ])
 
 
 def cosine_similarity_batch(unknown_face, known_faces):

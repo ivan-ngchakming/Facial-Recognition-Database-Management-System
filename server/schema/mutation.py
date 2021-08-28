@@ -25,35 +25,6 @@ def resolve_photo(_, info, rbytes):
     return photo
 
 
-@mutation.field("identifyFace")
-@convert_kwargs_to_snake_case
-def resolve_identify_face(_, info, face_id):
-    from ..tasks import face_identify
-    logger.debug(f"Starting identify face task")
-    task_id = f'face-identify-{face_id}'
-    
-    task = face_identify.AsyncResult(task_id)
-    if task.state == 'SUCCESS':
-        logger.debug("Task already succeeded, skipping")
-        data = {
-        'id': task.id,
-        'current': task.info.get('current', 0),
-        'total': task.info.get('total', 1),
-        'status': task.state,
-        'result': task.info.get('result', None)
-        }
-        return data
-    else:
-        task = face_identify.apply_async((face_id,), task_id=task_id)
-        logger.debug(f"Started task id:{task.id} with state:{task.state}")
-        return {
-            'id': task.id,
-            'current': 0,
-            'total': 1,
-            'status': task.state,
-        }
-
-
 @mutation.field("assignFaceToProfile")
 @convert_kwargs_to_snake_case
 def resolve_assign_face_to_profile(_, info, face_id, profile_id):

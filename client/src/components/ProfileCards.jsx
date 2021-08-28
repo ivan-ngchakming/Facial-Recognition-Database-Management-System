@@ -4,6 +4,7 @@ import ProfileCard from './ProfileCard';
 import { makeStyles } from '@material-ui/core/styles';
 import { graphqlQuery } from '../graphql';
 import { ASSIGN_FACE_TO_PROFILE as ASSIGN_FACE_TO_PROFILE_GQL_M } from '../graphql/mutation'; 
+import CreatePortfolio from './CreatePortfolio';
 
 const useStyles = makeStyles((theme) => ({
   btnWrapper: {
@@ -17,11 +18,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ProfileCards({face, task}) {
+export default function ProfileCards({face, matchResults}) {
   const classes = useStyles();
   const [profile, setProfile] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-
+  const [openCreatePannel, setOpenCreatePannel] = useState(matchResults && matchResults.length === 0 && !profile);
   const handleClick = (index) => {
     console.debug(`Clicked profile card ${index}`);
     setSelectedIndex(index)
@@ -30,7 +31,7 @@ export default function ProfileCards({face, task}) {
   const handleSaveFaceToProfile = () => {
     graphqlQuery(ASSIGN_FACE_TO_PROFILE_GQL_M, {
       faceId: parseInt(face.face.id),
-      profileId: parseInt(task.result[selectedIndex].id),
+      profileId: parseInt(matchResults[selectedIndex].id),
     }).then(res => {
       setProfile(res.assignFaceToProfile.profile);
     }).catch(error => {
@@ -48,14 +49,14 @@ export default function ProfileCards({face, task}) {
   
   return (
     <div>
-      {task && !profile && `${task.result.length} profile${task.result.length > 1? 's':''} matched`}
+      {matchResults && matchResults.length > 0 && !profile && `${matchResults.length} profile${matchResults.length > 1? 's':''} matched`}
       {profile && (
         "Face belongs to Profile " + profile.id
       )}
-      {task && !profile && (
+      {matchResults && matchResults.length > 0 && !profile && (
         <React.Fragment>
           <List>
-            {task.result.map((result, index) => (
+            {matchResults.map((result, index) => (
               <ProfileCard 
                 profileId={result.id}
                 score={result.score}
@@ -75,16 +76,22 @@ export default function ProfileCards({face, task}) {
             >
               Save
             </Button>
+
             <Button 
               variant="contained" 
               color="primary"
               className={classes.btn}
+              onClick={() => {setOpenCreatePannel(true)}}
             >
               New Profile
             </Button>
           </div>
           
         </React.Fragment>
+      )}
+
+      {openCreatePannel && (
+        <CreatePortfolio />
       )}
       
     </div>

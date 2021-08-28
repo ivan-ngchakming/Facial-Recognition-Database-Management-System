@@ -1,6 +1,6 @@
 export const PHOTO = `
-  query myQuery ($id: ID!){
-    photo (id: $id){
+  query myQuery ($photoId: ID!){
+    photo (photoId: $photoId){
       id
       width
       height
@@ -29,23 +29,17 @@ export const PHOTO = `
 `
 
 export const IDENTIFYFACE = `
-  query identifyFace($id: String!){
-    identifyFace(id: $id) {
+  query identifyFace($faceId: ID!){
+    identifyFace(faceId: $faceId) {
       id
-      status
-      current
-      total
-      result {
-        id
-        score
-      }
+      score
     }
   }
 `
 
 export const PROFILE = `
-  query profile($id: ID!) {
-    profile (id: $id) {
+  query profile($profileId: ID!) {
+    profile (profileId: $profileId) {
       id
       name
       facesCount

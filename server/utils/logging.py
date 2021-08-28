@@ -32,3 +32,7 @@ def get_console_handler():
     handler = logging.StreamHandler()
     handler.setFormatter(CustomFormatter())
     return handler
+
+
+def get_all_loggers():
+    return [logging.getLogger(name) for name in logging.root.manager.loggerDict]

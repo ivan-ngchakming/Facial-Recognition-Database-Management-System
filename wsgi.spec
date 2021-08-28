@@ -1,61 +1,75 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+from PyInstaller.building.api import PYZ, EXE
+from PyInstaller.building.build_main import Analysis
+from PyInstaller.building.datastruct import TOC
+
 
 block_cipher = None
 
-face_models = [
-    ('.\\face_recognition_models\\models\\dlib_face_recognition_resnet_model_v1.dat', './face_recognition_models/models'),
-    ('.\\face_recognition_models\\models\\mmod_human_face_detector.dat', './face_recognition_models/models'),
-    ('.\\face_recognition_models\\models\\shape_predictor_5_face_landmarks.dat', './face_recognition_models/models'),
-    ('.\\face_recognition_models\\models\\shape_predictor_68_face_landmarks.dat', './face_recognition_models/models'),
+binaries = [
+    ('./face_recognition_models/models/antelopev2/1k3d68.onnx',
+     './face_recognition_models/models'),
+    ('./face_recognition_models/models/antelopev2/2d106det.onnx',
+     './face_recognition_models/models'),
+    ('./face_recognition_models/models/antelopev2/genderage.onnx',
+     './face_recognition_models/models'),
+    ('./face_recognition_models/models/antelopev2/glintr100.onnx',
+     './face_recognition_models/models'),
+    ('./face_recognition_models/models/antelopev2/scrfd_10g_bnkps.onnx',
+     './face_recognition_models/models'),
 ]
 
-
-a = Analysis(['wsgi.py'],
-             pathex=['C:\\ComputerScience\\web\\facial-recognition'],
-             binaries=face_models,
-             datas=[('client/build/', 'client/build/')],
-             hiddenimports=['scipy._lib.messagestream', 'scipy', 'scipy.signal', 'scipy.signal.bsplines', 'scipy.special', 'scipy.special._ufuncs_cxx',
-                            'scipy.linalg.cython_blas',
-                            'scipy.linalg.cython_lapack',
-                            'scipy.integrate',
-                            'scipy.integrate.quadrature',
-                            'scipy.integrate.odepack',
-                            'scipy.integrate._odepack',
-                            'scipy.integrate.quadpack',
-                            'scipy.integrate._quadpack',
-                            'scipy.integrate._ode',
-                            'scipy.integrate.vode',
-                            'scipy.integrate._dop', 'scipy._lib', 'scipy._build_utils','scipy.__config__',
-                            'scipy.integrate.lsoda', 'scipy.cluster', 'scipy.constants','scipy.fftpack','scipy.interpolate','scipy.io','scipy.linalg','scipy.misc','scipy.ndimage','scipy.odr','scipy.optimize','scipy.setup','scipy.sparse','scipy.spatial','scipy.special','scipy.stats','scipy.version'],
-             hookspath=[],
-             hooksconfig={},
-             runtime_hooks=[],
-             excludes=[],
-             win_no_prefer_redirects=False,
-             win_private_assemblies=False,
-             cipher=block_cipher,
-             noarchive=False)
+a = Analysis(
+	['wsgi.py'],
+	pathex=['C:/ComputerScience/web/facial-recognition'],
+	binaries=binaries,
+	datas=[
+		('client/build/', 'client/build/'),
+	],
+    hiddenimports=[],
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=[],
+    excludes=[],
+    win_no_prefer_redirects=False,
+    win_private_assemblies=False,
+    cipher=block_cipher,
+    noarchive=False
+)
 
 
-pyz = PYZ(a.pure, a.zipped_data,
-             cipher=block_cipher)
+a.binaries += TOC([
+    (
+        "onnxruntime.capi.onnxruntime_providers_shared",
+        "C:/Users/ivanm/.virtualenvs/facial-recognition-6HdtIpUU/Lib/site-packages/onnxruntime/capi/onnxruntime_providers_shared.dll",
+        "EXTENSION"
+    ),
+])
 
-exe = EXE(pyz,
-          a.scripts,
-          a.binaries,
-          a.zipfiles,
-          a.datas,  
-          [],
-          name='FRDMS',
-          debug=False,
-          bootloader_ignore_signals=False,
-          strip=False,
-          upx=True,
-          upx_exclude=[],
-          runtime_tmpdir=None,
-          console=True,
-          disable_windowed_traceback=False,
-          target_arch=None,
-          codesign_identity=None,
-          entitlements_file=None , icon='client\\build\\favicon.ico')
+
+pyz = PYZ(
+	a.pure, 
+	a.zipped_data,
+    cipher=block_cipher
+)
+
+exe = EXE(
+	pyz,
+	a.scripts,
+	a.zipfiles,
+	a.binaries,
+	a.datas,
+	[],
+	name='FRDMS',
+	debug=False,
+	bootloader_ignore_signals=False,
+	strip=False,
+	upx=True,
+	console=True,
+	disable_windowed_traceback=False,
+	target_arch=None,
+	codesign_identity=None,
+	entitlements_file=None,
+	icon='client/build/favicon.ico'
+)
