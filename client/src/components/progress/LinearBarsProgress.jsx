@@ -33,15 +33,17 @@ export default function LinearBarsProgress({value}) {
       )
     }
 
-    bars.push(
-      <span
-        className={classes.bar}
-        style={{
-          backgroundColor: color,
-          height: "15px",
-        }}
-      />
-    )
+    // TODO: add bars for 5s
+
+    // bars.push(
+    //   <span
+    //     className={classes.bar}
+    //     style={{
+    //       backgroundColor: color,
+    //       height: "15px",
+    //     }}
+    //   />
+    // )
 
     return bars;
   }

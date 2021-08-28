@@ -1,11 +1,11 @@
 import { Avatar, ListItem, ListItemAvatar, ListItemText, Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from 'react';
-import { graphqlQuery } from "../graphql";
-import { PROFILE as PROFILE_GQL_Q } from '../graphql/query';
-import { roundOff } from '../utils';
-import CroppedImage from "./CroppedImage";
-import LinearBarsProgress from './LinearBarsProgress';
+import { graphqlQuery } from "../../graphql";
+import { PROFILE as PROFILE_GQL_Q } from '../../graphql/query';
+import { roundOff } from '../../utils';
+import CroppedImage from "../images/CroppedImage";
+import LinearBarsProgress from '../progress/LinearBarsProgress';
 
 const useStyles = makeStyles((theme) => ({
   faceCard: {
@@ -36,7 +36,7 @@ export default function ProfileCard({profileId, score, index, selected, onClick}
     if (Object.keys(profile).length === 0) {
       fetchProfile(profileId);
     }
-  }, [])
+  })
 
   return (
     <React.Fragment>

@@ -36,3 +36,44 @@ def resolve_assign_face_to_profile(_, info, face_id, profile_id):
     db.session.commit()
 
     return face
+
+@mutation.field("profile")
+@convert_kwargs_to_snake_case
+def resolve_assign_face_to_profile(_, info, _id=None, face_ids=None, thumbnail_id=None, **kwargs):
+    logger.debug(f"Modifying profile id:{_id}")
+
+    modified = False
+    if _id is None:
+        profile = Profile(**kwargs)
+        db.session.add(profile)
+    else:
+        profile = Profile.query.get(_id)
+    
+    if profile is None:
+        logger.warning(f"Profile id:{_id} not found, creating new...")
+        profile = Profile(**kwargs)
+        db.session.add(profile)
+        modified = True
+    else:
+        for key, value in kwargs.items():
+            if value is not None:
+                logger.debug(f"Updating profile {key} {getattr(profile, key)} to {value}")
+                setattr(profile, key, value)
+                modified = True
+
+    if face_ids is not None:
+        for face_id in face_ids:
+            face = Face.query.get(face_id)
+            if face is not None:
+                profile.faces.append(face)
+                modified = True
+
+    if thumbnail_id is not None:
+        thumbnail = Face.query.get(thumbnail_id)
+        if thumbnail is not None:
+            profile.thumbnail = thumbnail
+    
+    if modified:
+        logger.debug(f"Commiting modifications made to profile id:{_id}")
+        db.session.commit()
+    return profile

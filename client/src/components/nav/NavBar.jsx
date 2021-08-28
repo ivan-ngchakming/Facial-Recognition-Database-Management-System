@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Drawer, IconButton, List, ListItem, ListItemText, SvgIcon, Toolbar } from "@material-ui/core";
+import { AppBar, Drawer, IconButton, List, ListItem, ListItemText, Toolbar } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { useHistory } from 'react-router-dom';

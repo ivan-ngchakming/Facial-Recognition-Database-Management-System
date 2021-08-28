@@ -33,6 +33,7 @@ export default function CroppedImage({img, faceLocation, imgWidth=100, padding=1
             marginTop: `-${yOffset}px`,
           }}
           src={img} 
+          alt=""
         />
       </div>
     </React.Fragment>

@@ -1,12 +1,12 @@
-import { Box, Chip, ListItem, ListItemAvatar, ListItemText, Typography } from "@material-ui/core";
+import { Chip, ListItem, ListItemAvatar, ListItemText, Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from 'react';
-import { graphqlQuery } from "../graphql";
-import { IDENTIFYFACE as IDENTIFYFACE_GQL_Q, PROFILE as PROFILE_GQL_Q } from '../graphql/query';
-import { roundOff } from '../utils';
-import CroppedImage from "./CroppedImage";
+import { graphqlQuery } from "../../graphql";
+import { IDENTIFYFACE as IDENTIFYFACE_GQL_Q, PROFILE as PROFILE_GQL_Q } from '../../graphql/query';
+import { roundOff } from '../../utils';
+import CroppedImage from "../images/CroppedImage";
 import LinearProgress from '@material-ui/core/LinearProgress';
-import LinearBarsProgress from './LinearBarsProgress';
+import LinearBarsProgress from '../progress/LinearBarsProgress';
 
 const useStyles = makeStyles((theme) => ({
   faceCard: {
@@ -147,12 +147,12 @@ export default function FaceCard({index, img, face, selected, onClick}) {
                     className={classes.inline}
                     color="textPrimary"
                   >
-                    {"25 | United State"}
+                    {/* {"25 | United State"} */}
                     {/* <br />
                     {"Actress | model"} */}
                   </Typography>
                   
-                  <div className={classes.tagWrapper}>
+                  {/* <div className={classes.tagWrapper}>
                     {['Actress', 'model'].map((tag, index)=> (
                       <Chip
                         key={index}
@@ -162,7 +162,7 @@ export default function FaceCard({index, img, face, selected, onClick}) {
                         size="small"
                       />
                     ))}
-                  </div>
+                  </div> */}
                 </React.Fragment>
               }
             />

@@ -2,9 +2,10 @@ import { Button, List } from '@material-ui/core';
 import React, { useState, useEffect } from 'react'
 import ProfileCard from './ProfileCard';
 import { makeStyles } from '@material-ui/core/styles';
-import { graphqlQuery } from '../graphql';
-import { ASSIGN_FACE_TO_PROFILE as ASSIGN_FACE_TO_PROFILE_GQL_M } from '../graphql/mutation'; 
+import { graphqlQuery } from '../../graphql';
+import { ASSIGN_FACE_TO_PROFILE as ASSIGN_FACE_TO_PROFILE_GQL_M } from '../../graphql/mutation'; 
 import CreatePortfolio from './CreatePortfolio';
+import DetailedProfileCard from './DetailedProfileCard';
 
 const useStyles = makeStyles((theme) => ({
   btnWrapper: {
@@ -23,6 +24,7 @@ export default function ProfileCards({face, matchResults}) {
   const [profile, setProfile] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [openCreatePannel, setOpenCreatePannel] = useState(matchResults && matchResults.length === 0 && !profile);
+
   const handleClick = (index) => {
     console.debug(`Clicked profile card ${index}`);
     setSelectedIndex(index)
@@ -39,6 +41,11 @@ export default function ProfileCards({face, matchResults}) {
     })
   }
 
+  const handleCreatedProfile = (profile) => {
+    setProfile(profile);
+    setOpenCreatePannel(false);
+  }
+
   useEffect(() => {
     if (face && !profile) {
       setProfile(face.face.profile);
@@ -51,7 +58,7 @@ export default function ProfileCards({face, matchResults}) {
     <div>
       {matchResults && matchResults.length > 0 && !profile && `${matchResults.length} profile${matchResults.length > 1? 's':''} matched`}
       {profile && (
-        "Face belongs to Profile " + profile.id
+        <DetailedProfileCard profile={profile} />
       )}
       {matchResults && matchResults.length > 0 && !profile && (
         <React.Fragment>
@@ -91,7 +98,7 @@ export default function ProfileCards({face, matchResults}) {
       )}
 
       {openCreatePannel && (
-        <CreatePortfolio />
+        <CreatePortfolio callback={handleCreatedProfile} faceId={parseInt(face.face.id)}/>
       )}
       
     </div>

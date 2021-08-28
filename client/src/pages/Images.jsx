@@ -1,8 +1,8 @@
 import { withStyles } from "@material-ui/core/styles";
 import React, { Component } from "react";
-import Gallery from "../components/Gallery";
+import Gallery from "../components/images/Gallery";
 import { graphqlQuery } from "../graphql";
-import { withRouter } from "react-router-dom";
+
 
 const styles = (theme) => ({
 
@@ -52,7 +52,6 @@ class Images extends Component {
   }
   
   render() {
-    const { classes } = this.props;
     const { images } = this.state;
 
     return(
