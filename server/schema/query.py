@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 query = QueryType()
 
-PHOTOS_PER_PAGE = 10
+PHOTOS_PER_PAGE = 20
 
 @query.field("photo")
 @convert_kwargs_to_snake_case

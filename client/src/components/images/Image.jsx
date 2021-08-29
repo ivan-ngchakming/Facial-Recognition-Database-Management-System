@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardActionArea, CardMedia, Typography } from '@material-ui/core';
+import { Avatar, Card, CardActionArea, CardMedia, Typography } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -62,22 +62,27 @@ export default function Image({image, height=300, hover, redirect}) {
           height: height,
         }}
       >
-        <CardActionArea onClick={handleClick}>
-          <CardMedia
-            className={classes.img}
-            image={image.source}
-            style={{
-              opacity: imageOpacity,
-              height: height,
-              width: height,
-            }}
-          />
-          <div className={classes.optionWrapper} style={{opacity: optionsOpacity}}>
-            <Typography className={classes.option} variant="h6">
-              See Image Recognition Result
-            </Typography>
-          </div>
-        </CardActionArea>
+        {image ? (
+          <CardActionArea onClick={handleClick}>
+            <CardMedia
+              className={classes.img}
+              image={image.source}
+              style={{
+                opacity: imageOpacity,
+                height: height,
+                width: height,
+              }}
+            />
+            <div className={classes.optionWrapper} style={{opacity: optionsOpacity}}>
+              <Typography className={classes.option} variant="h6">
+                See Image Recognition Result
+              </Typography>
+            </div>
+          </CardActionArea>
+        ) : (
+          <Avatar variant="square" style={{height: height, width: height}}/>
+        )}
+        
       </Card>
     </React.Fragment>
   )
