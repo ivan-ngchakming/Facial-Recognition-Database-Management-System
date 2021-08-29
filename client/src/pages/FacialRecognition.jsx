@@ -43,8 +43,8 @@ class FacialRecognition extends Component {
     }
   }
 
-  componentDidUpdate(prevProp) {
-    if (prevProp.location.search !== this.props.location.search) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.location.search !== this.props.location.search) {
       const search = this.props.location.search;
       const imgId = new URLSearchParams(search).get('id');
       if (imgId) {

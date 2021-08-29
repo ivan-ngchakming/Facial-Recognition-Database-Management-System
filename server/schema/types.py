@@ -1,9 +1,10 @@
 type_defs = """
 type Query {
     photo(photoId: ID!): Photo!
+    photos(page: Int): PhotoPagination!
     profile(profileId: ID!): Profile!
+    profiles(page: Int, perPage: Int): ProfilePagination!
     identifyFace(faceId: ID!): [IdentifyFaceResult]!
-    photos: [Photo]
 }
 
 type Mutation {
@@ -20,12 +21,24 @@ type Profile {
     faces: [Face]
 }
 
+type ProfilePagination {
+    pages: Int
+    count: Int
+    profiles: [Profile]
+}
+
 type Photo {
     id: ID!
     width: Int!
     height: Int!
     array: String!
     faces: [Face]
+}
+
+type PhotoPagination {
+    pages: Int
+    count: Int
+    photos: [Photo]
 }
 
 type Face {
