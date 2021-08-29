@@ -1,9 +1,9 @@
-import { Chip, ListItem, ListItemAvatar, ListItemText, Typography } from "@material-ui/core";
+import { ListItem, ListItemAvatar, ListItemText, Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from 'react';
 import { graphqlQuery } from "../../graphql";
 import { IDENTIFYFACE as IDENTIFYFACE_GQL_Q, PROFILE as PROFILE_GQL_Q } from '../../graphql/query';
-import { roundOff } from '../../utils';
+import { roundOff } from '../../utils/general';
 import CroppedImage from "../images/CroppedImage";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import LinearBarsProgress from '../progress/LinearBarsProgress';

@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     position: 'initial',
-    zIndex: '2000',
   },
   appBar: {
     transition: theme.transitions.create('margin', {
@@ -52,10 +51,11 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
   },
   content: {
-    // flexGrow: 1,
+    flexGrow: 1,
     padding: theme.spacing(3),
     marginLeft: -drawerWidth,
     width: "100%",
+    height: "100vh",
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -103,6 +103,10 @@ export default function NavBar({children}) {
       text: "Images",
       url: "/images",
     },
+    {
+      text: "Profiles",
+      url: "/profiles",
+    }
   ]
 
   return(

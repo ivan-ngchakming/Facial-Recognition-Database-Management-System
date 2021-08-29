@@ -25,6 +25,18 @@ export const PHOTO = `
   }
 `
 
+export const PHOTOS = `
+  query photos($page: Int) {
+    photos(page: $page) {
+      pages
+      count
+      photos {
+        id
+      }
+    }
+  }
+`
+
 export const IDENTIFYFACE = `
   query identifyFace($faceId: ID!){
     identifyFace(faceId: $faceId) {
@@ -46,6 +58,26 @@ export const PROFILE = `
           id
           width
           height
+        }
+      }
+    }
+  }
+`
+
+export const PROFILES = `
+  query profiles($page: Int, $perPage: Int) {
+    profiles(page: $page, perPage: $perPage) {
+      pages
+      count
+      profiles {
+        id
+        name
+        facesCount
+        thumbnail {
+          id
+          photo {
+            id
+          }
         }
       }
     }

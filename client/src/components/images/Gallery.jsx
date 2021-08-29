@@ -19,6 +19,7 @@ export default function Gallery({images}) {
             <Grid key={index} item>
               <Image 
                 image={image}
+                redirect
               />
             </Grid>
           ))}
