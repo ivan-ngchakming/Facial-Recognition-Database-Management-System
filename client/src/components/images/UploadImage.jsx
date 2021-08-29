@@ -48,11 +48,14 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "2px",
     backgroundColor: theme.palette.white,
     margin: theme.spacing(0, 2, 0, 2),
-    padding: theme.spacing(10, 0, 10, 0),
+    padding: theme.spacing(20, 0, 20, 0),
     alignItems: "center",
     display: 'flex',
     flexDirection: 'column',
     color: theme.palette.text.secondary,
+    "&:hover": {
+      cursor: "pointer"
+    },
   },
 }));
 
@@ -123,11 +126,9 @@ export default function UploadImage({uploadImage}) {
           </div>
         </div>
       ) : (
-        <Paper className={classes.fileBrowser} variant="outlined" square >
-          <div {...getRootProps()}>
-            <input {...getInputProps()} />
-            <p>Or UPLOAD files by dropping the files here</p>
-          </div>
+        <Paper className={classes.fileBrowser} variant="outlined" square {...getRootProps()}>
+          <input {...getInputProps()}/>
+          <p>Or UPLOAD files by dropping the files here</p>
         </Paper>
       )}
       
