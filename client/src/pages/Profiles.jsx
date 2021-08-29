@@ -113,7 +113,10 @@ class Profiles extends Component {
         selectMode: newSelected.length > 0,
       });
     } else {
-      this.props.history.push(`/profile?id=${id}`)
+      // double click
+      if (event.detail === 2) {
+        this.props.history.push(`/profile?id=${id}`)
+      }
     }
   };
 
@@ -135,7 +138,6 @@ class Profiles extends Component {
       page: this.state.page,
       perPage: this.state.rowsPerPage,
     }).then(res => {
-      console.debug(res.profiles)
       const data = res.profiles;
       this.setState({
         rows: data.profiles,
