@@ -15,6 +15,9 @@ Powered by python, dlib and react, and packaged into a single executable that ca
 ### Images
 ![Images](./docs/images.png)
 
+### Profiles
+![Profiles](./docs/profiles.png)
+
 ### Upload Image
 ![Upload Images](./docs/upload.png)
 

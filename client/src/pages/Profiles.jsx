@@ -1,20 +1,13 @@
-import React, { Component } from 'react';
 import { withStyles } from "@material-ui/core/styles";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
+import { Checkbox, Grid, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow, Tooltip, Fab } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import React, { Component } from 'react';
+import Image from '../components/images/Image';
 import EnhancedTableHead from '../components/tables/EnhancedTableHead';
 import EnhancedTableToolbar from '../components/tables/EnhancedTableToolbar';
-import { getComparator, stableSort } from '../utils';
-import Image from '../components/images/Image';
-import { Grid } from '@material-ui/core';
-import { PROFILES as PROFILES_GQL_Q } from '../graphql/query';
 import { graphqlQuery } from '../graphql';
+import { PROFILES as PROFILES_GQL_Q } from '../graphql/query';
+import { getComparator, stableSort } from '../utils';
 
 export function createData(name, id, facecount) {
   return { name, id, facecount };
@@ -47,6 +40,11 @@ const styles = (theme) => ({
     position: 'absolute',
     top: 20,
     width: 1,
+  },
+  absolute: {
+    position: 'absolute',
+    bottom: theme.spacing(2),
+    right: theme.spacing(3),
   },
 });
 
@@ -204,7 +202,9 @@ class Profiles extends Component {
                         <TableCell padding="checkbox">
                           <Grid style={{margin: "10px"}}>
                             <Image 
-                              image={{source: `/api/image/${row.thumbnail.photo.id}`}}
+                              image={
+                                row.thumbnail ? {source: `/api/image/${row.thumbnail.photo.id}`} : null
+                              }
                               height={50}
                             />
                           </Grid>
@@ -235,6 +235,11 @@ class Profiles extends Component {
             onRowsPerPageChange={this.handleChangeRowsPerPage}
           />
         </Paper>
+        <Tooltip title="New Profile" aria-label="new-profile">
+          <Fab color="secondary" className={classes.absolute}>
+            <AddIcon />
+          </Fab>
+        </Tooltip>
       </div>
     );
   }
