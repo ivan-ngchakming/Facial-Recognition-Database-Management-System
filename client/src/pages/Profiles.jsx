@@ -1,6 +1,5 @@
 import { withStyles } from "@material-ui/core/styles";
-import { Checkbox, Grid, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow, Tooltip, Fab } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import { Container, Checkbox, Grid, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow } from '@material-ui/core';
 import React, { Component } from 'react';
 import Image from '../components/images/Image';
 import EnhancedTableHead from '../components/tables/EnhancedTableHead';
@@ -42,7 +41,7 @@ const styles = (theme) => ({
     width: 1,
   },
   absolute: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing(2),
     right: theme.spacing(3),
   },
@@ -156,6 +155,7 @@ class Profiles extends Component {
 
     return (
       <div className={classes.root}>
+        <Container style={{maxWidth: "90vw"}}>
         <Paper className={classes.paper}>
           <EnhancedTableToolbar numSelected={selected.length} title="Portfolios" />
           <TableContainer>
@@ -235,11 +235,7 @@ class Profiles extends Component {
             onRowsPerPageChange={this.handleChangeRowsPerPage}
           />
         </Paper>
-        <Tooltip title="New Profile" aria-label="new-profile">
-          <Fab color="secondary" className={classes.absolute}>
-            <AddIcon />
-          </Fab>
-        </Tooltip>
+        </Container>
       </div>
     );
   }

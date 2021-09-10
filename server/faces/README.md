@@ -1,29 +1,9 @@
 # Face Identification & Verification
 
-## Competitions
-MegaFace FaceScrub
-http://megaface.cs.washington.edu/results/facescrub.html#3
+The models used for face identification & verification are the ArcFace models created by InsightFace.
 
+Codes in the `./arcface` directory are copied and modified from <https://github.com/deepinsight/insightface>
 
-## Datasets
+## ArcFace: Additive Angular Margin Loss for Deep Face Recognition
 
-
-## Data Cleaning
-https://github.com/deepinsight/insightface
-
-
-## Methods
-### Additive Margin Softmax
-https://github.com/happynear/AMSoftmax
-https://arxiv.org/abs/1801.05599
-https://arxiv.org/abs/1801.05599v2
-
-
-### SphereFace: Deep Hypersphere Embedding (A-Softmax)
-https://arxiv.org/pdf/1704.08063.pdf
-https://github.com/wy1iu/sphereface
-
-
-### ArcFace: Additive Angular Margin Loss for Deep Face Recognition
-https://arxiv.org/abs/1801.07698v1
-
+<https://arxiv.org/abs/1801.07698v1>
