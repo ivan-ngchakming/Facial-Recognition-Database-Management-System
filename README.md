@@ -22,7 +22,7 @@ Powered by python, dlib and react, and packaged into a single executable that ca
 
 ### Profiles
 
-![Profiles](./docs/profiles.png)
+![Profiles](./docs/profiles.PNG)
 
 ### Upload Image
 
