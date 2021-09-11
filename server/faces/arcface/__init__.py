@@ -12,6 +12,4 @@ __version__ = "0.4"
 from .app import FaceAnalysis
 from ...config import Config
 
-face_app = FaceAnalysis(
-    root=os.path.join(Config.PROJECT_DIR, "face_recognition_models")
-)
+face_app = FaceAnalysis(root=os.path.join(Config.PROJECT_DIR, "assets"))
