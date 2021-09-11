@@ -26,7 +26,7 @@ export const PHOTO = `
       }
     }
   }
-` 
+`
 
 export const IDENTIFYFACE = `
   mutation identifyFace($faceId: Int!){

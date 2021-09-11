@@ -9,7 +9,7 @@ import { withRouter } from "react-router-dom";
 
 const styles = (theme) => ({
   paper: {
-    
+
   },
   card: {
     display: 'flex',
@@ -108,9 +108,9 @@ class ProfileDetails extends Component {
                       imgWidth={250}
                       classes={classes}
                       img={`/api/image/${profile.thumbnail.photo.id}`}
-                      faceLocation={ 
+                      faceLocation={
                         [
-                          ...profile.thumbnail.location, 
+                          ...profile.thumbnail.location,
                           profile.thumbnail.photo.width,
                           profile.thumbnail.photo.height,
                         ]
@@ -133,12 +133,11 @@ class ProfileDetails extends Component {
             </Grid>
           // </Container>
         ) : "No profile selected" }
-          
-        
+
+
       </React.Fragment>
     )
   }
 }
 
 export default withRouter(withStyles(styles, { withTheme: true })(ProfileDetails));
-

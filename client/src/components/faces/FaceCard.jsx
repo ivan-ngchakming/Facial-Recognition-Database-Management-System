@@ -78,10 +78,10 @@ export default function FaceCard({index, img, face, selected, onClick}) {
 
   return (
     <React.Fragment>
-      <ListItem 
-        key={`face-${index}`} 
-        button 
-        onClick={() => {onClick(face, matchResults, index)}} 
+      <ListItem
+        key={`face-${index}`}
+        button
+        onClick={() => {onClick(face, matchResults, index)}}
         className={classes.faceCard}
         selected={selected}
       >
@@ -91,7 +91,7 @@ export default function FaceCard({index, img, face, selected, onClick}) {
             faceLocation={face.location}
           />
         </ListItemAvatar>
-        
+
           { status === 'matched' && (
             <ListItemText
               style={{marginLeft: "10%"}}
@@ -103,7 +103,7 @@ export default function FaceCard({index, img, face, selected, onClick}) {
                   {matchResults.length === 0 ? "No Match" : profile.name}
                 </Typography>
               }
-              
+
               secondary={
                 <React.Fragment>
                 <Typography
@@ -115,7 +115,7 @@ export default function FaceCard({index, img, face, selected, onClick}) {
                   { matchResults.length > 0 && `${roundOff((matchResults[0].score) * 100, 2)}% Match`}
                   { matchResults.length === 0 && "No Match Found"}
                 </Typography>
-                
+
                 { matchResults.length > 0 ? (
                   <LinearBarsProgress value={roundOff((matchResults[0].score) * 100, 2)} />
                 ): (
@@ -126,7 +126,7 @@ export default function FaceCard({index, img, face, selected, onClick}) {
               }
             />
           )}
-          
+
           { status === 'saved' && (
             <ListItemText
               style={{marginLeft: "10%"}}
@@ -138,7 +138,7 @@ export default function FaceCard({index, img, face, selected, onClick}) {
                   {profile.name}
                 </Typography>
               }
-              
+
               secondary={
                 <React.Fragment>
                   <Typography
@@ -151,7 +151,7 @@ export default function FaceCard({index, img, face, selected, onClick}) {
                     {/* <br />
                     {"Actress | model"} */}
                   </Typography>
-                  
+
                   {/* <div className={classes.tagWrapper}>
                     {['Actress', 'model'].map((tag, index)=> (
                       <Chip

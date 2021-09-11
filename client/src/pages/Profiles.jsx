@@ -91,7 +91,7 @@ class Profiles extends Component {
     if (this.state.selectMode || event.target.type) {
       const selectedIndex = this.state.selected.indexOf(name);
       let newSelected = [];
-      
+
       if (selectedIndex === -1) {
         newSelected = newSelected.concat(this.state.selected, name);
       } else if (selectedIndex === 0) {
@@ -149,7 +149,7 @@ class Profiles extends Component {
     const { order, orderBy, selected, page, rowsPerPage } = this.state;
 
     const emptyRows = this.state.rowsPerPage - Math.min(
-      this.state.rowsPerPage, 
+      this.state.rowsPerPage,
       this.state.rows.length - this.state.page * this.state.rowsPerPage
     );
 
@@ -181,7 +181,7 @@ class Profiles extends Component {
                   .map((row, index) => {
                     const isItemSelected = this.isSelected(row.name);
                     const labelId = `enhanced-table-checkbox-${index}`;
-                    
+
                     return (
                       <TableRow
                         hover
@@ -201,7 +201,7 @@ class Profiles extends Component {
                         </TableCell>
                         <TableCell padding="checkbox">
                           <Grid style={{margin: "10px"}}>
-                            <Image 
+                            <Image
                               image={
                                 row.thumbnail ? {source: `/api/image/${row.thumbnail.photo.id}`} : null
                               }

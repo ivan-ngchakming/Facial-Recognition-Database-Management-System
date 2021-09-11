@@ -20,8 +20,8 @@ function App() {
               <Route path="/profiles" exact component={Profiles} />
               <Route path="/profile" exact component={ProfileDetails} />
               <Route path="/batch-rec-tasks" exact component={BatchRecTasks} />
-            </Switch> 
-          </NavBar> 
+            </Switch>
+          </NavBar>
         </Router>
       </header>
     </div>

@@ -71,7 +71,7 @@ class FacialRecognition extends Component {
         console.debug("Reader loaded", reader);
         var binaryStr = reader.result;
         binaryStr = binaryStr.replace('data:image/jpeg;base64,', '');
-        
+
         graphqlQuery(PHOTO_GQL_M, {rbytes: binaryStr}).then(res => {
           console.debug(res);
           const faceLocations = getFaceLocations(res.photo);
@@ -133,13 +133,13 @@ class FacialRecognition extends Component {
           )}
 
           {faces && !isUploading && (
-            <ImageAnalytics 
+            <ImageAnalytics
               image={`/api/image/${imgId}`}
               data={faces}
               callback={this.imageAnalyticsCallBack}
             />
           )}
-          
+
         </Container>
       </React.Fragment>
     )

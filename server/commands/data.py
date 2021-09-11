@@ -6,7 +6,8 @@ from tqdm import tqdm
 from ..database import db
 from ..models import *
 
-cli = AppGroup('data', short_help="Data creation/migration helper.")
+cli = AppGroup("data", short_help="Data creation/migration helper.")
+
 
 @cli.command()
 def reset():

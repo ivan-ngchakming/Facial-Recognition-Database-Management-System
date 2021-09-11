@@ -7,7 +7,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    
+
   },
   inputBox: {
     display: 'flex',
@@ -91,7 +91,7 @@ export default function UploadImage({uploadImage}) {
   return (
     <div className={classes.root}>
       <div className={classes.inputBox}>
-        <TextField 
+        <TextField
           id="standard-full-width"
           placeholder="Enter Image file's full local path or URL"
           fullWidth
@@ -107,13 +107,13 @@ export default function UploadImage({uploadImage}) {
           <Button onClick={clearImgFile} variant="contained" className={classes.btn}>
             Clear
           </Button>
-          
+
         ) : (
           <Button onClick={open} variant="contained" className={classes.btn}>
             Browse
           </Button>
         )}
-        
+
 
       </div>
       {image ? (
@@ -131,7 +131,7 @@ export default function UploadImage({uploadImage}) {
           <p>Or UPLOAD files by dropping the files here</p>
         </Paper>
       )}
-      
+
     </div>
   )
 }

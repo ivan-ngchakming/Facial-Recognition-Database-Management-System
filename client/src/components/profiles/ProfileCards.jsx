@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import ProfileCard from './ProfileCard';
 import { makeStyles } from '@material-ui/core/styles';
 import { graphqlQuery } from '../../graphql';
-import { ASSIGN_FACE_TO_PROFILE as ASSIGN_FACE_TO_PROFILE_GQL_M } from '../../graphql/mutation'; 
+import { ASSIGN_FACE_TO_PROFILE as ASSIGN_FACE_TO_PROFILE_GQL_M } from '../../graphql/mutation';
 import CreatePortfolio from './CreatePortfolio';
 import DetailedProfileCard from './DetailedProfileCard';
 
@@ -53,7 +53,7 @@ export default function ProfileCards({face, matchResults}) {
   }, [face.face.profile])
 
   console.debug("Profile", profile);
-  
+
   return (
     <div>
       {matchResults && matchResults.length > 0 && !profile && `${matchResults.length} profile${matchResults.length > 1? 's':''} matched`}
@@ -64,7 +64,7 @@ export default function ProfileCards({face, matchResults}) {
         <React.Fragment>
           <List>
             {matchResults.map((result, index) => (
-              <ProfileCard 
+              <ProfileCard
                 profileId={result.id}
                 score={result.score}
                 index={index}
@@ -74,8 +74,8 @@ export default function ProfileCards({face, matchResults}) {
             ))}
           </List>
           <div className={classes.btnWrapper}>
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               color="primary"
               disabled={selectedIndex === -1}
               onClick={handleSaveFaceToProfile}
@@ -84,8 +84,8 @@ export default function ProfileCards({face, matchResults}) {
               Save
             </Button>
 
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               color="primary"
               className={classes.btn}
               onClick={() => {setOpenCreatePannel(true)}}
@@ -93,14 +93,14 @@ export default function ProfileCards({face, matchResults}) {
               New Profile
             </Button>
           </div>
-          
+
         </React.Fragment>
       )}
 
       {openCreatePannel && (
         <CreatePortfolio callback={handleCreatedProfile} faceId={parseInt(face.face.id)}/>
       )}
-      
+
     </div>
   )
 }

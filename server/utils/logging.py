@@ -19,12 +19,14 @@ class CustomFormatter(logging.Formatter):
         logging.INFO: fformat.replace("<reset>", reset).replace("<color>", reset),
         logging.WARNING: fformat.replace("<reset>", reset).replace("<color>", yellow),
         logging.ERROR: fformat.replace("<reset>", reset).replace("<color>", red),
-        logging.CRITICAL: fformat.replace("<reset>", reset).replace("<color>", bold_red),
+        logging.CRITICAL: fformat.replace("<reset>", reset).replace(
+            "<color>", bold_red
+        ),
     }
 
     def format(self, record):
         log_fmt = self.FORMATS.get(record.levelno)
-        formatter = logging.Formatter(log_fmt, style='{')
+        formatter = logging.Formatter(log_fmt, style="{")
         return formatter.format(record)
 
 

@@ -5,7 +5,7 @@ export async function graphqlQuery(query, variables, apiUrl="/graphql") {
 		.post(apiUrl, {
 			query: query,
 			variables: variables
-		}, { 
+		}, {
 			headers: { 'Content-Type': 'application/json' }
 		});
 	if (response.data.data) {

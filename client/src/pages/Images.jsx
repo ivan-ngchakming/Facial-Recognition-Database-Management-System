@@ -57,7 +57,7 @@ class Images extends Component {
       this.queryImages()
     })
   }
-  
+
   render() {
     const { classes } = this.props;
     const { images, loading } = this.state;
@@ -77,4 +77,3 @@ class Images extends Component {
 }
 
 export default withStyles(styles, { withTheme: true })(Images);
-

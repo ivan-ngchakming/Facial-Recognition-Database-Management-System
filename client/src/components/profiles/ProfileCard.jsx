@@ -31,7 +31,7 @@ export default function ProfileCard({profileId, score, index, selected, onClick}
       setProfile(res.profile);
     }).catch(error => console.log(error))
   }
-  
+
   useEffect(() => {
     if (Object.keys(profile).length === 0) {
       fetchProfile(profileId);
@@ -40,9 +40,9 @@ export default function ProfileCard({profileId, score, index, selected, onClick}
 
   return (
     <React.Fragment>
-      <ListItem 
-        key={`selected-face-${index}`} 
-        button onClick={() => {onClick(index)}} 
+      <ListItem
+        key={`selected-face-${index}`}
+        button onClick={() => {onClick(index)}}
         className={classes.faceCard}
         selected={selected}
       >
@@ -52,9 +52,9 @@ export default function ProfileCard({profileId, score, index, selected, onClick}
               {profile.thumbnail ? (
                 <CroppedImage
                   img={`/api/image/${profile.thumbnail.photo.id}`}
-                  faceLocation={ 
+                  faceLocation={
                     [
-                      ...profile.thumbnail.location, 
+                      ...profile.thumbnail.location,
                       profile.thumbnail.photo.width,
                       profile.thumbnail.photo.height,
                     ]
@@ -63,9 +63,9 @@ export default function ProfileCard({profileId, score, index, selected, onClick}
               ):(
                 <Avatar />
               )}
-              
+
             </ListItemAvatar>
-            
+
             <ListItemText
               style={{marginLeft: "10%"}}
               primary={
@@ -76,7 +76,7 @@ export default function ProfileCard({profileId, score, index, selected, onClick}
                   {profile.name}
                 </Typography>
               }
-              
+
               secondary={
                 <React.Fragment>
                 <Typography
@@ -95,7 +95,7 @@ export default function ProfileCard({profileId, score, index, selected, onClick}
             />
           </React.Fragment>
         )}
-        
+
       </ListItem>
     </React.Fragment>
   )

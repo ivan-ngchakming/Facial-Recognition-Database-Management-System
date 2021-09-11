@@ -15,10 +15,7 @@ class ThreadedSubprocess(threading.Thread):
 
     def run(self):
         self.process = subprocess.Popen(
-            self.argv,
-            shell=self.shell, 
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
+            self.argv, shell=self.shell, stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
 
         self.stdout, self.stderr = self.process.communicate()
@@ -34,13 +31,13 @@ class Node:
         self.thread = None
         self.app = current_app._get_current_object()
         self.control = self.app.control
-    
+
     def start(self):
         cmd = f"celery -A server.celery_app worker -n {self.name}"
         self.thread = ThreadedSubprocess(cmd)
         self.thread.setDaemon(True)
         self.thread.start()
-    
+
     def stop(self):
         self.control.shutdown(destination=[self.destination])
         self.thread.join()
@@ -63,9 +60,9 @@ class Cluster:
 def make_celery(app):
     celery = Celery(
         app.import_name,
-        backend=app.config['CELERY_RESULT_BACKEND'],
-        broker=app.config['CELERY_BROKER_URL'],
-        include=app.config['CELERY_INCLUDE'],
+        backend=app.config["CELERY_RESULT_BACKEND"],
+        broker=app.config["CELERY_BROKER_URL"],
+        include=app.config["CELERY_INCLUDE"],
     )
     celery.conf.update(app.config)
 
@@ -76,4 +73,3 @@ def make_celery(app):
 
     celery.Task = ContextTask
     return celery
-

@@ -11,7 +11,7 @@ export default function CroppedImage({img, faceLocation, imgWidth=100, padding=1
   const oHeight = imgHeight / ( _height + padding*2 ) * height;
   const xOffset = oWidth * ( top_x - padding ) / width;
   const yOffset = oHeight * ( top_y - padding ) / height * 1.25;
-  
+
   useEffect(() => {
     // console.debug(faceLocation)
   }, [faceLocation])
@@ -26,13 +26,13 @@ export default function CroppedImage({img, faceLocation, imgWidth=100, padding=1
         overflow: "hidden",
       }}
     >
-      <img 
+      <img
         style={{
           width: `${oWidth}px`,
           marginLeft: `-${xOffset}px`,
           marginTop: `-${yOffset}px`,
         }}
-        src={img} 
+        src={img}
         alt=""
       />
     </div>

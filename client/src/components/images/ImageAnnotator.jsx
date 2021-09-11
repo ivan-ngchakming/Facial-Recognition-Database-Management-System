@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   rect: {
     border: `1px solid ${theme.palette.warning.light}`,
-    position: 'absolute', 
+    position: 'absolute',
     zIndex: 99,
   },
 }));
@@ -74,7 +74,7 @@ export default function ImageAnnotator({src, faceLocations }) {
           src={src}
           ref={ref}
           alt=""
-          className={[classes.image, classes.box].join(' ')} 
+          className={[classes.image, classes.box].join(' ')}
         />
         {faceLocations.map((data, index) => (
           drawReac(...data, index)
@@ -83,4 +83,3 @@ export default function ImageAnnotator({src, faceLocations }) {
     </React.Fragment>
   )
 }
-
