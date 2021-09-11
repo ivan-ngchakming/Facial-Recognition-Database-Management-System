@@ -14,6 +14,7 @@ from .common import Face
 __all__ = ['FaceAnalysis']
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 class FaceAnalysis:
@@ -50,6 +51,7 @@ class FaceAnalysis:
         if prepare:
             self.prepare(ctx_id=0)
         
+        logger.info("ArcFace models loaded successfully.")
         self.init = True
 
     def prepare(self, ctx_id, det_thresh=0.5, det_size=(640, 640)):
