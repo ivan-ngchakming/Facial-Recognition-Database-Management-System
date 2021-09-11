@@ -52,37 +52,24 @@ Find a face match by supplying an input image, and the system will search the da
     Determine whether a pair of faces belongs to the same identity
     so un-identified faces can be grouped together
 
-### Web Crawling (In-progress)
+### Web Crawling (To-do)
 
 Launch web crawling workers to craw through social platforms for images and profiles
 
-### Personnel Classification (In-progress)
+### Personnel Classification (To-do)
 
 Face profiles can be classified into multiple groups using supervised or unsupervised machine learning models
 
-### Automatic Profile Creation (In-progress)
+### Automatic Profile Creation (To-do)
 
 Supply large amount of unlabelled images into the system to be classified by person.
 New unnamed profile can be created automatically when input photo fail to match any existing profiles
 Data crawled from social medias will be used to populate newly created profile as much as possible.
 
-### Live Video Recognition (In-progress)
+### Live Video Recognition (To-do)
 
 Identify known faces in the database from a live video
 
-## Setup Development Environment
+## Contributing
 
-Server
-
-```sh
-pipenv install
-pipenv run python app.py
-```
-
-Client
-
-```sh
-cd client
-yarn install
-yarn start
-```
+For guidance on setting up a development environment and how to make a contribution to Flask, see the [contributing guidelines](./CONTRIBUTING.md).
