@@ -203,7 +203,7 @@ class Profiles extends Component {
                           <Grid style={{margin: "10px"}}>
                             <Image
                               image={
-                                row.thumbnail ? {source: `/api/image/${row.thumbnail.photo.id}`} : null
+                                row.thumbnail && row.thumbnail.photo ? {source: `/api/image/${row.thumbnail.photo.id}`} : null
                               }
                               height={50}
                             />
