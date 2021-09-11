@@ -3,8 +3,7 @@ import logging
 
 from ariadne import graphql_sync
 from ariadne.constants import PLAYGROUND_HTML
-from flask import Flask, jsonify, request
-from flask.logging import default_handler
+from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 from flask_migrate import Migrate
 
@@ -21,13 +20,14 @@ app.config.from_object(Config)
 
 # Create loggers and handlers
 werkzeug_logger = logging.getLogger("werkzeug")  # grabs underlying WSGI logger
-werkzeug_logger.setLevel(logging.DEBUG)
+werkzeug_logger.setLevel(logging.INFO)
 werkzeug_logger.addHandler(get_console_handler())
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(get_console_handler())
 
+app.logger.setLevel(logging.DEBUG)
 
 # Setup database
 db.init_app(app)
@@ -73,6 +73,12 @@ def post_image(id):
     img_arr = Photo.query.get(id).array
     img = img_arr_to_file(img_arr)
     return send_file(img, mimetype='image/jpeg')
+
+
+@app.errorhandler(404)
+def not_found(e):
+    """Redirect any 404 errors to be handled by React app"""
+    return app.send_static_file('index.html')
 
 
 # Register CLI Groups

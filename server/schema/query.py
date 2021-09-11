@@ -16,9 +16,7 @@ PHOTOS_PER_PAGE = 20
 @query.field("photo")
 @convert_kwargs_to_snake_case
 def resolve_photo(_, info, photo_id):
-    with runtime(f"Query photo id:{photo_id}", logger):
-        photo = Photo.query.get(photo_id)
-    return photo
+    return Photo.query.get(photo_id)
 
 
 @query.field("photos")
@@ -39,9 +37,8 @@ def resolve_photos(_, info, page=None):
 @query.field("profile")
 @convert_kwargs_to_snake_case
 def resolve_profile(_, info, profile_id):
-    with runtime(f"Query profile id:{profile_id}", logger):
-        profile = Profile.query.get(profile_id)
-    return profile
+    return Profile.query.get(profile_id)
+
 
 @query.field("profiles")
 @convert_kwargs_to_snake_case

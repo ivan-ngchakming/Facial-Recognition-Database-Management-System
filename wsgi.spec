@@ -9,15 +9,15 @@ block_cipher = None
 
 binaries = [
     ('./face_recognition_models/models/antelopev2/1k3d68.onnx',
-     './face_recognition_models/models'),
+     './face_recognition_models/models/antelopev2'),
     ('./face_recognition_models/models/antelopev2/2d106det.onnx',
-     './face_recognition_models/models'),
+     './face_recognition_models/models/antelopev2'),
     ('./face_recognition_models/models/antelopev2/genderage.onnx',
-     './face_recognition_models/models'),
+     './face_recognition_models/models/antelopev2'),
     ('./face_recognition_models/models/antelopev2/glintr100.onnx',
-     './face_recognition_models/models'),
+     './face_recognition_models/models/antelopev2'),
     ('./face_recognition_models/models/antelopev2/scrfd_10g_bnkps.onnx',
-     './face_recognition_models/models'),
+     './face_recognition_models/models/antelopev2'),
 ]
 
 a = Analysis(

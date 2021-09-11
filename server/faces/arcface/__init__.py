@@ -1,6 +1,6 @@
 """InsightFace: A Face Analysis Toolkit."""
-from __future__ import absolute_import
 
+import os
 try:
     import onnxruntime
 except ImportError:
@@ -11,6 +11,6 @@ except ImportError:
 __version__ = '0.4'
 
 from .app import FaceAnalysis
+from ...config import Config
 
-
-face_app = FaceAnalysis()
+face_app = FaceAnalysis(root=os.path.join(Config.PROJECT_DIR, 'face_recognition_models'))
