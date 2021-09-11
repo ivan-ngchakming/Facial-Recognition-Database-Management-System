@@ -26,8 +26,8 @@ export const PHOTO = `
 `
 
 export const PHOTOS = `
-  query photos($page: Int) {
-    photos(page: $page) {
+  query photos($page: Int, $profileId: ID) {
+    photos(page: $page, profileId: $profileId) {
       pages
       count
       photos {

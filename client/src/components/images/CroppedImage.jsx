@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-export default function CroppedImage({img, faceLocation, imgWidth=100, padding=100}) {
+export default function CroppedImage({img, faceLocation, imgWidth=100, padding=100, classes=null}) {
   const [top_x, top_y, bottom_x, bottom_y, width, height] = faceLocation;
 
   const _width = Math.abs( top_x - bottom_x );
@@ -17,25 +17,24 @@ export default function CroppedImage({img, faceLocation, imgWidth=100, padding=1
   }, [faceLocation])
 
   return(
-    <React.Fragment>
-      <div
+    <div
+      className={classes ? classes.croppedImg : null}
+      style={{
+        width: `${imgWidth}px`,
+        height: `${imgWidth}px`,
+        borderRadius: "5%",
+        overflow: "hidden",
+      }}
+    >
+      <img 
         style={{
-          width: `${imgWidth}px`,
-          height: `${imgWidth}px`,
-          borderRadius: "5%",
-          overflow: "hidden",
+          width: `${oWidth}px`,
+          marginLeft: `-${xOffset}px`,
+          marginTop: `-${yOffset}px`,
         }}
-      >
-        <img 
-          style={{
-            width: `${oWidth}px`,
-            marginLeft: `-${xOffset}px`,
-            marginTop: `-${yOffset}px`,
-          }}
-          src={img} 
-          alt=""
-        />
-      </div>
-    </React.Fragment>
+        src={img} 
+        alt=""
+      />
+    </div>
   )
 }

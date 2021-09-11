@@ -1,7 +1,7 @@
 type_defs = """
 type Query {
     photo(photoId: ID!): Photo!
-    photos(page: Int): PhotoPagination!
+    photos(page: Int, profileId: ID): PhotoPagination!
     profile(profileId: ID!): Profile!
     profiles(page: Int, perPage: Int): ProfilePagination!
     identifyFace(faceId: ID!): [IdentifyFaceResult]!
