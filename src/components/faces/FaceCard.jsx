@@ -58,7 +58,7 @@ export default function FaceCard({index, img, face, selected, onClick}) {
       }
     }
 
-  }, [status]);
+  }, [status, face]);
 
   useEffect(() => {
     if (matchResults && matchResults.length > 0) {
@@ -70,7 +70,7 @@ export default function FaceCard({index, img, face, selected, onClick}) {
       // No results matched.
       setStatus('matched');
     }
-  }, [matchResults]);
+  }, [matchResults, profile]);
 
   useEffect(() => {
     console.log("profile updated", profile);

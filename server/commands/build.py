@@ -20,7 +20,7 @@ def windows(build_react, clean):
         os.system("cd client & yarn build")
 
     # Configure pyinstaller parameters
-    configs = ["wsgi.spec"]
+    configs = ["wsgi.spec", "--workpath", "./pyinstaller_build"]
     if clean:
         configs.append("--clean")
 

@@ -50,7 +50,7 @@ export default function ProfileCards({face, matchResults}) {
     if (face && !profile) {
       setProfile(face.face.profile);
     }
-  }, [face.face.profile])
+  }, [face, profile])
 
   console.debug("Profile", profile);
 
