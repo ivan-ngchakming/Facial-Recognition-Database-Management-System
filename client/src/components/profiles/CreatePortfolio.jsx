@@ -29,13 +29,13 @@ export default function CreatePortfolio({callback, faceId}) {
       <Typography variant="h6" align='center'>
         Create New Portfolio
       </Typography>
-      
+
       <Formik
         initialValues={{
           name: ''
         }}
         validationSchema={Yup.object().shape({
-          
+
         })}
         onSubmit={({ name }, { setStatus, resetForm }) => {
           console.debug("Submitted form", name);
@@ -74,8 +74,8 @@ export default function CreatePortfolio({callback, faceId}) {
               </Grid>
             </Grid>
             <div className={classes.btnWrapper}>
-              <Button 
-                variant="contained" 
+              <Button
+                variant="contained"
                 color="primary"
                 className={classes.btn}
                 onClick={handleSubmit}

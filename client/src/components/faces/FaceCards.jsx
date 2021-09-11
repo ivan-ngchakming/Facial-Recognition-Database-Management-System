@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 export default function FaceCards({img, data, onClick}) {
   const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  
+
   const handleClick = (face, matchResults, index) => {
     onClick(face, matchResults);
     setSelectedIndex(index)
@@ -32,7 +32,7 @@ export default function FaceCards({img, data, onClick}) {
       <List>
         {data.map((face, index) => (
           <React.Fragment>
-          <FaceCard 
+          <FaceCard
             index={index}
             face={face}
             img={img}

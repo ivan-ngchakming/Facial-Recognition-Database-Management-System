@@ -17,7 +17,7 @@ export default function Gallery({images}) {
         <Grid container justifyContent="center" spacing={2}>
           {images && images.map((image, index) => (
             <Grid key={index} item>
-              <Image 
+              <Image
                 image={image}
                 redirect
               />

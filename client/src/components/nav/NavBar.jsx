@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   menuBtn: {
-    
+
   },
   hide: {
     display: 'none',
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'right',
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
-  }, 
+  },
   drawerCloseBtn: {
     float: "right"
   },
@@ -111,12 +111,12 @@ export default function NavBar({children}) {
 
   return(
     <div className={classes.root}>
-      <AppBar 
+      <AppBar
         position="fixed"
         className={clsx(classes.appBar, {[classes.appBarShift]: open})}
       >
         <Toolbar>
-          <IconButton 
+          <IconButton
             edge="start"
             className={clsx(classes.menuBtn, {[classes.hide]: open})}
             color="inherit"
@@ -148,8 +148,8 @@ export default function NavBar({children}) {
 
         <List>
           {menuData.map((page, index) => (
-            <ListItem 
-              button 
+            <ListItem
+              button
               onClick={() => {handleNavClick(page)}}
               key={page.url}
             >
@@ -157,7 +157,7 @@ export default function NavBar({children}) {
             </ListItem>
           ))}
         </List>
-        
+
       </Drawer>
       <main
         className={clsx(classes.content, {[classes.contentShift]: open})}
@@ -165,8 +165,7 @@ export default function NavBar({children}) {
         <div className={classes.drawerHeader} />
         {children}
       </main>
-      
+
     </div>
   )
 }
-

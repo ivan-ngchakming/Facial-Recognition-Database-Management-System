@@ -13,6 +13,7 @@ query = QueryType()
 
 PHOTOS_PER_PAGE = 20
 
+
 @query.field("photo")
 @convert_kwargs_to_snake_case
 def resolve_photo(_, info, photo_id):
@@ -26,17 +27,17 @@ def resolve_photos(_, info, page=None, profile_id=None):
 
     if profile_id is not None:
         query = query.join(Photo.faces)
-        query = query.filter(Face.profile_id==profile_id)
+        query = query.filter(Face.profile_id == profile_id)
 
     if page is None:
-        return {'photos': query.all()}
+        return {"photos": query.all()}
     else:
         count = query.count()
         pages = math.ceil(count / PHOTOS_PER_PAGE)
         if page > pages:
             raise Exception(f"Page {page} out of range, there are only {pages} pages.")
-        photos = query.offset((page-1)*PHOTOS_PER_PAGE).limit(PHOTOS_PER_PAGE).all()
-        return {'pages': pages, 'count': count, 'photos': photos}
+        photos = query.offset((page - 1) * PHOTOS_PER_PAGE).limit(PHOTOS_PER_PAGE).all()
+        return {"pages": pages, "count": count, "photos": photos}
 
 
 @query.field("profile")
@@ -51,14 +52,14 @@ def resolve_profiles(_, info, page=None, per_page=10):
     query = Profile.query
 
     if page is None:
-        return {'profiles': query.all()}
+        return {"profiles": query.all()}
     else:
         count = query.count()
         pages = math.ceil(count / per_page)
         if page > pages:
             raise Exception(f"Page {page} out of range, there are only {pages} pages.")
-        photos = query.offset((page-1)*per_page).limit(per_page).all()
-        return {'pages': pages, 'count': count, 'profiles': photos}
+        photos = query.offset((page - 1) * per_page).limit(per_page).all()
+        return {"pages": pages, "count": count, "profiles": photos}
 
 
 @query.field("identifyFace")
@@ -69,15 +70,15 @@ def resolve_identify_face(_, info, face_id):
         face_obj = Face.query.get(face_id)
         encoding_to_check = face_obj.encoding
         scores = []
-        
+
         for profile in profiles:
             if len(profile.faces) > 0:
                 known_encodings = [face.encoding for face in profile.faces]
                 distances = cosine_similarity_batch(encoding_to_check, known_encodings)
-                score =  sum(distances) / len(distances)
-                scores.append({'id': profile.id, 'score': score})
+                score = sum(distances) / len(distances)
+                scores.append({"id": profile.id, "score": score})
 
-        scores.sort(key=lambda x: x['score'])  # Sort by score
+        scores.sort(key=lambda x: x["score"])  # Sort by score
         scores = scores[::-1]
         logger.info(f"All profiles compared, final score: {scores}")
 

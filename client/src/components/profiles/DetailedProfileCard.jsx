@@ -29,14 +29,14 @@ export default function DetailedProfileCard({profile}) {
       <Typography variant='h6' align='center'>
         {profile.name}
       </Typography>
-      
+
       { profile.thumbnail && (
         <div className={classes.imgWrapper}>
           <CroppedImage
             img={`/api/image/${profile.thumbnail.photo.id}`}
-            faceLocation={ 
+            faceLocation={
               [
-                ...profile.thumbnail.location, 
+                ...profile.thumbnail.location,
                 profile.thumbnail.photo.width,
                 profile.thumbnail.photo.height,
               ]
@@ -45,8 +45,8 @@ export default function DetailedProfileCard({profile}) {
         </div>
       )}
       <div className={classes.btnWrapper}>
-        <Button 
-          variant="contained" 
+        <Button
+          variant="contained"
           color="primary"
           className={classes.btn}
           onClick={handleViewProfile}
@@ -55,7 +55,7 @@ export default function DetailedProfileCard({profile}) {
           View Profile
         </Button>
       </div>
-      
+
       <Typography variant='body2' align='right'>
         Profile ID: {profile.id}
       </Typography>

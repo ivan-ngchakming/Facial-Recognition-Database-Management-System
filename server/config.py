@@ -17,7 +17,7 @@ class Config(object):
     else:
         SQLALCHEMY_DATABASE_URI = "sqlite:///../FRDMS.db"
         DATABASE_PATH = f"{BASE_DIR}/../FRDMS.db"
-    
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     MIGRATION_DIR = BASE_DIR + "/migrations"

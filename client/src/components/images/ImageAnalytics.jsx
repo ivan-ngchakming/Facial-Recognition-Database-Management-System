@@ -70,14 +70,14 @@ export default function ImageAnalytics({image, data, callback}) {
           </Grid>
         </Zoom>
         <Zoom in style={{transitionDelay: '10ms'}}>
-        <Grid 
-          item xs={12} 
-          md={4} 
+        <Grid
+          item xs={12}
+          md={4}
           style={{maxHeight: imgGridHeight}}
         >
           <Paper className={classes.result} >
             {`${data.length} face${data.length > 1? 's':''} found`}
-            <FaceCards 
+            <FaceCards
               img={image}
               data={data}
               onClick={handleFaceClick}
@@ -88,7 +88,7 @@ export default function ImageAnalytics({image, data, callback}) {
         <Zoom in style={{transitionDelay: '20ms'}}>
         <Grid item xs={12} md={4}>
           <Paper className={classes.result}>
-            
+
             <Typography>
               {selectedFace ? (
                 <ProfileCards
@@ -98,7 +98,7 @@ export default function ImageAnalytics({image, data, callback}) {
               ):(
                 "Select a face"
               )}
-              
+
             </Typography>
           </Paper>
         </Grid>

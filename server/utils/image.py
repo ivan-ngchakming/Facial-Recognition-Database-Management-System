@@ -13,7 +13,6 @@ def decode_img(img_base64):
 def img_arr_to_file(img_arr):
     img_io = io.BytesIO()
     pil_img = Image.fromarray(img_arr)
-    pil_img.save(img_io, 'JPEG', quality=70)
+    pil_img.save(img_io, "JPEG", quality=70)
     img_io.seek(0)
     return img_io
-    

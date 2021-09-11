@@ -14,7 +14,7 @@ from .faces.arcface import face_app
 from .utils.image import img_arr_to_file
 from .utils.logging import get_console_handler
 
-app = Flask(__name__, static_folder='../client/build/', static_url_path='/')
+app = Flask(__name__, static_folder="../client/build/", static_url_path="/")
 CORS(app, resources=r"/api/*", origins="http://localhost:3000")
 app.config.from_object(Config)
 
@@ -34,7 +34,7 @@ app.logger.setLevel(logging.DEBUG)
 db.init_app(app)
 
 # Setup migration
-migrate = Migrate(app, db, directory=app.config['MIGRATION_DIR'])
+migrate = Migrate(app, db, directory=app.config["MIGRATION_DIR"])
 
 # Load face recognition models
 face_app.init_models()
@@ -42,12 +42,12 @@ face_app.init_models()
 
 @app.route("/")
 def react_app():
-    return app.send_static_file('index.html')
+    return app.send_static_file("index.html")
 
 
 @app.route("/graphql", methods=["GET", "POST"])
 def graphql():
-    if request.method == 'GET':
+    if request.method == "GET":
         return PLAYGROUND_HTML, 200
     else:
         # GraphQL queries are always sent as POST
@@ -56,10 +56,7 @@ def graphql():
         # Note: Passing the request to the context is optional.
         # In Flask, the current request is always accessible as flask.request
         success, result = graphql_sync(
-            schema,
-            data,
-            context_value=request,
-            debug=app.debug,
+            schema, data, context_value=request, debug=app.debug
         )
 
         status_code = 200 if success else 400
@@ -76,13 +73,13 @@ def post_image(id):
     """ post image and return the response """
     img_arr = Photo.query.get(id).array
     img = img_arr_to_file(img_arr)
-    return send_file(img, mimetype='image/jpeg')
+    return send_file(img, mimetype="image/jpeg")
 
 
 @app.errorhandler(404)
 def not_found(e):
     """Redirect any 404 errors to be handled by React app"""
-    return app.send_static_file('index.html')
+    return app.send_static_file("index.html")
 
 
 # Register CLI Groups
@@ -95,13 +92,11 @@ app.cli.add_command(dev_cli)
 
 @app.shell_context_processor
 def make_shell_context():
-    return {
-        'db': db,
-    }
+    return {"db": db}
 
 
 with app.test_request_context():
-    db_path = app.config['DATABASE_PATH']
+    db_path = app.config["DATABASE_PATH"]
     if not os.path.isfile(db_path):
         app.logger.info("Database not found, creating ...")
         db.create_all()

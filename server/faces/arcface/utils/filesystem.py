@@ -6,9 +6,9 @@ import os.path
 import errno
 
 
-def get_model_dir(name, root='~/.insightface'):
+def get_model_dir(name, root="~/.insightface"):
     root = os.path.expanduser(root)
-    model_dir = os.path.join(root, 'models', name)
+    model_dir = os.path.join(root, "models", name)
     return model_dir
 
 
@@ -63,7 +63,7 @@ def try_import_cv2():
     msg = "cv2 is required, you can install by package manager, e.g. 'apt-get', \
         or `pip install opencv-python --user` (note that this is unofficial PYPI package)."
 
-    return try_import('cv2', msg)
+    return try_import("cv2", msg)
 
 
 def try_import_mmcv():
@@ -77,7 +77,7 @@ def try_import_mmcv():
     msg = "mmcv is required, you can install by first `pip install Cython --user` \
         and then `pip install mmcv --user` (note that this is unofficial PYPI package)."
 
-    return try_import('mmcv', msg)
+    return try_import("mmcv", msg)
 
 
 def try_import_rarfile():
@@ -91,7 +91,7 @@ def try_import_rarfile():
     msg = "rarfile is required, you can install by first `sudo apt-get install unrar` \
         and then `pip install rarfile --user` (note that this is unofficial PYPI package)."
 
-    return try_import('rarfile', msg)
+    return try_import("rarfile", msg)
 
 
 def import_try_install(package, extern_url=None):
@@ -124,8 +124,7 @@ def import_try_install(package, extern_url=None):
 
         # trying to install package
         url = package if extern_url is None else extern_url
-        pipmain(['install', '--user',
-                 url])  # will raise SystemExit Error if fails
+        pipmain(["install", "--user", url])  # will raise SystemExit Error if fails
 
         # trying to load again
         try:
@@ -133,6 +132,7 @@ def import_try_install(package, extern_url=None):
         except ImportError:
             import sys
             import site
+
             user_site = site.getusersitepackages()
             if user_site not in sys.path:
                 sys.path.append(user_site)
@@ -144,7 +144,7 @@ def try_import_dali():
     """Try import NVIDIA DALI at runtime.
     """
     try:
-        dali = __import__('nvidia.dali', fromlist=['pipeline', 'ops', 'types'])
+        dali = __import__("nvidia.dali", fromlist=["pipeline", "ops", "types"])
         dali.Pipeline = dali.pipeline.Pipeline
     except ImportError:
 
@@ -160,17 +160,29 @@ def try_import_dali():
 
 def list_files(path, is_abs=False, recursive=True, name_only=False):
     if recursive:
-        files = [os.path.join(path, f) for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
-        dirpaths = [os.path.join(path, f) for f in os.listdir(path) if not os.path.isfile(os.path.join(path, f))]
+        files = [
+            os.path.join(path, f)
+            for f in os.listdir(path)
+            if os.path.isfile(os.path.join(path, f))
+        ]
+        dirpaths = [
+            os.path.join(path, f)
+            for f in os.listdir(path)
+            if not os.path.isfile(os.path.join(path, f))
+        ]
         for dirpath in dirpaths:
             files += list_files(dirpath, is_abs=is_abs, recursive=recursive)
     else:
-        files = [os.path.join(path, f) for f in os.path.listdir(path) if os.path.isfile(os.path.join(path, f))]
-    
+        files = [
+            os.path.join(path, f)
+            for f in os.path.listdir(path)
+            if os.path.isfile(os.path.join(path, f))
+        ]
+
     if is_abs:
         files = [os.path.abspath(f) for f in files]
 
     if name_only:
         files = [os.path.basename(f) for f in files]
-    
+
     return files

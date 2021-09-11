@@ -51,10 +51,10 @@ export default function Image({image, height=300, hover, redirect}) {
       history.push(`/facial-recognition?id=${image.id}`);
     }
   }
-  
+
   return (
     <React.Fragment>
-      <Card 
+      <Card
         className={classes.card}
         onMouseOver={showOptions}
         onMouseOut={hideOptions}
@@ -82,7 +82,7 @@ export default function Image({image, height=300, hover, redirect}) {
         ) : (
           <Avatar variant="square" style={{height: height, width: height}}/>
         )}
-        
+
       </Card>
     </React.Fragment>
   )

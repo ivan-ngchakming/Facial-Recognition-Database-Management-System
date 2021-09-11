@@ -17,7 +17,8 @@ def cosine_similarity_batch(unknown_face, known_faces):
     known_faces = np.array(known_faces)
 
     score = (unknown_faces * known_faces).sum(axis=1) / (
-        np.repeat(np.linalg.norm(unknown_face), len(known_faces)) * np.linalg.norm(known_faces, axis=1)
+        np.repeat(np.linalg.norm(unknown_face), len(known_faces))
+        * np.linalg.norm(known_faces, axis=1)
     )
     return score
 

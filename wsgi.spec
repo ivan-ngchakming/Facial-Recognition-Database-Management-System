@@ -49,7 +49,7 @@ a.binaries += TOC([
 
 
 pyz = PYZ(
-	a.pure, 
+	a.pure,
 	a.zipped_data,
     cipher=block_cipher
 )
