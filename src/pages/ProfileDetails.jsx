@@ -104,18 +104,21 @@ class ProfileDetails extends Component {
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
                   <Card className={classes.card}>
-                    <CroppedImage
-                      imgWidth={250}
-                      classes={classes}
-                      img={`/api/image/${profile.thumbnail.photo.id}`}
-                      faceLocation={
-                        [
-                          ...profile.thumbnail.location,
-                          profile.thumbnail.photo.width,
-                          profile.thumbnail.photo.height,
-                        ]
-                      }
-                    />
+                    {profile.thumbnail.photo && (
+                      <CroppedImage
+                        imgWidth={250}
+                        classes={classes}
+                        img={`/api/image/${profile.thumbnail.photo.id}`}
+                        faceLocation={
+                          [
+                            ...profile.thumbnail.location,
+                            profile.thumbnail.photo.width,
+                            profile.thumbnail.photo.height,
+                          ]
+                        }
+                      />
+                    ) }
+
 
                     <div className={classes.details}>
                       <Typography variant="h2">

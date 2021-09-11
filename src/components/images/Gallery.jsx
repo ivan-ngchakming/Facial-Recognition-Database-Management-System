@@ -3,8 +3,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { Checkbox, Grid, Toolbar, IconButton, Typography } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete';
 import Image from './Image';
-
-
+import { DELETE_PHOTOS as DELETE_PHOTOS_GQL_M } from '../../graphql/mutation';
+import { graphqlQuery } from "../../graphql";
 
 const styles = (theme) => ({
   root: {
@@ -51,6 +51,14 @@ class Gallery extends Component {
     }
   }
 
+  handleDelete = () => {
+    console.debug("Deleting selected images: ", this.state.selected);
+    graphqlQuery(DELETE_PHOTOS_GQL_M, {ids: this.state.selected}).then(res => {
+      console.debug(res);
+      this.props.onChange();
+    })
+  }
+
   render() {
     const { classes, images } = this.props;
     const { selected } = this.state;
@@ -80,7 +88,7 @@ class Gallery extends Component {
                   {selected.length} Image{selected.length > 1 ? 's' : null } selected
                 </Typography>
                 <IconButton
-                  // onClick={handleMenu}
+                  onClick={this.handleDelete}
                   color="inherit"
                 >
                   <DeleteIcon />
