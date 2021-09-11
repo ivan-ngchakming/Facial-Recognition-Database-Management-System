@@ -43,7 +43,7 @@ Download FRDMS.db and place it in the same directory as FRDMS.exe to use a sampl
 
 Find a face match by supplying an input image, and the system will search the database to locate possible matches
 
-1. face identification
+1. face identification (Done)
 
     Classifies a face to a specific identity selected from existing profile in the database
 
@@ -51,6 +51,10 @@ Find a face match by supplying an input image, and the system will search the da
 
     Determine whether a pair of faces belongs to the same identity
     so un-identified faces can be grouped together
+
+3. Batch processing
+
+    To perform the 2 task above in batch.
 
 ### Web Crawling (To-do)
 
