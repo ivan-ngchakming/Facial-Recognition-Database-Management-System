@@ -14,7 +14,7 @@ from .faces.arcface import face_app
 from .utils.image import img_arr_to_file
 from .utils.logging import get_console_handler
 
-app = Flask(__name__, static_folder="../client/build/", static_url_path="/")
+app = Flask(__name__, static_folder="../build/", static_url_path="/")
 CORS(app, resources=r"/api/*", origins="http://localhost:3000")
 app.config.from_object(Config)
 
