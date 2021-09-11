@@ -58,7 +58,7 @@ export default function FaceCard({index, img, face, selected, onClick}) {
       }
     }
 
-  }, [status, face]);
+  }, [status, face.face]);
 
   useEffect(() => {
     if (matchResults && matchResults.length > 0) {
