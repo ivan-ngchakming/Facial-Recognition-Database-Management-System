@@ -1,4 +1,4 @@
-import { Paper, Grid, Card, Container, Typography } from "@material-ui/core";
+import { Paper, Grid, Card, Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import React, { Component } from "react";
 import { graphqlQuery } from "../graphql";

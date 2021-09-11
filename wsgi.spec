@@ -8,24 +8,23 @@ from PyInstaller.building.datastruct import TOC
 block_cipher = None
 
 binaries = [
-    ('./face_recognition_models/models/antelopev2/1k3d68.onnx',
-     './face_recognition_models/models/antelopev2'),
-    ('./face_recognition_models/models/antelopev2/2d106det.onnx',
-     './face_recognition_models/models/antelopev2'),
-    ('./face_recognition_models/models/antelopev2/genderage.onnx',
-     './face_recognition_models/models/antelopev2'),
-    ('./face_recognition_models/models/antelopev2/glintr100.onnx',
-     './face_recognition_models/models/antelopev2'),
-    ('./face_recognition_models/models/antelopev2/scrfd_10g_bnkps.onnx',
-     './face_recognition_models/models/antelopev2'),
+    ('./assets/models/antelopev2/1k3d68.onnx',
+     './assets/models/antelopev2'),
+    ('./assets/models/antelopev2/2d106det.onnx',
+     './assets/models/antelopev2'),
+    ('./assets/models/antelopev2/genderage.onnx',
+     './assets/models/antelopev2'),
+    ('./assets/models/antelopev2/glintr100.onnx',
+     './assets/models/antelopev2'),
+    ('./assets/models/antelopev2/scrfd_10g_bnkps.onnx',
+     './assets/models/antelopev2'),
 ]
 
 a = Analysis(
 	['wsgi.py'],
-	pathex=['C:/ComputerScience/web/facial-recognition'],
 	binaries=binaries,
 	datas=[
-		('client/build/', 'client/build/'),
+		('build/', 'build/'),
 	],
     hiddenimports=[],
     hookspath=[],
@@ -42,7 +41,7 @@ a = Analysis(
 a.binaries += TOC([
     (
         "onnxruntime.capi.onnxruntime_providers_shared",
-        "C:/Users/ivanm/.virtualenvs/facial-recognition-6HdtIpUU/Lib/site-packages/onnxruntime/capi/onnxruntime_providers_shared.dll",
+        "./assets/onnxruntime_providers_shared.dll",
         "EXTENSION"
     ),
 ])
@@ -71,5 +70,5 @@ exe = EXE(
 	target_arch=None,
 	codesign_identity=None,
 	entitlements_file=None,
-	icon='client/build/favicon.ico'
+	icon='build/favicon.ico'
 )

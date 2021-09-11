@@ -9,6 +9,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+pyinstaller_build/
 develop-eggs/
 dist/
 downloads/
@@ -259,6 +260,6 @@ dist
 
 
 # FRDMS
-face_recognition_models
+assets/models
 tmp
 *.db
