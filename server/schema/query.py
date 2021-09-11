@@ -20,8 +20,13 @@ def resolve_photo(_, info, photo_id):
 
 
 @query.field("photos")
-def resolve_photos(_, info, page=None):
+@convert_kwargs_to_snake_case
+def resolve_photos(_, info, page=None, profile_id=None):
     query = Photo.query
+
+    if profile_id is not None:
+        query = query.join(Photo.faces)
+        query = query.filter(Face.profile_id==profile_id)
 
     if page is None:
         return {'photos': query.all()}
