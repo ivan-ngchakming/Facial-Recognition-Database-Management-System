@@ -33,15 +33,21 @@ export const theme = createTheme({
   palette: {
     primary: {
       // light: will be calculated from palette.primary.main,
-      main: colorScheme['Black Coral']
+      main: colorScheme['Manatee']  // #5c677d
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
     },
     secondary: {
-      main: colorScheme['Independence'],
+      main: colorScheme['Independence'],  // #33415c
+    },
+    info: {
+      main: colorScheme['USAFA Blue'],  // #0353a4
     },
     background: {
-      main: colorScheme['Manatee'],
+      main: colorScheme['Manatee'],  // #979dac
+    },
+    selected: {
+      main: "rgb(230, 232, 235)",
     },
     white: "#FFFFFF",
   }

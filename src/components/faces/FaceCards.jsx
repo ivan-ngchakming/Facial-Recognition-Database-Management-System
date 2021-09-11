@@ -33,7 +33,7 @@ export default function FaceCards({img, data, onClick}) {
         {data.map((face, index) => (
           <React.Fragment>
           <FaceCard
-            index={index}
+            key={index}
             face={face}
             img={img}
             selected={index === selectedIndex}
