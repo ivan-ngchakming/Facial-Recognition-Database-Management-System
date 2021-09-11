@@ -8,8 +8,8 @@ import click
 cli = AppGroup('build', short_help="Building the application")
 
 @cli.command()
-@click.option('-r', '--build-react', is_flag=True, default=True)
-@click.option('-c', '--clean', is_flag=True, default=True)
+@click.option('-r', '--build-react', is_flag=True, default=False)
+@click.option('-c', '--clean', is_flag=True, default=False)
 def windows(build_react, clean):
     import PyInstaller.__main__
 
