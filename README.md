@@ -10,6 +10,15 @@ Powered by python, dlib and react, and packaged into a single executable that ca
 
 ![Demo](./docs/demo.gif)
 
+## Usage
+
+Download the latest release from the [right side bar](https://github.com/ivan0313/Facial-Recognition-Database-Management-System/releases).
+
+Please note that the current release works on windows only,
+download [Visual C++ Redistributable for Visual Studio 2019](https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0) for FRDMS to work properly.
+
+Download FRDMS.db and place it in the same directory as FRDMS.exe to use a sample starter database. Or start FRDMS.exe directly to create a blank database.
+
 ## Pages
 
 ### Facial Recognition
