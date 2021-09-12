@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Image({image, height=300, hover, redirect, selected, onCheck, selectMode=false}) {
+export default function Image({image, height=300, hover, redirect, selected, onCheck, selectMode=false, imgHash}) {
   const classes = useStyles();
   const history = useHistory();
   const canvasRef = useRef(null);
@@ -74,7 +74,7 @@ export default function Image({image, height=300, hover, redirect, selected, onC
     const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");
       var imageObj = document.createElement('img')
-      imageObj.src = `${image.source}?${Date.now()}`;
+      imageObj.src = `${image.source}?${imgHash}`;
 
       imageObj.onload = () => {
         setCanvasHeight(Math.min(imageObj.width, imageObj.height))
@@ -91,7 +91,7 @@ export default function Image({image, height=300, hover, redirect, selected, onC
         setImageBrightness(getCornerBrightness(ctx, canvas));
       };
 
-  }, [image]);
+  }, [image, imgHash]);
 
   // Hide checkbox when selectMode is disabled
   useEffect(() => {

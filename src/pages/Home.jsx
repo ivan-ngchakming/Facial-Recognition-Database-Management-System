@@ -29,7 +29,7 @@ class Home extends Component {
           <h1>Facial Recognition Database Management System</h1>
           <Grid container className={classes.root} spacing={2}>
             { SITEMAP.filter(page => page.category !== "Home").map(page => (
-              <Grid item xs={4} sm={12} md={6}>
+              <Grid item xs={4} sm={12} md={6} lg={4}>
                 <PageCard page={page} />
               </Grid>
             ))}
