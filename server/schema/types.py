@@ -15,7 +15,7 @@ type Mutation {
 }
 
 type Profile {
-    id: ID!
+    id: Int!
     name: String
     facesCount: Int
     thumbnail: Face
@@ -29,7 +29,7 @@ type ProfilePagination {
 }
 
 type Photo {
-    id: ID!
+    id: Int!
     width: Int!
     height: Int!
     array: String!

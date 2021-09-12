@@ -50,9 +50,7 @@ class Face(db.Model):
 
     # Many-to-one relationship
     photo_id = db.Column(db.Integer, db.ForeignKey("photo.id"))
-    photo = db.relationship(
-        "Photo", uselist=False, backref=db.backref("faces", cascade="all,delete")
-    )
+    photo = db.relationship("Photo", uselist=False)
 
     def __repr__(self):
         if self.profile is None:
@@ -68,6 +66,8 @@ class Photo(db.Model):
     array = db.Column(db.PickleType, unique=True)
     width = db.Column(db.Integer, nullable=False)
     height = db.Column(db.Integer, nullable=False)
+
+    faces = db.relationship("Face", cascade="all,delete,delete-orphan")
 
     def __init__(self, image, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
