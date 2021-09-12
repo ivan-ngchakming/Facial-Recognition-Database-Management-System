@@ -74,7 +74,7 @@ export default function Image({image, height=300, hover, redirect, selected, onC
     const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");
       var imageObj = document.createElement('img')
-      imageObj.src = image.source;
+      imageObj.src = `${image.source}?${Date.now()}`;
 
       imageObj.onload = () => {
         setCanvasHeight(Math.min(imageObj.width, imageObj.height))
@@ -125,7 +125,6 @@ export default function Image({image, height=300, hover, redirect, selected, onC
             <canvas
               ref={canvasRef}
               className={classes.img}
-              src={image.source}
               style={{
                 opacity: imageOpacity,
                 height: height,

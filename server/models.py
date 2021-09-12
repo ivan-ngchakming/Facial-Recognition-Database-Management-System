@@ -1,7 +1,7 @@
-from server.faces.arcface.model_zoo import landmark
 import numpy as np
 import PIL
 import cv2
+from sqlalchemy.orm import backref
 
 from .database import db
 from .faces.arcface import face_app
@@ -50,7 +50,11 @@ class Face(db.Model):
 
     # Many-to-one relationship
     photo_id = db.Column(db.Integer, db.ForeignKey("photo.id"))
-    photo = db.relationship("Photo", uselist=False)
+    photo = db.relationship(
+        "Photo",
+        uselist=False,
+        backref=backref("faces", cascade="all,delete,delete-orphan")
+    )
 
     def __repr__(self):
         if self.profile is None:
@@ -67,7 +71,7 @@ class Photo(db.Model):
     width = db.Column(db.Integer, nullable=False)
     height = db.Column(db.Integer, nullable=False)
 
-    faces = db.relationship("Face", cascade="all,delete,delete-orphan")
+    # faces = db.relationship("Face", cascade="all,delete,delete-orphan")
 
     def __init__(self, image, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -86,16 +90,6 @@ class Photo(db.Model):
                 encoding=arcface.embedding,
             )
             self.faces.append(face)
-
-        # face_locations = face_recognition.face_locations(self.array)
-        # face_landmarks = face_recognition.face_landmarks(self.array)
-        # face_encodings = face_recognition.face_encodings(self.array)
-
-        # face_info = list(zip(face_locations, face_landmarks, face_encodings))
-        # print(f"{len(face_info)} faces found in image")
-        # for location, landmarks, encoding in face_info:
-        # 	face = Face(location=location, landmarks=landmarks, encoding=encoding)
-        # 	self.faces.append(face)
 
     @property
     def image(self):

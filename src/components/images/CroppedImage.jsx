@@ -28,7 +28,7 @@ export default function CroppedImage({img, faceLocation, imgWidth=100, padding=1
           marginLeft: `-${xOffset}px`,
           marginTop: `-${yOffset}px`,
         }}
-        src={img}
+        src={`${img}?${Date.now()}`}
         alt=""
       />
     </div>

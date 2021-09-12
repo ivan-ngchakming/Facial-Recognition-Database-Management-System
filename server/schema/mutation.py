@@ -31,6 +31,7 @@ def resolve_photo(_, info, ids):
     if ids:
         logger.debug(f"ids not empty")
         Photo.query.filter(Photo.id.in_(ids)).delete()
+        Face.query.filter(Face.photo_id.in_(ids)).delete()
         db.session.commit()
 
     return ids

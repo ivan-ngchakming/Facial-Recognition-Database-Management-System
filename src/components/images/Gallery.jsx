@@ -109,21 +109,28 @@ class Gallery extends Component {
             ) }
           </Grid>
 
-          <Grid item xs={12}>
-            <Grid container justifyContent="center" spacing={2}>
-              {images && images.map((image, index) => (
-                <Grid key={index} item>
-                  <Image
-                    image={image}
-                    onCheck={this.handleCheckImage}
-                    redirect={selected.length === 0}
-                    hover
-                    selected={selected.includes(image.id)}
-                    selectMode={selected.length > 0}
-                  />
-                </Grid>
-              ))}
-            </Grid>
+          <Grid container xs={12} justifyContent="center" spacing={2}>
+            {/* <Grid container justifyContent="flex-start" spacing={2}> */}
+              {images && (
+                images.map((image, index) => (
+                  <Grid key={index} item>
+                    <Image
+                      image={image}
+                      height={300}
+                      onCheck={this.handleCheckImage}
+                      redirect={selected.length === 0}
+                      hover
+                      selected={selected.includes(image.id)}
+                      selectMode={selected.length > 0}
+                    />
+                  </Grid>))
+              )}
+
+              {images && images.length === 0 && (
+                "No Images"
+              )
+              }
+            {/* </Grid> */}
           </Grid>
         </Grid>
 
@@ -138,9 +145,6 @@ class Gallery extends Component {
           message={deleteMsg}
           action={
             <React.Fragment>
-              <Button color="secondary" size="small" onClick={this.handleCloseDeleteSnackbar}>
-                UNDO
-              </Button>
               <IconButton size="small" aria-label="close" color="inherit" onClick={this.handleCloseDeleteSnackbar}>
                 <CloseIcon fontSize="small" />
               </IconButton>
