@@ -34,7 +34,7 @@ def resolve_photos(_, info, page=None, profile_id=None):
     else:
         count = query.count()
         pages = math.ceil(count / PHOTOS_PER_PAGE)
-        if page > pages:
+        if page > pages and pages != 0:
             raise Exception(f"Page {page} out of range, there are only {pages} pages.")
         photos = query.offset((page - 1) * PHOTOS_PER_PAGE).limit(PHOTOS_PER_PAGE).all()
         return {"pages": pages, "count": count, "photos": photos}

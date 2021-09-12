@@ -31,16 +31,16 @@ export default function FaceCards({img, data, onClick}) {
     <div className={classes.root}>
       <List>
         {data.map((face, index) => (
-          <React.Fragment>
-          <FaceCard
-            index={index}
-            face={face}
-            img={img}
-            selected={index === selectedIndex}
-            onClick={handleClick}
-          />
-          {(index < data.length-1) && <Divider key={`divider-${index}`} variant="fullWidth" component="li" />}
-          </React.Fragment>
+          <div key={index}>
+            <FaceCard
+              index={index}
+              face={face}
+              img={img}
+              selected={index === selectedIndex}
+              onClick={handleClick}
+            />
+            {(index < data.length-1) && <Divider variant="fullWidth" component="li" />}
+          </div>
         ))}
       </List>
     </div>

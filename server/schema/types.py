@@ -9,12 +9,13 @@ type Query {
 
 type Mutation {
     photo(rbytes: String): Photo!
+    deletePhoto(ids: [ID]): [ID]
     profile(_id: ID, name: String, faceIds: [Int], thumbnailId: Int): Profile!
     assignFaceToProfile(faceId: Int!, profileId: Int!): Face!
 }
 
 type Profile {
-    id: ID!
+    id: Int!
     name: String
     facesCount: Int
     thumbnail: Face
@@ -28,7 +29,7 @@ type ProfilePagination {
 }
 
 type Photo {
-    id: ID!
+    id: Int!
     width: Int!
     height: Int!
     array: String!

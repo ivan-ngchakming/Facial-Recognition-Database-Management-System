@@ -7,11 +7,9 @@ import { theme } from './style';
 
 
 ReactDOM.render(
-  <React.StrictMode>
-    <CssBaseline />
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <App />
-    </ThemeProvider>
-  </React.StrictMode>,
+    </ThemeProvider>,
   document.getElementById('root')
 );
