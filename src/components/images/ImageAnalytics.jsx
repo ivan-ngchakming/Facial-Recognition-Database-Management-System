@@ -60,7 +60,7 @@ export default function ImageAnalytics({image, data, callback}) {
     <div>
       <Grid container spacing={4} className={classes.root}>
         <Zoom in >
-          <Grid item xs={12} md={4} className={classes.imgWrapperGrid}>
+          <Grid item xs={4} md={12} sm={12} className={classes.imgWrapperGrid}>
             <ResizeObserver
               onReflow={(rect) => updateImgGridHeight(rect.height)}
             />
@@ -71,8 +71,8 @@ export default function ImageAnalytics({image, data, callback}) {
         </Zoom>
         <Zoom in style={{transitionDelay: '10ms'}}>
         <Grid
-          item xs={12}
-          md={4}
+          item 
+          xs={4} md={6} sm={12}
           style={{maxHeight: imgGridHeight}}
         >
           <Paper className={classes.result} >
@@ -86,7 +86,7 @@ export default function ImageAnalytics({image, data, callback}) {
         </Grid>
         </Zoom>
         <Zoom in style={{transitionDelay: '20ms'}}>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={4} md={6} sm={12}>
           <Paper className={classes.result}>
 
             <Typography>
@@ -103,7 +103,7 @@ export default function ImageAnalytics({image, data, callback}) {
           </Paper>
         </Grid>
         </Zoom>
-        <Grid item xs={12} md={12} className={classes.lowerGrid}>
+        <Grid item xs={12} className={classes.lowerGrid}>
           <Button onClick={resetImage}>
             Analyse New Image
           </Button>

@@ -130,7 +130,7 @@ class ProfileDetails extends Component {
               </Grid>
 
               <Grid item xs={12}>
-                <Gallery images={images} />
+                <Gallery images={images} onChange={() => {this.fetchImages(profile.id)}}/>
               </Grid>
 
             </Grid>
