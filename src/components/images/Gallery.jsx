@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from "@material-ui/core/styles";
-import { Button, Checkbox, Grid, Toolbar, IconButton, Typography, Snackbar } from '@material-ui/core'
+import { Checkbox, Grid, Toolbar, IconButton, Typography, Snackbar } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
 import Image from './Image';
