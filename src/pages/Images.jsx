@@ -69,7 +69,7 @@ class Images extends Component {
             <CircularProgress />
           </div>
         ) : (
-          <Gallery images={images} />
+          <Gallery images={images} onChange={this.queryImages} />
         )}
       </React.Fragment>
     )

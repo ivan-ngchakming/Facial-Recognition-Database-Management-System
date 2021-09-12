@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { useHistory } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
+import { SITEMAP } from "../../constants";
 import clsx from 'clsx';
 import React from "react";
 
@@ -90,25 +91,6 @@ export default function NavBar({children}) {
     history.push(page.url)
   };
 
-  const menuData = [
-    {
-      text: "Home",
-      url: "/",
-    },
-    {
-      text: "Facial Recognition",
-      url: "/facial-recognition",
-    },
-    {
-      text: "Images",
-      url: "/images",
-    },
-    {
-      text: "Profiles",
-      url: "/profiles",
-    }
-  ]
-
   return(
     <div className={classes.root}>
       <AppBar
@@ -147,7 +129,7 @@ export default function NavBar({children}) {
         </div>
 
         <List>
-          {menuData.map((page, index) => (
+          {SITEMAP.map((page, index) => (
             <ListItem
               button
               onClick={() => {handleNavClick(page)}}

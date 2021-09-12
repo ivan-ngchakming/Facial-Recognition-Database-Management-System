@@ -1,5 +1,5 @@
 {
-  "name": "flask-react-example",
+  "name": "facial-recognition-database-management-system",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:5000",

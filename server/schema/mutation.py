@@ -24,6 +24,19 @@ def resolve_photo(_, info, rbytes):
     return photo
 
 
+@mutation.field("deletePhoto")
+@convert_kwargs_to_snake_case
+def resolve_photo(_, info, ids):
+    logger.debug(f"Deleting photos {ids}")
+    if ids:
+        logger.debug(f"ids not empty")
+        Photo.query.filter(Photo.id.in_(ids)).delete()
+        Face.query.filter(Face.photo_id.in_(ids)).delete()
+        db.session.commit()
+
+    return ids
+
+
 @mutation.field("assignFaceToProfile")
 @convert_kwargs_to_snake_case
 def resolve_assign_face_to_profile(_, info, face_id, profile_id):

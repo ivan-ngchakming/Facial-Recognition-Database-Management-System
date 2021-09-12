@@ -30,7 +30,7 @@ export default function DetailedProfileCard({profile}) {
         {profile.name}
       </Typography>
 
-      { profile.thumbnail && (
+      { profile.thumbnail && profile.thumbnail.photo && (
         <div className={classes.imgWrapper}>
           <CroppedImage
             img={`/api/image/${profile.thumbnail.photo.id}`}

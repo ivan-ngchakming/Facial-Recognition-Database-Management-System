@@ -28,6 +28,12 @@ export const PHOTO = `
   }
 `
 
+export const DELETE_PHOTOS = `
+  mutation deletePhotos ($ids: [ID]) {
+    deletePhoto(ids: $ids)
+  }
+`
+
 export const IDENTIFYFACE = `
   mutation identifyFace($faceId: Int!){
     identifyFace(faceId: $faceId) {
