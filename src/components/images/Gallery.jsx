@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withStyles } from "@material-ui/core/styles";
-import { Checkbox, Grid, Toolbar, IconButton, Typography } from '@material-ui/core'
+import { Button, Checkbox, Grid, Toolbar, IconButton, Typography, Snackbar } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete';
+import CloseIcon from '@material-ui/icons/Close';
 import Image from './Image';
 import { DELETE_PHOTOS as DELETE_PHOTOS_GQL_M } from '../../graphql/mutation';
 import { graphqlQuery } from "../../graphql";
@@ -25,6 +26,8 @@ class Gallery extends Component {
     super(props);
     this.state = {
       selected: [],
+      openDeleteSnackbar: false,
+      deleteMsg: null,
     }
   }
 
@@ -54,14 +57,23 @@ class Gallery extends Component {
   handleDelete = () => {
     console.debug("Deleting selected images: ", this.state.selected);
     graphqlQuery(DELETE_PHOTOS_GQL_M, {ids: this.state.selected}).then(res => {
-      console.debug(res);
+      const deletedImgs = res.deletePhoto;
+      this.setState({
+        selected: [], 
+        openDeleteSnackbar: true,
+        deleteMsg: `${deletedImgs.length} images deleted`
+      })
       this.props.onChange();
     })
   }
 
+  handleCloseDeleteSnackbar = () => {
+    this.setState({openDeleteSnackbar: false})
+  }
+
   render() {
     const { classes, images } = this.props;
-    const { selected } = this.state;
+    const { selected, openDeleteSnackbar, deleteMsg } = this.state;
 
     return(
       <React.Fragment>
@@ -114,6 +126,27 @@ class Gallery extends Component {
             </Grid>
           </Grid>
         </Grid>
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={openDeleteSnackbar}
+          autoHideDuration={6000}
+          onClose={this.handleCloseDeleteSnackbar}
+          message={deleteMsg}
+          action={
+            <React.Fragment>
+              <Button color="secondary" size="small" onClick={this.handleCloseDeleteSnackbar}>
+                UNDO
+              </Button>
+              <IconButton size="small" aria-label="close" color="inherit" onClick={this.handleCloseDeleteSnackbar}>
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
       </React.Fragment>
     )
   }

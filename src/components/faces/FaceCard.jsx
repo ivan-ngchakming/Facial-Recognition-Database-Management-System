@@ -40,9 +40,7 @@ export default function FaceCard({index, img, face, selected, onClick}) {
   }
 
   const identifyFace = (faceId) => {
-    console.debug("Identifying face", faceId)
     graphqlQuery(IDENTIFYFACE_GQL_Q, {faceId: faceId}).then(res => {
-      console.debug(res.identifyFace);
       setMatchResults(res.identifyFace);
     }).catch(error => console.log(error));
   }
@@ -72,14 +70,10 @@ export default function FaceCard({index, img, face, selected, onClick}) {
     }
   }, [matchResults, profile]);
 
-  useEffect(() => {
-    console.log("profile updated", profile);
-  }, [profile]);
-
   return (
-    <React.Fragment>
+    <div>
       <ListItem
-        key={`face-${index}`}
+        // key={`face-${index}`}
         button
         onClick={() => {onClick(face, matchResults, index)}}
         className={classes.faceCard}
@@ -186,6 +180,6 @@ export default function FaceCard({index, img, face, selected, onClick}) {
           )}
 
       </ListItem>
-    </React.Fragment>
+    </div>
   )
 }
