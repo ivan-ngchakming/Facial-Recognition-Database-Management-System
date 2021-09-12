@@ -71,7 +71,7 @@ export default function ImageAnalytics({image, data, callback}) {
         </Zoom>
         <Zoom in style={{transitionDelay: '10ms'}}>
         <Grid
-          item 
+          item
           xs={4} md={6} sm={12}
           style={{maxHeight: imgGridHeight}}
         >

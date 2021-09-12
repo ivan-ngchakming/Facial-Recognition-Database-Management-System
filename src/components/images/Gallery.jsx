@@ -28,6 +28,7 @@ class Gallery extends Component {
       selected: [],
       openDeleteSnackbar: false,
       deleteMsg: null,
+      imgHash: Date.now(),
     }
   }
 
@@ -59,9 +60,10 @@ class Gallery extends Component {
     graphqlQuery(DELETE_PHOTOS_GQL_M, {ids: this.state.selected}).then(res => {
       const deletedImgs = res.deletePhoto;
       this.setState({
-        selected: [], 
+        selected: [],
         openDeleteSnackbar: true,
-        deleteMsg: `${deletedImgs.length} images deleted`
+        deleteMsg: `${deletedImgs.length} images deleted`,
+        imgHash: Date.now(),
       })
       this.props.onChange();
     })
@@ -73,7 +75,7 @@ class Gallery extends Component {
 
   render() {
     const { classes, images } = this.props;
-    const { selected, openDeleteSnackbar, deleteMsg } = this.state;
+    const { selected, openDeleteSnackbar, deleteMsg, imgHash } = this.state;
 
     return(
       <React.Fragment>
@@ -116,6 +118,7 @@ class Gallery extends Component {
                   <Grid key={index} item>
                     <Image
                       image={image}
+                      imgHash={imgHash}
                       height={300}
                       onCheck={this.handleCheckImage}
                       redirect={selected.length === 0}

@@ -53,7 +53,7 @@ class Face(db.Model):
     photo = db.relationship(
         "Photo",
         uselist=False,
-        backref=backref("faces", cascade="all,delete,delete-orphan")
+        backref=backref("faces", cascade="all,delete,delete-orphan"),
     )
 
     def __repr__(self):
