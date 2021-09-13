@@ -97,36 +97,3 @@ class Photo(db.Model):
 
     def __repr__(self):
         return f"<Photo {self.id} ({len(self.faces)} faces)>"
-
-
-# # TODO: Refactor models.py into module with tasks and datas
-# class Task(db.Model):
-#     __tablename__ = "task"
-
-#     id = db.Column(db.Integer, primary_key=True)
-#     status = db.Column(db.String(10), default="pending")  # pending, in-progress, done
-
-#     # Many-to-one relationship
-#     collection_id = db.Column(db.Integer, db.ForeignKey("collection.id"))
-#     collection = db.relationship(
-#         "TaskCollection",
-#         uselist=False,
-#         backref=backref("tasks", cascade="all,delete,delete-orphan"),
-#     )
-
-#     __mapper_args__ = {
-#         'polymorphic_identity':'task',
-#         'polymorphic_on':type
-#     }
-
-# class FaceRec(Task):
-#     filepath = db.Column(db.String(300))
-
-#     __mapper_args__ = {
-#         'polymorphic_identity':'manager',
-#     }
-
-# class TaskCollection(db.Model):
-#     __tablename__ = "task_collection"
-
-#     id = db.Column(db.Integer, primary_key=True)
