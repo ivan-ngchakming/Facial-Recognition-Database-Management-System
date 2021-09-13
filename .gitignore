@@ -262,6 +262,9 @@ dist
 .pnp.*
 
 
+# MACOS
+.DS_Store
+
 # FRDMS
 assets/models
 tmp

@@ -1,68 +1,111 @@
-# import random
-# import logging
-# import time
-
-# from tqdm import tqdm
-# from celery import current_app
-# from celery.utils.log import get_task_logger
-
-# from .faces.arcface.utils import cosine_similarity_batch
-# from .models import *
-# from .faces import face_recognition
-
-# logger = get_task_logger(__name__)
-
-# celery_app = current_app._get_current_object()
+from flask import Blueprint, jsonify
+from queue import Queue
+from concurrent.futures import ThreadPoolExecutor
+import uuid
+import time
+import logging
+import heapq
+import threading
 
 
-# @celery_app.task(bind=True)
-# def long_task(self):
-#     """Background task that runs a long function with progress reports."""
-#     verb = ['Starting up', 'Booting', 'Repairing', 'Loading', 'Checking']
-#     adjective = ['master', 'radiant', 'silent', 'harmonic', 'fast']
-#     noun = ['solar array', 'particle reshaper', 'cosmic ray', 'orbiter', 'bit']
-#     message = ''
-#     total = random.randint(10, 20)
-#     for i in range(total):
-#         if not message or random.random() < 0.25:
-#             message = '{0} {1} {2}...'.format(random.choice(verb),
-#                                               random.choice(adjective),
-#                                               random.choice(noun))
-#         logger.info(f"Progress: {i}/{total}")
-#         self.update_state(state='PROGRESS',
-#                           meta={'current': i, 'total': total,
-#                                 'status': message})
-#         time.sleep(1)
-#     return {'current': 100, 'total': 100, 'status': 'Task completed!',
-#             'result': 42}
+logger = logging.getLogger(__name__)
+
+tasks = Blueprint('tasks', __name__)
+
+class PriorityQueue:
+    def __init__(self):
+        self._queue = []
+        self._count = 0
+        self._cv = threading.Condition()
+          
+    def put(self, item, priority):
+        with self._cv:
+            heapq.heappush(self._queue, (-priority, self._count, item))
+            self._count += 1
+            self._cv.notify()
+              
+    def get(self):
+        with self._cv:
+            while len(self._queue) == 0:
+                self._cv.wait()
+            return heapq.heappop(self._queue)[-1]
+
+class TaskManager:
+    def __init__(self) -> None:
+        self.tasks = []
+        self.workers = []
+        self.task_queue = PriorityQueue()
+
+        self.add_worker()
+
+    def add_worker(self):
+        worker = Worker(self.task_queue)
+        self.workers.append(worker)
+
+    def create(self):
+        new_task = Task(long_task)
+        self.tasks.append(new_task)
+        return new_task
+
+    def status(self, task_id):
+        for task in self.tasks:
+            if str(task.id) == task_id:
+                return task.status, task.progress
+        
+        return None, None
 
 
-# @celery_app.task(bind=True)
-# def face_identify(self, face_id):
-#     logger.info("face_identify task called")
-#     self.update_state(state='PROGRESS', meta={'current': -1, 'total': -1})
-#     profiles = Profile.query.all()
-#     face_obj = Face.query.get(face_id)
-#     encoding_to_check = face_obj.encoding
-#     total = len(profiles)
-#     scores = []
+class Task:
+    def __init__(self, func) -> None:
+        self.id = uuid.uuid4()
+        self._status = "pending"
+        self.func = func
+        self.executor = ThreadPoolExecutor(max_workers=4)
+        self.futures = []
+        self.start()
 
-#     logger.info(f"{total} profiles found, starting identify loop")
+    def start(self):
+        self.status = "in-progress"
+        for i in range(5):
+            future = self.executor.submit(self.func, self.id, i)
+            self.futures.append(future)
 
-#     for i, profile in enumerate(profiles):
-#         logger.info(f"Updating status to check face distance with profile {profile.name} id:{profile.id}")
-#         self.update_state(state='PROGRESS', meta={'profile': profile.id, 'current': i, 'total': total})
-#         known_encodings = [face.encoding for face in profile.faces]
-#         # distances = face_recognition.face_distance(known_encodings, encoding_to_check)
-#         distances = cosine_similarity_batch(encoding_to_check, known_encodings)
-#         score =  sum(distances) / len(distances)
-#         scores.append({'id': profile.id, 'score': score})
+    @property
+    def progress(self):
+        if len(self.futures) == 0:
+            return 0
+        
+        completion = 0
+        for future in self.futures:
+            if future.done():
+                completion += 1
+        return completion / len(self.futures)
 
-#         logger.info(f"Face distances: {distances}")
-#         logger.info(f"Score: {score}")
 
-#     scores.sort(key=lambda x: x['score'])  # Sort by score
-#     scores = scores[::-1]
-#     logger.info(f"All profiles compared, final score: {scores}")
+class Worker:
+    def __init__(self, task_queue) -> None:
+        self.task_queue = task_queue
 
-#     return {'current': total, 'total': total, 'result': scores}
+def long_task(task_id, sub_task_id):
+    for i in range(10):
+        logger.debug(f"{task_id}-{sub_task_id}: {i}/10")
+        time.sleep(1)
+
+
+manager = TaskManager()
+
+@tasks.route("/start")
+def start():
+    new_task = manager.create()
+    return jsonify({
+        "Status": "Success", 
+        "task_id": new_task.id
+    })
+
+@tasks.route("/status/<task_id>")
+def status(task_id):
+    status, progress = manager.status(task_id)
+    return jsonify({
+        "Status": status,
+        "Progress": progress,
+    })
