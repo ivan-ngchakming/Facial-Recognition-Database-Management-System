@@ -76,4 +76,4 @@ Identify known faces in the database from a live video
 
 ## Contributing
 
-For guidance on setting up a development environment and how to make a contribution to Flask, see the [contributing guidelines](./CONTRIBUTING.md).
+For guidance on setting up a development environment and how to make a contribution to FRDMS, see the [contributing guidelines](./CONTRIBUTING.md).

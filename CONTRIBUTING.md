@@ -40,7 +40,6 @@ python app.py
 - Install node.js modules and start development React app
 
 ```sh
-cd client
 yarn install
 yarn start
 ```
