@@ -41,7 +41,8 @@ face_app.init_models()
 
 
 from .tasks import tasks
-app.register_blueprint(tasks, url_prefix='/api/tasks')
+
+app.register_blueprint(tasks, url_prefix="/api/tasks")
 
 
 @app.route("/graphql", methods=["GET", "POST"])
@@ -78,7 +79,7 @@ def post_image(id):
 @app.route("/")
 def react_app():
     return app.send_static_file("index.html")
-    
+
 
 @app.errorhandler(404)
 def not_found(e):
