@@ -40,9 +40,9 @@ migrate = Migrate(app, db, directory=app.config["MIGRATION_DIR"])
 face_app.init_models()
 
 
-@app.route("/")
-def react_app():
-    return app.send_static_file("index.html")
+from .tasks import tasks
+
+app.register_blueprint(tasks, url_prefix="/api/tasks")
 
 
 @app.route("/graphql", methods=["GET", "POST"])
@@ -74,6 +74,11 @@ def post_image(id):
     img_arr = Photo.query.get(id).array
     img = img_arr_to_file(img_arr)
     return send_file(img, mimetype="image/jpeg")
+
+
+@app.route("/")
+def react_app():
+    return app.send_static_file("index.html")
 
 
 @app.errorhandler(404)

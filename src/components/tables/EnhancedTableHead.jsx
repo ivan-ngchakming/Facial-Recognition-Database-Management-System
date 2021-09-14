@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@material-ui/core';
 
 function EnhancedTableHead(props) {
-  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headCells } = props;
+  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headCells, icon, endPadding } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -19,7 +19,7 @@ function EnhancedTableHead(props) {
             inputProps={{ 'aria-label': 'select all' }}
           />
         </TableCell>
-        <TableCell padding="checkbox"></TableCell>
+        {icon && <TableCell padding="checkbox" />}
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -41,11 +41,16 @@ function EnhancedTableHead(props) {
             </TableSortLabel>
           </TableCell>
         ))}
+        {endPadding && <TableCell />}
       </TableRow>
     </TableHead>
   );
 }
 
+EnhancedTableHead.defaultProps = {
+  icon: false,
+  endPadding: false,
+}
 
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -56,6 +61,8 @@ EnhancedTableHead.propTypes = {
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
   headCells: PropTypes.array.isRequired,
+  icon: PropTypes.bool,
+  endPadding: PropTypes.bool,
 };
 
 export default EnhancedTableHead;
