@@ -174,6 +174,7 @@ class Profiles extends Component {
                 onRequestSort={this.handleRequestSort}
                 rowCount={this.state.rows.length}
                 headCells={headCells}
+                icon
               />
               <TableBody>
                 {this.state.rows.length > 0 && stableSort(this.state.rows, getComparator(order, orderBy))
