@@ -1,5 +1,6 @@
 import logging
 
+from server.config import Config
 from .worker import Worker
 from .queue import PriorityQueue
 
@@ -14,7 +15,7 @@ class TaskManager:
         self.task_queue = PriorityQueue()
 
         # Add one worker at initiation
-        self.add_worker(4)
+        self.add_worker(Config.INIT_TASK_WORKERS)
 
     def add_worker(self, num=1):
         logger.debug(f"Adding {num} worker")
