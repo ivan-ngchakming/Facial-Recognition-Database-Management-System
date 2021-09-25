@@ -28,14 +28,18 @@ class Task:
         self.args = args
         self.kwargs = kwargs
         self.status = "pending"
+        self.worker = None
+        self.result = None
 
-    def run(self):
+    def run(self, worker):
+        self.worker = worker
+
         logger.debug(f"Starting task {self.id}")
         self.status = "in-progress"
         if self.collection.status == "pending":
             self.collection.status = "in-progress"
 
-        self.func(*self.args, **self.kwargs)
+        self.result = self.func(self, *self.args, **self.kwargs)
 
         self.status = "completed"
         self.collection.completion_count += 1
