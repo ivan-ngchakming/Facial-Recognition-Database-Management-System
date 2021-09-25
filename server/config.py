@@ -21,3 +21,5 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     MIGRATION_DIR = BASE_DIR + "/migrations"
+
+    INIT_TASK_WORKERS = 2

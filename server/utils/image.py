@@ -4,6 +4,7 @@ from PIL import Image
 
 
 def decode_img(img_base64):
+    """Convert base64 image string to Pillow Image object"""
     img_str = base64.b64decode(img_base64)
     buf = io.BytesIO(img_str)
     img = Image.open(buf)

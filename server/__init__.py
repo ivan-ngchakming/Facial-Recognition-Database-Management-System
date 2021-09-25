@@ -3,7 +3,7 @@ import logging
 
 from ariadne import graphql_sync
 from ariadne.constants import PLAYGROUND_HTML
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_migrate import Migrate
 

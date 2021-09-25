@@ -1,10 +1,15 @@
+import logging
+
+import cv2
 import numpy as np
 import PIL
-import cv2
 from sqlalchemy.orm import backref
 
 from .database import db
 from .faces.arcface import face_app
+
+
+logger = logging.getLogger(__name__)
 
 
 class Profile(db.Model):
@@ -81,9 +86,9 @@ class Photo(db.Model):
         cvimg = cv2.cvtColor(self.array, cv2.COLOR_RGB2BGR)
         arcfaces = face_app.get(cvimg)
 
-        print(f"{len(arcfaces)} faces found in picture")
+        logger.debug(f"{len(arcfaces)} faces found in picture")
         for arcface in arcfaces:
-            print(arcface.location)
+            logger.debug(f"Face location {arcface.location}")
             face = Face(
                 location=arcface.location,
                 landmarks=arcface.landmark_2d_106,

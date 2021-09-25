@@ -1,7 +1,8 @@
-from concurrent.futures import ThreadPoolExecutor
 import threading
 import logging
 import uuid
+
+from server import app
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -28,6 +29,7 @@ class Worker(threading.Thread):
                     break
             except:
                 try:
-                    task.run()
+                    with app.app_context():
+                        task.run(self)
                 except Exception as exception:
                     print(exception)
