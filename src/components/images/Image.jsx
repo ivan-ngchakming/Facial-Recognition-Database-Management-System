@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Avatar, Card, CardActionArea, Checkbox } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { getCornerBrightness } from '../../utils';
 import clsx from 'clsx';
+import { ContextMenuContext } from './ContextMenu.provider';
 
 const BRIGHTNESS_THRESHOLD = 100;
 
@@ -42,7 +43,7 @@ export default function Image({image, height=300, hover, redirect, selected, onC
   const [optionsOpacity, setOptionsOpacity] = useState(0);
   const [canvasHeight, setCanvasHeight] = useState(height);
   const [imgBrightness, setImageBrightness] = useState(255);
-
+  const { openPopOver } = useContext(ContextMenuContext) 
   const showOptions = () => {
     if (hover && !selectMode) {
       setOptionsOpacity(1);
@@ -72,24 +73,24 @@ export default function Image({image, height=300, hover, redirect, selected, onC
 
   const loadImage = useCallback(() => {
     const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d");
-      var imageObj = document.createElement('img')
-      imageObj.src = `${image.source}?${imgHash}`;
+    const ctx = canvas.getContext("2d");
+    var imageObj = document.createElement('img')
+    imageObj.src = `${image.source}?${imgHash}`;
 
-      imageObj.onload = () => {
-        setCanvasHeight(Math.min(imageObj.width, imageObj.height))
+    imageObj.onload = () => {
+      setCanvasHeight(Math.min(imageObj.width, imageObj.height))
 
-        var hRatio = canvas.width / imageObj.width;
-        var vRatio = canvas.height / imageObj.height;
-        var ratio  = Math.max ( hRatio, vRatio );
+      var hRatio = canvas.width / imageObj.width;
+      var vRatio = canvas.height / imageObj.height;
+      var ratio  = Math.max ( hRatio, vRatio );
 
-        var centerShift_x = ( canvas.width - imageObj.width*ratio ) / 2;
-        var centerShift_y = ( canvas.height - imageObj.height*ratio ) / 2;
+      var centerShift_x = ( canvas.width - imageObj.width*ratio ) / 2;
+      var centerShift_y = ( canvas.height - imageObj.height*ratio ) / 2;
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(imageObj, 0, 0, imageObj.width, imageObj.height, centerShift_x, centerShift_y, imageObj.width*ratio, imageObj.height*ratio);
-        setImageBrightness(getCornerBrightness(ctx, canvas));
-      };
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(imageObj, 0, 0, imageObj.width, imageObj.height, centerShift_x, centerShift_y, imageObj.width*ratio, imageObj.height*ratio);
+      setImageBrightness(getCornerBrightness(ctx, canvas));
+    };
 
   }, [image, imgHash]);
 
@@ -110,6 +111,17 @@ export default function Image({image, height=300, hover, redirect, selected, onC
     }
   }, [image, loadImage, selectMode, optionsOpacity])
 
+  //add conext click event to image 
+  useEffect(() => {
+    canvasRef.current.oncontextmenu = (e) => {
+      e.preventDefault()
+      const { clientX, clientY } = e
+      //open popover menu 
+      openPopOver && openPopOver(clientY,clientX,image.id)
+    }
+  },[canvasRef,openPopOver,image])  
+
+
   return (
     <React.Fragment>
       <Card
@@ -121,7 +133,7 @@ export default function Image({image, height=300, hover, redirect, selected, onC
         }}
       >
         {image ? (
-          <CardActionArea onClick={handleClick}>
+          <CardActionArea onClick={handleClick} style={{cursor: 'context-menu'}}>
             <canvas
               ref={canvasRef}
               className={classes.img}
@@ -150,6 +162,8 @@ export default function Image({image, height=300, hover, redirect, selected, onC
         )}
 
       </Card>
+
+    
     </React.Fragment>
   )
 }
