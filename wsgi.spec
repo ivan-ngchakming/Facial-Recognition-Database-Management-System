@@ -70,5 +70,5 @@ exe = EXE(
 	target_arch=None,
 	codesign_identity=None,
 	entitlements_file=None,
-	icon='build/favicon.ico'
+	icon='assets/appicons/windows/ico/FRDMS64x64.ico'
 )
