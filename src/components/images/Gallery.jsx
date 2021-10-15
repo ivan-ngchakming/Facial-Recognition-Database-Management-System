@@ -6,7 +6,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Image from './Image';
 import { DELETE_PHOTOS as DELETE_PHOTOS_GQL_M } from '../../graphql/mutation';
 import { graphqlQuery } from "../../graphql";
-import { ContextMenuProvider } from './ContextMenu.provider';
+import { ContextMenuProvider } from '../context/MenuContext';
 
 const styles = (theme) => ({
   root: {
@@ -100,7 +100,7 @@ class Gallery extends Component {
       name: "select-option",
       renderName: (id) => this.renderSelectOption(id),
       action : this.handleCheckImage
-    },    
+    },
     {
       name: "delete-option",
       renderName: () => "Delete",
@@ -192,7 +192,7 @@ class Gallery extends Component {
           />
         </React.Fragment>
       </ContextMenuProvider>
-    
+
     )
   }
 }
