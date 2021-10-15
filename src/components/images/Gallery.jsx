@@ -6,6 +6,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Image from './Image';
 import { DELETE_PHOTOS as DELETE_PHOTOS_GQL_M } from '../../graphql/mutation';
 import { graphqlQuery } from "../../graphql";
+import { ContextMenuProvider } from '../context/MenuContext';
 
 const styles = (theme) => ({
   root: {
@@ -55,7 +56,7 @@ class Gallery extends Component {
     }
   }
 
-  handleDelete = () => {
+  handleDeleteSelected = () => {
     console.debug("Deleting selected images: ", this.state.selected);
     graphqlQuery(DELETE_PHOTOS_GQL_M, {ids: this.state.selected}).then(res => {
       const deletedImgs = res.deletePhoto;
@@ -69,92 +70,129 @@ class Gallery extends Component {
     })
   }
 
+  handleSingleDelete = (id) => {
+    console.debug("Deleting selecte image: ", [id]);
+    graphqlQuery(DELETE_PHOTOS_GQL_M, {ids: [id]}).then(res => {
+      const deletedImgs = res.deletePhoto;
+      this.setState({
+        selected: this.state.selected.filter(item => item !== id),
+        openDeleteSnackbar: true,
+        deleteMsg: `${deletedImgs.length} images deleted`,
+        imgHash: Date.now(),
+      })
+      this.props.onChange();
+    })
+  }
+
   handleCloseDeleteSnackbar = () => {
     this.setState({openDeleteSnackbar: false})
   }
 
+  renderSelectOption = (id) => {
+    if (id) {
+     return  this.state.selected.includes(id) ? "Unselect" : "Select"
+    }
+    return "Select"
+  }
+
+  contextMenuOptions = [
+    {
+      name: "select-option",
+      renderName: (id) => this.renderSelectOption(id),
+      action : this.handleCheckImage
+    },
+    {
+      name: "delete-option",
+      renderName: () => "Delete",
+      action : this.handleSingleDelete
+    }
+
+  ]
   render() {
     const { classes, images } = this.props;
     const { selected, openDeleteSnackbar, deleteMsg, imgHash } = this.state;
 
-    return(
-      <React.Fragment>
-        <Grid container className={classes.root} spacing={2}>
+    return (
+      <ContextMenuProvider options={this.contextMenuOptions}>
+        <React.Fragment>
+          <Grid container className={classes.root} spacing={2}>
 
-          {/* Tool Bar */}
-          <Grid item xs={12}>
-            {selected.length === 0 ? (
-              <Toolbar>
-                <Typography variant="h5" className={classes.title}>
-                  Images
-                </Typography>
-              </Toolbar>
-            ) : (
-              <Toolbar className={classes.tools}>
-                <Checkbox
-                  checked={selected.length > 0}
-                  onChange={this.handleCheckAll}
-                  indeterminate={selected.length !== images.length}
-                  color="primary"
-                  inputProps={{ 'aria-label': 'select image checkbox' }}
-                />
-                <Typography variant="body1" className={classes.title}>
-                  {selected.length} Image{selected.length > 1 ? 's' : null } selected
-                </Typography>
-                <IconButton
-                  onClick={this.handleDelete}
-                  color="inherit"
-                >
-                  <DeleteIcon />
+            {/* Tool Bar */}
+            <Grid item xs={12}>
+              {selected.length === 0 ? (
+                <Toolbar>
+                  <Typography variant="h5" className={classes.title}>
+                    Images
+                  </Typography>
+                </Toolbar>
+              ) : (
+                <Toolbar className={classes.tools}>
+                  <Checkbox
+                    checked={selected.length > 0}
+                    onChange={this.handleCheckAll}
+                    indeterminate={selected.length !== images.length}
+                    color="primary"
+                    inputProps={{ 'aria-label': 'select image checkbox' }}
+                  />
+                  <Typography variant="body1" className={classes.title}>
+                    {selected.length} Image{selected.length > 1 ? 's' : null } selected
+                  </Typography>
+                  <IconButton
+                    onClick={this.handleDeleteSelected}
+                    color="inherit"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Toolbar>
+              ) }
+            </Grid>
+
+            <Grid container xs={12} justifyContent="center" spacing={2}>
+              {/* <Grid container justifyContent="flex-start" spacing={2}> */}
+                {images && (
+                  images.map((image, index) => (
+                    <Grid key={index} item>
+                      <Image
+                        image={image}
+                        imgHash={imgHash}
+                        height={300}
+                        onCheck={this.handleCheckImage}
+                        redirect={selected.length === 0}
+                        hover
+                        selected={selected.includes(image.id)}
+                        selectMode={selected.length > 0}
+                      />
+                    </Grid>))
+                )}
+
+                {images && images.length === 0 && (
+                  "No Images"
+                )
+                }
+              {/* </Grid> */}
+            </Grid>
+          </Grid>
+
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            open={openDeleteSnackbar}
+            autoHideDuration={6000}
+            onClose={this.handleCloseDeleteSnackbar}
+            message={deleteMsg}
+            action={
+              <React.Fragment>
+                <IconButton size="small" aria-label="close" color="inherit" onClick={this.handleCloseDeleteSnackbar}>
+                  <CloseIcon fontSize="small" />
                 </IconButton>
-              </Toolbar>
-            ) }
-          </Grid>
+              </React.Fragment>
+            }
+          />
+        </React.Fragment>
+      </ContextMenuProvider>
 
-          <Grid container xs={12} justifyContent="center" spacing={2}>
-            {/* <Grid container justifyContent="flex-start" spacing={2}> */}
-              {images && (
-                images.map((image, index) => (
-                  <Grid key={index} item>
-                    <Image
-                      image={image}
-                      imgHash={imgHash}
-                      height={300}
-                      onCheck={this.handleCheckImage}
-                      redirect={selected.length === 0}
-                      hover
-                      selected={selected.includes(image.id)}
-                      selectMode={selected.length > 0}
-                    />
-                  </Grid>))
-              )}
-
-              {images && images.length === 0 && (
-                "No Images"
-              )
-              }
-            {/* </Grid> */}
-          </Grid>
-        </Grid>
-
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          open={openDeleteSnackbar}
-          autoHideDuration={6000}
-          onClose={this.handleCloseDeleteSnackbar}
-          message={deleteMsg}
-          action={
-            <React.Fragment>
-              <IconButton size="small" aria-label="close" color="inherit" onClick={this.handleCloseDeleteSnackbar}>
-                <CloseIcon fontSize="small" />
-              </IconButton>
-            </React.Fragment>
-          }
-        />
-      </React.Fragment>
     )
   }
 }
