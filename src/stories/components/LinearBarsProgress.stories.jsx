@@ -8,10 +8,9 @@ export default {
   argTypes: {
     value: {
       control: { type: 'range', min: 0, max: 100, step: 1 },
-    }
-  }
-}
-
+    },
+  },
+};
 
 const Template = (args) => <LinearBarsProgress {...args} />;
 

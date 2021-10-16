@@ -16,9 +16,11 @@ Please delete options that are not relevant.
 
 ## Screenshot (for UI changes)
 
+Delete this section if this PR has no UI changes
+
 ## Checklist:
 
 - [ ] My pull request title follow [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.2/)
-- [ ] I have installed run the [pre-commit](https://pre-commit.com/) hook
+- [ ] I have installed and run the [pre-commit](https://pre-commit.com/) hook
 - [ ] I have started the app locally and inspected my changes are working as intended
 - [ ] I have assigned myself as the assignee of this PR and added the relevent labels

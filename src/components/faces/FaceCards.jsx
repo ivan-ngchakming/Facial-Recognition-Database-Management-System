@@ -1,31 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import FaceCard from './FaceCard';
 import { makeStyles } from '@material-ui/core/styles';
-import { Divider, List } from "@material-ui/core";
-
+import { Divider, List } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-  root:{
-    height: "95%",
+  root: {
+    height: '95%',
     overflowY: 'auto',
   },
   faceCard: {
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
   },
   inline: {
     display: 'inline',
-  }
+  },
 }));
 
-
-export default function FaceCards({img, data, onClick}) {
+export default function FaceCards({ img, data, onClick }) {
   const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const handleClick = (face, matchResults, index) => {
     onClick(face, matchResults);
-    setSelectedIndex(index)
-  }
+    setSelectedIndex(index);
+  };
 
   return (
     <div className={classes.root}>
@@ -39,10 +37,12 @@ export default function FaceCards({img, data, onClick}) {
               selected={index === selectedIndex}
               onClick={handleClick}
             />
-            {(index < data.length-1) && <Divider variant="fullWidth" component="li" />}
+            {index < data.length - 1 && (
+              <Divider variant="fullWidth" component="li" />
+            )}
           </div>
         ))}
       </List>
     </div>
-  )
+  );
 }

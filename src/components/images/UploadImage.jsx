@@ -1,14 +1,11 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react';
 import { Button, IconButton, Paper, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import {useDropzone} from 'react-dropzone'
+import { useDropzone } from 'react-dropzone';
 import ClearIcon from '@material-ui/icons/Clear';
 
-
 const useStyles = makeStyles((theme) => ({
-  root: {
-
-  },
+  root: {},
   inputBox: {
     display: 'flex',
   },
@@ -17,12 +14,12 @@ const useStyles = makeStyles((theme) => ({
   },
   btn: {
     margin: theme.spacing(2, 1, 2, 1),
-    minWidth: "100px",
+    minWidth: '100px',
   },
   imgPreviewWrapper: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: '5%'
+    marginTop: '5%',
   },
   imgPreviewDiv: {
     display: 'inline-block',
@@ -30,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   imgPreview: {
     maxHeight: '50vh',
-    borderRadius: "1%",
+    borderRadius: '1%',
   },
   closeImgBtn: {
     position: 'absolute',
@@ -39,28 +36,27 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.white,
     '&:hover': {
       background: theme.palette.white,
-      color: "#f00",
-   },
+      color: '#f00',
+    },
   },
   fileBrowser: {
-    borderStyle: "dashed",
-    borderWidth: "2px",
-    borderRadius: "2px",
+    borderStyle: 'dashed',
+    borderWidth: '2px',
+    borderRadius: '2px',
     backgroundColor: theme.palette.white,
     margin: theme.spacing(0, 2, 0, 2),
     padding: theme.spacing(20, 0, 20, 0),
-    alignItems: "center",
+    alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
     color: theme.palette.text.secondary,
-    "&:hover": {
-      cursor: "pointer"
+    '&:hover': {
+      cursor: 'pointer',
     },
   },
 }));
 
-
-export default function UploadImage({uploadImage}) {
+export default function UploadImage({ uploadImage }) {
   const classes = useStyles();
   const [imgFile, setImgFile] = useState(null);
   const [image, setImage] = useState(null);
@@ -68,25 +64,25 @@ export default function UploadImage({uploadImage}) {
   const uploadNewImage = () => {
     // callback
     uploadImage(imgFile);
-  }
+  };
 
-  const onDrop = useCallback(acceptedFiles => {
+  const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
-    console.debug("File received", acceptedFiles);
+    console.debug('File received', acceptedFiles);
     const file = acceptedFiles[0];
     setImgFile(file);
     const imgURLObj = URL.createObjectURL(file);
     setImage(imgURLObj);
-  }, [])
+  }, []);
 
-  const {getRootProps, getInputProps, open} = useDropzone({
+  const { getRootProps, getInputProps, open } = useDropzone({
     onDrop,
-  })
+  });
 
   const clearImgFile = () => {
-    setImgFile(null)
-    setImage(null)
-  }
+    setImgFile(null);
+    setImage(null);
+  };
 
   return (
     <div className={classes.root}>
@@ -99,39 +95,57 @@ export default function UploadImage({uploadImage}) {
           className={classes.input}
         />
 
-        <Button onClick={uploadNewImage} variant="contained" disabled={!imgFile} className={classes.btn}>
+        <Button
+          onClick={uploadNewImage}
+          variant="contained"
+          disabled={!imgFile}
+          className={classes.btn}
+        >
           Run
         </Button>
 
-        { image ? (
-          <Button onClick={clearImgFile} variant="contained" className={classes.btn}>
+        {image ? (
+          <Button
+            onClick={clearImgFile}
+            variant="contained"
+            className={classes.btn}
+          >
             Clear
           </Button>
-
         ) : (
           <Button onClick={open} variant="contained" className={classes.btn}>
             Browse
           </Button>
         )}
-
-
       </div>
       {image ? (
         <div className={classes.imgPreviewWrapper}>
           <div className={classes.imgPreviewDiv}>
-            <img alt="Preview of user uploaded file" className={classes.imgPreview} src={image} />
-            <IconButton onClick={clearImgFile} size="small" className={classes.closeImgBtn}>
+            <img
+              alt="Preview of user uploaded file"
+              className={classes.imgPreview}
+              src={image}
+            />
+            <IconButton
+              onClick={clearImgFile}
+              size="small"
+              className={classes.closeImgBtn}
+            >
               <ClearIcon />
             </IconButton>
           </div>
         </div>
       ) : (
-        <Paper className={classes.fileBrowser} variant="outlined" square {...getRootProps()}>
-          <input {...getInputProps()}/>
+        <Paper
+          className={classes.fileBrowser}
+          variant="outlined"
+          square
+          {...getRootProps()}
+        >
+          <input {...getInputProps()} />
           <p>Or UPLOAD files by dropping the files here</p>
         </Paper>
       )}
-
     </div>
-  )
+  );
 }

@@ -1,6 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Typography, Card, CardContent, CardActionArea, CardActions, Button } from "@material-ui/core";
+import {
+  Typography,
+  Card,
+  CardContent,
+  CardActionArea,
+  CardActions,
+  Button,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -12,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PageCard({page}) {
+export default function PageCard({ page }) {
   const classes = useStyles();
   const history = useHistory();
 
@@ -25,22 +32,32 @@ export default function PageCard({page}) {
       <Card className={classes.card}>
         <CardActionArea onClick={handleClick}>
           <CardContent>
-            <Typography className={classes.title} color="textSecondary" gutterBottom>
+            <Typography
+              className={classes.title}
+              color="textSecondary"
+              gutterBottom
+            >
               {page.category}
             </Typography>
             <Typography variant="h5" component="h2">
               {page.text}
             </Typography>
-            <br/>
-            <Typography className={classes.description} variant="body2" component="p">
+            <br />
+            <Typography
+              className={classes.description}
+              variant="body2"
+              component="p"
+            >
               {page.description}
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" onClick={handleClick}>View Page</Button>
+          <Button size="small" onClick={handleClick}>
+            View Page
+          </Button>
         </CardActions>
       </Card>
     </div>
-  )
+  );
 }

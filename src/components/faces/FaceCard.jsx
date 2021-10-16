@@ -1,16 +1,24 @@
-import { ListItem, ListItemAvatar, ListItemText, Typography } from "@material-ui/core";
+import {
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Typography,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from 'react';
-import { graphqlQuery } from "../../graphql";
-import { IDENTIFYFACE as IDENTIFYFACE_GQL_Q, PROFILE as PROFILE_GQL_Q } from '../../graphql/query';
+import { graphqlQuery } from '../../graphql';
+import {
+  IDENTIFYFACE as IDENTIFYFACE_GQL_Q,
+  PROFILE as PROFILE_GQL_Q,
+} from '../../graphql/query';
 import { roundOff } from '../../utils/general';
-import CroppedImage from "../images/CroppedImage";
+import CroppedImage from '../images/CroppedImage';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import LinearBarsProgress from '../progress/LinearBarsProgress';
 
 const useStyles = makeStyles((theme) => ({
   faceCard: {
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
   },
   inline: {
     display: 'inline',
@@ -23,27 +31,31 @@ const useStyles = makeStyles((theme) => ({
   },
   loadingBar: {
     marginTop: theme.spacing(2),
-  }
+  },
 }));
 
-export default function FaceCard({index, img, face, selected, onClick}) {
+export default function FaceCard({ index, img, face, selected, onClick }) {
   const classes = useStyles();
   const [profile, setProfile] = useState(null);
   const [status, setStatus] = useState(false);
   const [matchResults, setMatchResults] = useState(null);
 
   const fetchProfile = (profileId, nextStatus) => {
-    graphqlQuery(PROFILE_GQL_Q, {profileId: profileId}).then(res => {
-      setProfile(res.profile);
-      setStatus(nextStatus);
-    }).catch(error => console.log(error))
-  }
+    graphqlQuery(PROFILE_GQL_Q, { profileId: profileId })
+      .then((res) => {
+        setProfile(res.profile);
+        setStatus(nextStatus);
+      })
+      .catch((error) => console.log(error));
+  };
 
   const identifyFace = (faceId) => {
-    graphqlQuery(IDENTIFYFACE_GQL_Q, {faceId: faceId}).then(res => {
-      setMatchResults(res.identifyFace);
-    }).catch(error => console.log(error));
-  }
+    graphqlQuery(IDENTIFYFACE_GQL_Q, { faceId: faceId })
+      .then((res) => {
+        setMatchResults(res.identifyFace);
+      })
+      .catch((error) => console.log(error));
+  };
 
   useEffect(() => {
     // Initialize status value on mount
@@ -55,13 +67,12 @@ export default function FaceCard({index, img, face, selected, onClick}) {
         identifyFace(parseInt(face.face.id));
       }
     }
-
   }, [status, face.face]);
 
   useEffect(() => {
     if (matchResults && matchResults.length > 0) {
       if (!profile || matchResults[0].id !== profile.id) {
-        fetchProfile(matchResults[0].id, 'matched')
+        fetchProfile(matchResults[0].id, 'matched');
       }
     }
     if (matchResults && matchResults.length === 0) {
@@ -75,78 +86,71 @@ export default function FaceCard({index, img, face, selected, onClick}) {
       <ListItem
         // key={`face-${index}`}
         button
-        onClick={() => {onClick(face, matchResults, index)}}
+        onClick={() => {
+          onClick(face, matchResults, index);
+        }}
         className={classes.faceCard}
         selected={selected}
       >
         <ListItemAvatar>
-          <CroppedImage
-            img={img}
-            faceLocation={face.location}
-          />
+          <CroppedImage img={img} faceLocation={face.location} />
         </ListItemAvatar>
 
-          { status === 'matched' && (
-            <ListItemText
-              style={{marginLeft: "10%"}}
-              primary={
-                <Typography
-                  variant="h6"
-                  color="textPrimary"
-                >
-                  {matchResults.length === 0 ? "No Match" : profile.name}
-                </Typography>
-              }
-
-              secondary={
-                <React.Fragment>
+        {status === 'matched' && (
+          <ListItemText
+            style={{ marginLeft: '10%' }}
+            primary={
+              <Typography variant="h6" color="textPrimary">
+                {matchResults.length === 0 ? 'No Match' : profile.name}
+              </Typography>
+            }
+            secondary={
+              <React.Fragment>
                 <Typography
                   component="span"
                   variant="body1"
                   className={classes.inline}
                   color="textPrimary"
                 >
-                  { matchResults.length > 0 && `${roundOff((matchResults[0].score) * 100, 2)}% Match`}
-                  { matchResults.length === 0 && "No Match Found"}
+                  {matchResults.length > 0 &&
+                    `${roundOff(matchResults[0].score * 100, 2)}% Match`}
+                  {matchResults.length === 0 && 'No Match Found'}
                 </Typography>
 
-                { matchResults.length > 0 ? (
-                  <LinearBarsProgress value={roundOff((matchResults[0].score) * 100, 2)} />
-                ): (
+                {matchResults.length > 0 ? (
+                  <LinearBarsProgress
+                    value={roundOff(matchResults[0].score * 100, 2)}
+                  />
+                ) : (
                   <LinearBarsProgress value={0} />
                 )}
+              </React.Fragment>
+            }
+          />
+        )}
 
-                </React.Fragment>
-              }
-            />
-          )}
-
-          { status === 'saved' && (
-            <ListItemText
-              style={{marginLeft: "10%"}}
-              primary={
+        {status === 'saved' && (
+          <ListItemText
+            style={{ marginLeft: '10%' }}
+            primary={
+              <Typography variant="h6" color="textPrimary">
+                {profile.name}
+              </Typography>
+            }
+            secondary={
+              <React.Fragment>
                 <Typography
-                  variant="h6"
+                  component="span"
+                  variant="body1"
+                  className={classes.inline}
                   color="textPrimary"
                 >
-                  {profile.name}
-                </Typography>
-              }
-
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    component="span"
-                    variant="body1"
-                    className={classes.inline}
-                    color="textPrimary"
-                  >
-                    {/* {"25 | United State"} */}
-                    {/* <br />
+                  {/* {"25 | United State"} */}
+                  {/* <br />
                     {"Actress | model"} */}
-                  </Typography>
+                </Typography>
 
-                  {/* <div className={classes.tagWrapper}>
+                {/* <div className={classes.tagWrapper}>
                     {['Actress', 'model'].map((tag, index)=> (
                       <Chip
                         key={index}
@@ -157,29 +161,23 @@ export default function FaceCard({index, img, face, selected, onClick}) {
                       />
                     ))}
                   </div> */}
-                </React.Fragment>
-              }
-            />
-          )}
+              </React.Fragment>
+            }
+          />
+        )}
 
-          { status === 'matching' && (
-            <ListItemText
-              style={{marginLeft: "10%"}}
-              primary={
-                <Typography
-                  variant="body1"
-                  color="textPrimary"
-                >
-                  Matching...
-                </Typography>
-              }
-              secondary={
-                  <LinearProgress className={classes.loadingBar}/>
-              }
-            />
-          )}
-
+        {status === 'matching' && (
+          <ListItemText
+            style={{ marginLeft: '10%' }}
+            primary={
+              <Typography variant="body1" color="textPrimary">
+                Matching...
+              </Typography>
+            }
+            secondary={<LinearProgress className={classes.loadingBar} />}
+          />
+        )}
       </ListItem>
     </div>
-  )
+  );
 }
