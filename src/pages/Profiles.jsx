@@ -1,5 +1,16 @@
-import { withStyles } from "@material-ui/core/styles";
-import { Container, Checkbox, Grid, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import {
+  Container,
+  Checkbox,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TablePagination,
+  TableRow,
+} from '@material-ui/core';
 import React, { Component } from 'react';
 import Image from '../components/images/Image';
 import EnhancedTableHead from '../components/tables/EnhancedTableHead';
@@ -15,7 +26,12 @@ export function createData(name, id, facecount) {
 const headCells = [
   { id: 'id', numeric: false, disablePadding: false, label: 'id' },
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
-  { id: 'facecount', numeric: false, disablePadding: false, label: 'Face Count' },
+  {
+    id: 'facecount',
+    numeric: false,
+    disablePadding: false,
+    label: 'Face Count',
+  },
 ];
 
 const styles = (theme) => ({
@@ -59,32 +75,30 @@ class Profiles extends Component {
       profilesCount: 0,
       rows: [],
       selectMode: false,
-    }
+    };
   }
 
   componentDidMount() {
     this.fetchPortfolios();
-  };
+  }
 
-  componentDidUpdate(prevProps, prevState) {
-
-  };
+  componentDidUpdate(prevProps, prevState) {}
 
   handleRequestSort = (event, property) => {
     const isAsc = this.state.orderBy === property && this.state.order === 'asc';
     this.setState({
       order: isAsc ? 'desc' : 'asc',
-      orderBy: property
-    })
+      orderBy: property,
+    });
   };
 
   handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = this.state.rows.map((n) => n.name);
-      this.setState({selected: newSelecteds});
+      this.setState({ selected: newSelecteds });
       return;
     }
-    this.setState({selected: []});
+    this.setState({ selected: [] });
   };
 
   handleClick = (event, name, id) => {
@@ -101,7 +115,7 @@ class Profiles extends Component {
       } else if (selectedIndex > 0) {
         newSelected = newSelected.concat(
           this.state.selected.slice(0, selectedIndex),
-          this.state.selected.slice(selectedIndex + 1),
+          this.state.selected.slice(selectedIndex + 1)
         );
       }
 
@@ -112,20 +126,20 @@ class Profiles extends Component {
     } else {
       // double click
       if (event.detail === 2) {
-        this.props.history.push(`/profile?id=${id}`)
+        this.props.history.push(`/profile?id=${id}`);
       }
     }
   };
 
   handleChangePage = (event, newPage) => {
-    this.setState({page: newPage});
+    this.setState({ page: newPage });
   };
 
   handleChangeRowsPerPage = (event) => {
     this.setState({
       rowsPerPage: parseInt(event.target.value, 10),
       page: 0,
-    })
+    });
   };
 
   isSelected = (name) => this.state.selected.indexOf(name) !== -1;
@@ -134,108 +148,127 @@ class Profiles extends Component {
     graphqlQuery(PROFILES_GQL_Q, {
       page: this.state.page,
       perPage: this.state.rowsPerPage,
-    }).then(res => {
-      const data = res.profiles;
-      this.setState({
-        rows: data.profiles,
-        profilesCount: data.count,
-      })
-    }).catch(err => {
-      console.error(err);
     })
-  }
+      .then((res) => {
+        const data = res.profiles;
+        this.setState({
+          rows: data.profiles,
+          profilesCount: data.count,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
   render() {
     const { classes } = this.props;
     const { order, orderBy, selected, page, rowsPerPage } = this.state;
 
-    const emptyRows = this.state.rowsPerPage - Math.min(
-      this.state.rowsPerPage,
-      this.state.rows.length - this.state.page * this.state.rowsPerPage
-    );
+    const emptyRows =
+      this.state.rowsPerPage -
+      Math.min(
+        this.state.rowsPerPage,
+        this.state.rows.length - this.state.page * this.state.rowsPerPage
+      );
 
     return (
       <div className={classes.root}>
-        <Container style={{maxWidth: "90vw"}}>
-        <Paper className={classes.paper}>
-          <EnhancedTableToolbar numSelected={selected.length} title="Portfolios" />
-          <TableContainer>
-            <Table
-              className={classes.table}
-              aria-labelledby="tableTitle"
-              size='medium'
-              aria-label="enhanced table"
-            >
-              <EnhancedTableHead
-                classes={classes}
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={this.handleSelectAllClick}
-                onRequestSort={this.handleRequestSort}
-                rowCount={this.state.rows.length}
-                headCells={headCells}
-                icon
-              />
-              <TableBody>
-                {this.state.rows.length > 0 && stableSort(this.state.rows, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    const isItemSelected = this.isSelected(row.name);
-                    const labelId = `enhanced-table-checkbox-${index}`;
+        <Container style={{ maxWidth: '90vw' }}>
+          <Paper className={classes.paper}>
+            <EnhancedTableToolbar
+              numSelected={selected.length}
+              title="Portfolios"
+            />
+            <TableContainer>
+              <Table
+                className={classes.table}
+                aria-labelledby="tableTitle"
+                size="medium"
+                aria-label="enhanced table"
+              >
+                <EnhancedTableHead
+                  classes={classes}
+                  numSelected={selected.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onSelectAllClick={this.handleSelectAllClick}
+                  onRequestSort={this.handleRequestSort}
+                  rowCount={this.state.rows.length}
+                  headCells={headCells}
+                  icon
+                />
+                <TableBody>
+                  {this.state.rows.length > 0 &&
+                    stableSort(this.state.rows, getComparator(order, orderBy))
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row, index) => {
+                        const isItemSelected = this.isSelected(row.name);
+                        const labelId = `enhanced-table-checkbox-${index}`;
 
-                    return (
-                      <TableRow
-                        hover
-                        onClick={(event) => this.handleClick(event, row.name, row.id)}
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row.name}
-                        selected={isItemSelected}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            onClick={(event) => this.handleClick(event, row.name, row.id)}
-                            checked={isItemSelected}
-                            inputProps={{ 'aria-labelledby': labelId }}
-                          />
-                        </TableCell>
-                        <TableCell padding="checkbox">
-                          <Grid style={{margin: "10px"}}>
-                            <Image
-                              image={
-                                row.thumbnail && row.thumbnail.photo ? {source: `/api/image/${row.thumbnail.photo.id}`} : null
-                              }
-                              height={50}
-                            />
-                          </Grid>
-                        </TableCell>
-                        <TableCell align="left">{row.id}</TableCell>
-                        <TableCell component="th" id={labelId} scope="row">
-                          {row.name}
-                        </TableCell>
-                        <TableCell align="left">{row.facesCount}</TableCell>
-                      </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: 53 * emptyRows }}>
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30, 50, 100]}
-            component="div"
-            count={this.state.profilesCount}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={this.handleChangePage}
-            onRowsPerPageChange={this.handleChangeRowsPerPage}
-          />
-        </Paper>
+                        return (
+                          <TableRow
+                            hover
+                            onClick={(event) =>
+                              this.handleClick(event, row.name, row.id)
+                            }
+                            role="checkbox"
+                            aria-checked={isItemSelected}
+                            tabIndex={-1}
+                            key={row.name}
+                            selected={isItemSelected}
+                          >
+                            <TableCell padding="checkbox">
+                              <Checkbox
+                                onClick={(event) =>
+                                  this.handleClick(event, row.name, row.id)
+                                }
+                                checked={isItemSelected}
+                                inputProps={{ 'aria-labelledby': labelId }}
+                              />
+                            </TableCell>
+                            <TableCell padding="checkbox">
+                              <Grid style={{ margin: '10px' }}>
+                                <Image
+                                  image={
+                                    row.thumbnail && row.thumbnail.photo
+                                      ? {
+                                          source: `/api/image/${row.thumbnail.photo.id}`,
+                                        }
+                                      : null
+                                  }
+                                  height={50}
+                                />
+                              </Grid>
+                            </TableCell>
+                            <TableCell align="left">{row.id}</TableCell>
+                            <TableCell component="th" id={labelId} scope="row">
+                              {row.name}
+                            </TableCell>
+                            <TableCell align="left">{row.facesCount}</TableCell>
+                          </TableRow>
+                        );
+                      })}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 20, 30, 50, 100]}
+              component="div"
+              count={this.state.profilesCount}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={this.handleChangePage}
+              onRowsPerPageChange={this.handleChangeRowsPerPage}
+            />
+          </Paper>
         </Container>
       </div>
     );

@@ -1,9 +1,9 @@
-import { Button, makeStyles, Typography } from '@material-ui/core'
-import React from 'react'
+import { Button, makeStyles, Typography } from '@material-ui/core';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import CroppedImage from '../images/CroppedImage';
 
-const useStyle = makeStyles((theme) =>({
+const useStyle = makeStyles((theme) => ({
   imgWrapper: {
     display: 'flex',
     justifyContent: 'center',
@@ -14,33 +14,31 @@ const useStyle = makeStyles((theme) =>({
     display: 'flex',
     justifyContent: 'center',
   },
-}))
+}));
 
-export default function DetailedProfileCard({profile}) {
+export default function DetailedProfileCard({ profile }) {
   const classes = useStyle();
   const history = useHistory();
 
   const handleViewProfile = () => {
-    history.push(`/profile?id=${profile.id}`)
-  }
+    history.push(`/profile?id=${profile.id}`);
+  };
 
   return (
     <div>
-      <Typography variant='h6' align='center'>
+      <Typography variant="h6" align="center">
         {profile.name}
       </Typography>
 
-      { profile.thumbnail && profile.thumbnail.photo && (
+      {profile.thumbnail && profile.thumbnail.photo && (
         <div className={classes.imgWrapper}>
           <CroppedImage
             img={`/api/image/${profile.thumbnail.photo.id}`}
-            faceLocation={
-              [
-                ...profile.thumbnail.location,
-                profile.thumbnail.photo.width,
-                profile.thumbnail.photo.height,
-              ]
-            }
+            faceLocation={[
+              ...profile.thumbnail.location,
+              profile.thumbnail.photo.width,
+              profile.thumbnail.photo.height,
+            ]}
           />
         </div>
       )}
@@ -56,10 +54,9 @@ export default function DetailedProfileCard({profile}) {
         </Button>
       </div>
 
-      <Typography variant='body2' align='right'>
+      <Typography variant="body2" align="right">
         Profile ID: {profile.id}
       </Typography>
-
     </div>
-  )
+  );
 }

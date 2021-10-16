@@ -5,11 +5,10 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { theme } from './style';
 
-
 ReactDOM.render(
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>,
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <App />
+  </ThemeProvider>,
   document.getElementById('root')
 );

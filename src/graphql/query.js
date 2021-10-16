@@ -23,7 +23,7 @@ export const PHOTO = `
       }
     }
   }
-`
+`;
 
 export const PHOTOS = `
   query photos($page: Int, $profileId: ID) {
@@ -35,7 +35,7 @@ export const PHOTOS = `
       }
     }
   }
-`
+`;
 
 export const IDENTIFYFACE = `
   query identifyFace($faceId: ID!){
@@ -44,7 +44,7 @@ export const IDENTIFYFACE = `
       score
     }
   }
-`
+`;
 
 export const PROFILE = `
   query profile($profileId: ID!) {
@@ -62,7 +62,7 @@ export const PROFILE = `
       }
     }
   }
-`
+`;
 
 export const PROFILES = `
   query profiles($page: Int, $perPage: Int) {
@@ -82,4 +82,4 @@ export const PROFILES = `
       }
     }
   }
-`
+`;

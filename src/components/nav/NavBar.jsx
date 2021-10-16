@@ -1,11 +1,19 @@
-import { AppBar, Drawer, IconButton, List, ListItem, ListItemText, Toolbar } from "@material-ui/core";
+import {
+  AppBar,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Toolbar,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { useHistory } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
-import { SITEMAP } from "../../constants";
+import { SITEMAP } from '../../constants';
 import clsx from 'clsx';
-import React from "react";
+import React from 'react';
 
 const drawerWidth = 240;
 
@@ -28,15 +36,13 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-  menuBtn: {
-
-  },
+  menuBtn: {},
   hide: {
     display: 'none',
   },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0
+    flexShrink: 0,
   },
   drawerHeader: {
     display: 'flex',
@@ -46,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
   },
   drawerCloseBtn: {
-    float: "right"
+    float: 'right',
   },
   drawerPaper: {
     width: drawerWidth,
@@ -55,8 +61,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
     marginLeft: -drawerWidth,
-    width: "100%",
-    height: "100vh",
+    width: '100%',
+    height: '100vh',
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -71,36 +77,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
-export default function NavBar({children}) {
+export default function NavBar({ children }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const history = useHistory();
 
   const handleDrawerOpen = () => {
     setOpen(true);
-  }
+  };
 
   const handleDrawerClose = () => {
     setOpen(false);
-  }
-
-  const handleNavClick = (page) => {
-    handleDrawerClose()
-    history.push(page.url)
   };
 
-  return(
+  const handleNavClick = (page) => {
+    handleDrawerClose();
+    history.push(page.url);
+  };
+
+  return (
     <div className={classes.root}>
       <AppBar
         position="fixed"
-        className={clsx(classes.appBar, {[classes.appBarShift]: open})}
+        className={clsx(classes.appBar, { [classes.appBarShift]: open })}
       >
         <Toolbar>
           <IconButton
             edge="start"
-            className={clsx(classes.menuBtn, {[classes.hide]: open})}
+            className={clsx(classes.menuBtn, { [classes.hide]: open })}
             color="inherit"
             aria-label="open-drawer"
             onClick={handleDrawerOpen}
@@ -112,11 +116,11 @@ export default function NavBar({children}) {
 
       <Drawer
         className={classes.drawer}
-        variant='persistent'
+        variant="persistent"
         anchor="left"
         open={open}
         classes={{
-          paper: classes.drawerPaper
+          paper: classes.drawerPaper,
         }}
       >
         <div className={classes.drawerHeader}>
@@ -132,22 +136,20 @@ export default function NavBar({children}) {
           {SITEMAP.map((page, index) => (
             <ListItem
               button
-              onClick={() => {handleNavClick(page)}}
+              onClick={() => {
+                handleNavClick(page);
+              }}
               key={page.url}
             >
-              <ListItemText key={"nav-text-" & page.text} primary={page.text}/>
+              <ListItemText key={'nav-text-' & page.text} primary={page.text} />
             </ListItem>
           ))}
         </List>
-
       </Drawer>
-      <main
-        className={clsx(classes.content, {[classes.contentShift]: open})}
-      >
+      <main className={clsx(classes.content, { [classes.contentShift]: open })}>
         <div className={classes.drawerHeader} />
         {children}
       </main>
-
     </div>
-  )
+  );
 }

@@ -1,9 +1,9 @@
-import { withStyles } from "@material-ui/core/styles";
-import React, { Component } from "react";
-import Gallery from "../components/images/Gallery";
-import { graphqlQuery } from "../graphql";
-import { PHOTOS as PHOTOS_GQL_Q } from "../graphql/query";
-import { CircularProgress } from "@material-ui/core";
+import { withStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
+import Gallery from '../components/images/Gallery';
+import { graphqlQuery } from '../graphql';
+import { PHOTOS as PHOTOS_GQL_Q } from '../graphql/query';
+import { CircularProgress } from '@material-ui/core';
 
 const styles = (theme) => ({
   loadingWrapper: {
@@ -14,7 +14,6 @@ const styles = (theme) => ({
   },
 });
 
-
 class Images extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +23,7 @@ class Images extends Component {
       imgCount: 0,
       totalPages: 0,
       loading: true,
-    }
+    };
   }
 
   componentDidMount() {
@@ -34,37 +33,37 @@ class Images extends Component {
   componentDidUpdate(prevProps, prevState) {}
 
   queryImages = () => {
-    graphqlQuery(PHOTOS_GQL_Q, {page: this.state.currentPage}).then(res => {
-      const data = res.photos;
-      this.setState({
-        images: data.photos.map(photo => (
-          {
+    graphqlQuery(PHOTOS_GQL_Q, { page: this.state.currentPage })
+      .then((res) => {
+        const data = res.photos;
+        this.setState({
+          images: data.photos.map((photo) => ({
             id: photo.id,
-            source: `/api/image/${photo.id}`
-          }
-        )),
-        imgCount: data.count,
-        totalPages: data.pages,
-        loading: false,
+            source: `/api/image/${photo.id}`,
+          })),
+          imgCount: data.count,
+          totalPages: data.pages,
+          loading: false,
+        });
       })
-    }).catch(error => {
-      console.error(error);
-    })
-  }
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   fetchImages = () => {
-    this.setState({loading: true}, () => {
-      this.queryImages()
-    })
-  }
+    this.setState({ loading: true }, () => {
+      this.queryImages();
+    });
+  };
 
   render() {
     const { classes } = this.props;
     const { images, loading } = this.state;
 
-    return(
+    return (
       <React.Fragment>
-        { loading ? (
+        {loading ? (
           <div className={classes.loadingWrapper}>
             <CircularProgress />
           </div>
@@ -72,7 +71,7 @@ class Images extends Component {
           <Gallery images={images} onChange={this.queryImages} />
         )}
       </React.Fragment>
-    )
+    );
   }
 }
 

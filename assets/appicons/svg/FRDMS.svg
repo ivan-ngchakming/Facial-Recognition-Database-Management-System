@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100">
+  <defs>
+    <style>
+      .a {
+        isolation: isolate;
+      }
+
+      .b {
+        fill: #fff;
+      }
+
+      .c {
+        fill: #95a7c9;
+      }
+
+      .d {
+        fill: #373d4a;
+      }
+
+      .e {
+        opacity: 0.25;
+        mix-blend-mode: multiply;
+      }
+
+      .f {
+        fill: #597ec9;
+      }
+
+      .g {
+        fill: #415c93;
+      }
+
+      .h {
+        fill: #5c677d;
+      }
+    </style>
+  </defs>
+  <title>FRDMS_appicon</title>
+  <g class="a">
+    <g>
+      <path class="b" d="M11.73,0H88.2A11.8,11.8,0,0,1,100,11.8V88.2A11.8,11.8,0,0,1,88.2,100H11.8A11.8,11.8,0,0,1,0,88.2V11.73A11.73,11.73,0,0,1,11.73,0Z"/>
+      <g>
+        <g>
+          <path class="c" d="M17.27,20.91a3.65,3.65,0,0,1,3.64-3.64h7.27V10H20.91A10.89,10.89,0,0,0,10,20.91v7.27h7.27Z"/>
+          <path class="d" d="M17.27,79.09V71.82H10v7.27A10.89,10.89,0,0,0,20.91,90h7.27V82.73H20.91A3.65,3.65,0,0,1,17.27,79.09Z"/>
+          <g>
+            <image class="e" width="25" height="25" transform="translate(69 8)" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAACXBIWXMAAAsSAAALEgHS3X78AAAB7klEQVRIS93Wy2sUQRAG8F9tNg9fIUZEo5KjGO/q2b/csxdBECJeBIlghAQ1PpLsZstDT2cna3Zns0c/aHoYaurrqq76piIzQUSEgrrPg4SsTqYgMlNE9NDHWrP3Zn3UIDHACYYYTSOLZi3jDraxiRWzI0rF8Q98wSF+YpCZo0njfrOvKQQv8RQ3daftBPt4jw/4iK8R8Sczz9qGfcVZX4lkBy+woTtlAyWSHeziNd5gb5KoRtJTUnZLIdjUTZK4rRzuPtaN/e1FxO+auvqS8f30WqsL9XCrxr6GOMXniDjNzGyTLILAEm7gkXEx7OM7vuGsfdps1qhjVbs2eriOLeWOHisp70dE1EhGykUeKez1w0nUflpV0tS26SlVuY0neKdEdNo3rvkDpUrC5SVcq3ADD3EX14yJar+t416zL+M8kmN8wiu8Nb0Z15TcP8czJT1t20q00uwB/czMiKiR/DJbVlbwoHneMlaHSVw4YB8ycxQRA+VeZnX6UrPvKdUzUNI9Ux3OS7glblMVtRHqU0VSKkEn5mm4yzCX84pFSa6E/4dkUe2alKCKS6VnEZJZEjRq3h01Nv9I/TzokqBUfsO7jc0QGR2DxgU0E82seSCVPjpUZOoAgyuRYJ7JZqREcIxhZo6uTMJcM9qFeewvat+3UvC6Rz4AAAAASUVORK5CYII="/>
+            <path class="f" d="M79.09,10H71.82v7.27h7.27a3.65,3.65,0,0,1,3.64,3.64v7.27H90V20.91A10.89,10.89,0,0,0,79.09,10Z"/>
+          </g>
+          <path class="g" d="M82.73,79.09a3.65,3.65,0,0,1-3.64,3.64H71.82V90h7.27A10.89,10.89,0,0,0,90,79.09V71.82H82.73Z"/>
+        </g>
+        <g>
+          <path class="h" d="M67.85,49.14a18.76,18.76,0,0,1,.28,3.2,20.48,20.48,0,1,1-40.95,0,1.44,1.44,0,0,0,0-.36,25.57,25.57,0,0,0,14.69-14.2,25.57,25.57,0,0,0,23,9.24l-2.27-4.94A20.33,20.33,0,0,1,44.23,32.2a19.18,19.18,0,0,1,6.63,0c6.45-2.94,4.94-2.27,7.06-3.22a24.51,24.51,0,0,0-10.26-2.2A25.6,25.6,0,1,0,73.25,52.34,25.27,25.27,0,0,0,71.1,42.08ZM37.62,34.5a20.63,20.63,0,0,1-9.36,11.37A20.63,20.63,0,0,1,37.62,34.5Z"/>
+          <circle class="h" cx="55.34" cy="54.9" r="3.2"/>
+          <circle class="h" cx="39.98" cy="54.9" r="3.2"/>
+          <path class="h" d="M77.31,32.17l-6.14-2.81a1.14,1.14,0,0,1-.53-.53l-2.81-6.14a1.07,1.07,0,0,0-2,0l-2.82,6.14a1.07,1.07,0,0,1-.52.53L56.4,32.17a1.07,1.07,0,0,0,0,1.95l6.14,2.82a1,1,0,0,1,.52.52l2.82,6.14a1.07,1.07,0,0,0,2,0l2.81-6.14a1.07,1.07,0,0,1,.53-.52l6.14-2.82A1.07,1.07,0,0,0,77.31,32.17Z"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
