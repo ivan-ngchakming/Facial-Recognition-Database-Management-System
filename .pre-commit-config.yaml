@@ -10,4 +10,9 @@ repos:
     rev: 19.3b0
     hooks:
       - id: black
-        files: "py"
+        files: 'py'
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: 'v2.4.1' # Use the sha or tag you want to point at
+    hooks:
+      - id: prettier

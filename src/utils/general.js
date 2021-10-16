@@ -1,11 +1,9 @@
 export function getFaceLocations(photo) {
-  return photo.faces.map(face => (
-    [
-      ...face.location,
-      photo.width,
-      photo.height,
-    ]
-  ))
+  return photo.faces.map((face) => [
+    ...face.location,
+    photo.width,
+    photo.height,
+  ]);
 }
 
 export function makeObjectCopy(obj) {

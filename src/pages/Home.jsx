@@ -1,8 +1,8 @@
-import { withStyles } from "@material-ui/core/styles";
-import React, { Component } from "react";
-import { Container, Grid } from "@material-ui/core";
-import PageCard from "../components/nav/PageCard";
-import { SITEMAP } from "../constants";
+import { withStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
+import { Container, Grid } from '@material-ui/core';
+import PageCard from '../components/nav/PageCard';
+import { SITEMAP } from '../constants';
 
 const styles = (theme) => ({
   root: {
@@ -13,7 +13,7 @@ const styles = (theme) => ({
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {};
   }
 
   componentDidMount() {}
@@ -23,12 +23,12 @@ class Home extends Component {
   render() {
     const { classes } = this.props;
 
-    return(
+    return (
       <React.Fragment>
         <Container>
           <h1>Facial Recognition Database Management System</h1>
           <Grid container className={classes.root} spacing={2}>
-            { SITEMAP.filter(page => page.category !== "Home").map(page => (
+            {SITEMAP.filter((page) => page.category !== 'Home').map((page) => (
               <Grid item xs={12} md={6} lg={4}>
                 <PageCard page={page} />
               </Grid>
@@ -36,7 +36,7 @@ class Home extends Component {
           </Grid>
         </Container>
       </React.Fragment>
-    )
+    );
   }
 }
 
