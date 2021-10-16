@@ -52,6 +52,20 @@ yarn start
 flask build windows -r -c
 ```
 
+### Style Guide
+
+To ensure consistent coding style, please use pre-commit
+
+```sh
+pre-commit install
+```
+
+Run pre-commit hooks on modified files after staging
+
+```sh
+pre-commit run
+```
+
 ### Database
 
 If you do not populate the database manually yourself, you may download a sample database [here](https://github.com/ivan0313/Facial-Recognition-Database-Management-System/releases/download/v0.1.1/FRDMS.db)

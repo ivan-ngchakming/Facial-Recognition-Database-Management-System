@@ -47,16 +47,16 @@ Find a face match by supplying an input image, and the system will search the da
 
 1. face identification (Done)
 
-    Classifies a face to a specific identity selected from existing profile in the database
+   Classifies a face to a specific identity selected from existing profile in the database
 
 2. face verification (In-progress)
 
-    Determine whether a pair of faces belongs to the same identity
-    so un-identified faces can be grouped together
+   Determine whether a pair of faces belongs to the same identity
+   so un-identified faces can be grouped together
 
 3. Batch processing (In-progress)
 
-    To perform the 2 task above in batch.
+   To perform the 2 task above in batch.
 
 ### Web Crawling (To-do)
 

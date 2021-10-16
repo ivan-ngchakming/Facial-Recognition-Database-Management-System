@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import { withStyles } from "@material-ui/core/styles";
-import { Checkbox, Grid, Toolbar, IconButton, Typography, Snackbar } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles';
+import {
+  Checkbox,
+  Grid,
+  Toolbar,
+  IconButton,
+  Typography,
+  Snackbar,
+} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
 import Image from './Image';
 import { DELETE_PHOTOS as DELETE_PHOTOS_GQL_M } from '../../graphql/mutation';
-import { graphqlQuery } from "../../graphql";
+import { graphqlQuery } from '../../graphql';
 import { ContextMenuProvider } from '../context/MenuContext';
 
 const styles = (theme) => ({
@@ -18,9 +25,8 @@ const styles = (theme) => ({
   },
   title: {
     flexGrow: 1,
-  }
+  },
 });
-
 
 class Gallery extends Component {
   constructor(props) {
@@ -30,7 +36,7 @@ class Gallery extends Component {
       openDeleteSnackbar: false,
       deleteMsg: null,
       imgHash: Date.now(),
-    }
+    };
   }
 
   componentDidMount() {}
@@ -40,74 +46,75 @@ class Gallery extends Component {
   handleCheckImage = (_id) => {
     var newSelected = this.state.selected.slice();
     if (newSelected.includes(_id)) {
-      newSelected.pop(_id)
-      this.setState({selected: newSelected})
+      newSelected.pop(_id);
+      this.setState({ selected: newSelected });
     } else {
-      newSelected.push(_id)
-      this.setState({selected: newSelected})
+      newSelected.push(_id);
+      this.setState({ selected: newSelected });
     }
   };
 
   handleCheckAll = () => {
     if (this.state.selected.length !== this.props.images.length) {
-      this.setState({selected: this.props.images.map(image => image.id)})
+      this.setState({ selected: this.props.images.map((image) => image.id) });
     } else {
-      this.setState({selected: []})
+      this.setState({ selected: [] });
     }
-  }
+  };
 
   handleDeleteSelected = () => {
-    console.debug("Deleting selected images: ", this.state.selected);
-    graphqlQuery(DELETE_PHOTOS_GQL_M, {ids: this.state.selected}).then(res => {
-      const deletedImgs = res.deletePhoto;
-      this.setState({
-        selected: [],
-        openDeleteSnackbar: true,
-        deleteMsg: `${deletedImgs.length} images deleted`,
-        imgHash: Date.now(),
-      })
-      this.props.onChange();
-    })
-  }
+    console.debug('Deleting selected images: ', this.state.selected);
+    graphqlQuery(DELETE_PHOTOS_GQL_M, { ids: this.state.selected }).then(
+      (res) => {
+        const deletedImgs = res.deletePhoto;
+        this.setState({
+          selected: [],
+          openDeleteSnackbar: true,
+          deleteMsg: `${deletedImgs.length} images deleted`,
+          imgHash: Date.now(),
+        });
+        this.props.onChange();
+      }
+    );
+  };
 
   handleSingleDelete = (id) => {
-    console.debug("Deleting selecte image: ", [id]);
-    graphqlQuery(DELETE_PHOTOS_GQL_M, {ids: [id]}).then(res => {
+    console.debug('Deleting selecte image: ', [id]);
+    graphqlQuery(DELETE_PHOTOS_GQL_M, { ids: [id] }).then((res) => {
       const deletedImgs = res.deletePhoto;
       this.setState({
-        selected: this.state.selected.filter(item => item !== id),
+        selected: this.state.selected.filter((item) => item !== id),
         openDeleteSnackbar: true,
         deleteMsg: `${deletedImgs.length} images deleted`,
         imgHash: Date.now(),
-      })
+      });
       this.props.onChange();
-    })
-  }
+    });
+  };
 
   handleCloseDeleteSnackbar = () => {
-    this.setState({openDeleteSnackbar: false})
-  }
+    this.setState({ openDeleteSnackbar: false });
+  };
 
   renderSelectOption = (id) => {
     if (id) {
-     return  this.state.selected.includes(id) ? "Unselect" : "Select"
+      return this.state.selected.includes(id) ? 'Unselect' : 'Select';
     }
-    return "Select"
-  }
+    return 'Select';
+  };
 
   contextMenuOptions = [
     {
-      name: "select-option",
+      name: 'select-option',
       renderName: (id) => this.renderSelectOption(id),
-      action : this.handleCheckImage
+      action: this.handleCheckImage,
     },
     {
-      name: "delete-option",
-      renderName: () => "Delete",
-      action : this.handleSingleDelete
-    }
-
-  ]
+      name: 'delete-option',
+      renderName: () => 'Delete',
+      action: this.handleSingleDelete,
+    },
+  ];
   render() {
     const { classes, images } = this.props;
     const { selected, openDeleteSnackbar, deleteMsg, imgHash } = this.state;
@@ -116,7 +123,6 @@ class Gallery extends Component {
       <ContextMenuProvider options={this.contextMenuOptions}>
         <React.Fragment>
           <Grid container className={classes.root} spacing={2}>
-
             {/* Tool Bar */}
             <Grid item xs={12}>
               {selected.length === 0 ? (
@@ -135,7 +141,8 @@ class Gallery extends Component {
                     inputProps={{ 'aria-label': 'select image checkbox' }}
                   />
                   <Typography variant="body1" className={classes.title}>
-                    {selected.length} Image{selected.length > 1 ? 's' : null } selected
+                    {selected.length} Image{selected.length > 1 ? 's' : null}{' '}
+                    selected
                   </Typography>
                   <IconButton
                     onClick={this.handleDeleteSelected}
@@ -144,31 +151,28 @@ class Gallery extends Component {
                     <DeleteIcon />
                   </IconButton>
                 </Toolbar>
-              ) }
+              )}
             </Grid>
 
             <Grid container xs={12} justifyContent="center" spacing={2}>
               {/* <Grid container justifyContent="flex-start" spacing={2}> */}
-                {images && (
-                  images.map((image, index) => (
-                    <Grid key={index} item>
-                      <Image
-                        image={image}
-                        imgHash={imgHash}
-                        height={300}
-                        onCheck={this.handleCheckImage}
-                        redirect={selected.length === 0}
-                        hover
-                        selected={selected.includes(image.id)}
-                        selectMode={selected.length > 0}
-                      />
-                    </Grid>))
-                )}
+              {images &&
+                images.map((image, index) => (
+                  <Grid key={index} item>
+                    <Image
+                      image={image}
+                      imgHash={imgHash}
+                      height={300}
+                      onCheck={this.handleCheckImage}
+                      redirect={selected.length === 0}
+                      hover
+                      selected={selected.includes(image.id)}
+                      selectMode={selected.length > 0}
+                    />
+                  </Grid>
+                ))}
 
-                {images && images.length === 0 && (
-                  "No Images"
-                )
-                }
+              {images && images.length === 0 && 'No Images'}
               {/* </Grid> */}
             </Grid>
           </Grid>
@@ -184,7 +188,12 @@ class Gallery extends Component {
             message={deleteMsg}
             action={
               <React.Fragment>
-                <IconButton size="small" aria-label="close" color="inherit" onClick={this.handleCloseDeleteSnackbar}>
+                <IconButton
+                  size="small"
+                  aria-label="close"
+                  color="inherit"
+                  onClick={this.handleCloseDeleteSnackbar}
+                >
                   <CloseIcon fontSize="small" />
                 </IconButton>
               </React.Fragment>
@@ -192,8 +201,7 @@ class Gallery extends Component {
           />
         </React.Fragment>
       </ContextMenuProvider>
-
-    )
+    );
   }
 }
 

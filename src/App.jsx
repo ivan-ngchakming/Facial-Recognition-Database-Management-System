@@ -1,11 +1,11 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Home from "./pages/Home";
-import NavBar from "./components/nav/NavBar";
-import FacialRecognition from "./pages/FacialRecognition";
-import Images from "./pages/Images";
-import BatchRecTasks from "./pages/BatchRecTasks";
-import Profiles from "./pages/Profiles";
-import ProfileDetails from "./pages/ProfileDetails";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Home from './pages/Home';
+import NavBar from './components/nav/NavBar';
+import FacialRecognition from './pages/FacialRecognition';
+import Images from './pages/Images';
+import BatchRecTasks from './pages/BatchRecTasks';
+import Profiles from './pages/Profiles';
+import ProfileDetails from './pages/ProfileDetails';
 
 function App() {
   return (
@@ -14,8 +14,12 @@ function App() {
         <Router>
           <NavBar>
             <Switch>
-              <Route path="/" exact component={Home}/>
-              <Route path="/facial-recognition" exact component={FacialRecognition} />
+              <Route path="/" exact component={Home} />
+              <Route
+                path="/facial-recognition"
+                exact
+                component={FacialRecognition}
+              />
               <Route path="/images" exact component={Images} />
               <Route path="/profiles" exact component={Profiles} />
               <Route path="/profile" exact component={ProfileDetails} />
