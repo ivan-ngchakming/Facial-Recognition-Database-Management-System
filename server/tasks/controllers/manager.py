@@ -45,9 +45,9 @@ class TaskManager:
             # get status of all task collections
             return [
                 {
-                    "Task collection ID": collection.id,
-                    "Status": collection.status,
-                    "Progress": collection.progress,
+                    "task_collection_id": collection.id,
+                    "status": collection.status,
+                    "progress": collection.progress,
                 }
                 for collection in self.task_collections
             ]
