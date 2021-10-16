@@ -6,6 +6,7 @@ import Images from './pages/Images';
 import BatchRecTasks from './pages/BatchRecTasks';
 import Profiles from './pages/Profiles';
 import ProfileDetails from './pages/ProfileDetails';
+import Create from './pages/BatchRecTasks/Create';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path="/profiles" exact component={Profiles} />
               <Route path="/profile" exact component={ProfileDetails} />
               <Route path="/batch-rec-tasks" exact component={BatchRecTasks} />
+              <Route path="/batch-rec-tasks/create" exact component={Create} />
             </Switch>
           </NavBar>
         </Router>
