@@ -1,10 +1,11 @@
 import time
 import logging
 
+import numpy as np
 from PIL import Image
 from server.database import db
 from server.faces.arcface.utils import cosine_similarity_batch
-from server.models import Photo, Profile
+from server.models import Photo, Profile, Face
 
 
 logger = logging.getLogger(__name__)
@@ -26,13 +27,13 @@ def face_identify(task, filepath, tolerace=0.7):
 
     # Identify face
     profiles = Profile.query.all()
-    face_objs = photo.faces
+    unknown_face_objs = photo.faces
 
-    logger.debug(f"{task.id}: {len(face_objs)} faces found")
+    logger.debug(f"{task.id}: {len(unknown_face_objs)} faces found")
 
     results = []
-    for face_obj in face_objs:
-        encoding_to_check = face_obj.encoding
+    for unknown_face_obj in unknown_face_objs:  # face objects in target image
+        encoding_to_check = unknown_face_obj.encoding
         scores = []
 
         for profile in profiles:
@@ -49,17 +50,36 @@ def face_identify(task, filepath, tolerace=0.7):
         # add face to profile
         best_match = scores[0]
         if best_match["score"] > tolerace:
-            best_match["profile"].faces.append(face_obj)
+            best_match["profile"].faces.append(unknown_face_obj)
             logger.debug(
-                f"Face {face_obj.id} matched to profile {best_match['profile'].name}"
+                f"Face {unknown_face_obj.id} matched to profile {best_match['profile'].name}"
             )
         else:
-            logger.debug(f"No match for face {face_obj.id}")
+            logger.debug(f"No match for face {unknown_face_obj.id}")
+            saved_face = face_verification(unknown_face_obj, tolerace)
+            profile = Profile(name=f"Unknown")
+            profile.thumbnail = unknown_face_obj
+            profile.faces.append(saved_face)
+            profile.faces.append(unknown_face_obj)
+            db.session.add(profile)
 
         # Store face matching result and return later
-        results.append({"face": face_obj, "scores": scores})
+        results.append({"face": unknown_face_obj, "scores": scores})
 
     # Commit all changes
     db.session.commit()
 
     return results
+
+
+def face_verification(unknown_face, tolerace=0.7):
+    logger.debug(f"Running face against other faces with no profiles")
+    face_objs = Face.query.filter(Face.profile == None).all()
+
+    similarities = cosine_similarity_batch(
+        unknown_face.encoding, [face_obj.encoding for face_obj in face_objs]
+    )
+
+    max_score = np.max(similarities)
+    if max_score > tolerace:
+        return face_objs[np.where(similarities == max_score)[0][0]]

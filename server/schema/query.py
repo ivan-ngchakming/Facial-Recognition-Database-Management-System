@@ -49,6 +49,7 @@ def resolve_profile(_, info, profile_id):
 @query.field("profiles")
 @convert_kwargs_to_snake_case
 def resolve_profiles(_, info, page=None, per_page=10):
+    logger.debug(f"Querying profiles page {page} with {per_page} per page")
     query = Profile.query
 
     if page is None:
@@ -58,8 +59,9 @@ def resolve_profiles(_, info, page=None, per_page=10):
         pages = math.ceil(count / per_page)
         if page > pages:
             raise Exception(f"Page {page} out of range, there are only {pages} pages.")
-        photos = query.offset((page - 1) * per_page).limit(per_page).all()
-        return {"pages": pages, "count": count, "profiles": photos}
+        profiles = query.offset((page) * per_page).limit(per_page).all()
+        logger.debug(f"{len(profiles)=}")
+        return {"pages": pages, "count": count, "profiles": profiles}
 
 
 @query.field("identifyFace")
