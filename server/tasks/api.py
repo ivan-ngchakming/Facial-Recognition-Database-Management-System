@@ -39,6 +39,9 @@ def face_rec():
     if request.method == "POST":
         dirpath = request.form["dir"]
         priority = int(request.form["priority"])
+
+        logger.debug(f"Creating batch rec task for {dirpath} with priority {priority}")
+
         filepaths = [
             os.path.join(dirpath, filename) for filename in os.listdir(dirpath)
         ]
