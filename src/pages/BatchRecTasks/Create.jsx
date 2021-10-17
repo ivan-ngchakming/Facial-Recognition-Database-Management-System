@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import {
   TextField,
   Container,
@@ -19,7 +20,20 @@ export default function Create() {
     setValues({ ...values, [prop]: event.target.value });
   };
 
+  const createTask = (dir) => {
+    const formData = new FormData();
+    formData.append('dir', dir);
+    formData.append('priority', 5);
+
+    axios.post('/api/tasks/face-rec', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  };
+
   const submit = () => {
+    createTask(values.dir);
     history.push('/batch-rec-tasks');
   };
 

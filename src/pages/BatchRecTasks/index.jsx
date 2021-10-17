@@ -14,6 +14,9 @@ export default function BatchRecTasks() {
         </div>
       ))}
       <Button onClick={fetchTasks}>Refresh</Button>
+      <Button component="button" href="/batch-rec-tasks/create">
+        Create
+      </Button>
     </>
   );
 }
