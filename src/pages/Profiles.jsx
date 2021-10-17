@@ -1,23 +1,10 @@
 import { withStyles } from '@material-ui/core/styles';
-import {
-  Container,
-  Checkbox,
-  Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TablePagination,
-  TableRow,
-} from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import React, { Component } from 'react';
-import Image from '../components/images/Image';
-import EnhancedTableHead from '../components/tables/EnhancedTableHead';
-import EnhancedTableToolbar from '../components/tables/EnhancedTableToolbar';
+import PortfolioTable from '../components/profiles/PortfolioTable';
+import PortfolioGallery from '../components/profiles/PortfolioGallery';
 import { graphqlQuery } from '../graphql';
 import { PROFILES as PROFILES_GQL_Q } from '../graphql/query';
-import { getComparator, stableSort } from '../utils';
 
 export function createData(name, id, facecount) {
   return { name, id, facecount };
@@ -37,6 +24,10 @@ const headCells = [
 const styles = (theme) => ({
   root: {
     width: '100%',
+  },
+  btn: {
+    margin: theme.spacing(0, 0, 2, 0),
+    minWidth: '100px',
   },
   paper: {
     width: '100%',
@@ -67,9 +58,11 @@ class Profiles extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      viewName: 'Gallery View',
       order: 'asc',
       orderBy: 'id',
       selected: [],
+      showGallery: false,
       page: 0,
       rowsPerPage: 10,
       profilesCount: 0,
@@ -142,6 +135,15 @@ class Profiles extends Component {
     });
   };
 
+  handleClickView = () => {
+    this.setState({ showGallery: !this.state.showGallery });
+    if (this.state.showGallery) {
+      this.setState({ viewName: 'Gallery View' })
+    } else {
+      this.setState({ viewName: 'Table View' })
+    }
+  };
+
   isSelected = (name) => this.state.selected.indexOf(name) !== -1;
 
   fetchPortfolios = () => {
@@ -162,115 +164,56 @@ class Profiles extends Component {
   };
   render() {
     const { classes } = this.props;
-    const { order, orderBy, selected, page, rowsPerPage } = this.state;
-
-    const emptyRows =
-      this.state.rowsPerPage -
-      Math.min(
-        this.state.rowsPerPage,
-        this.state.rows.length - this.state.page * this.state.rowsPerPage
-      );
+    const { 
+      order, 
+      orderBy, 
+      selected, 
+      page, 
+      rowsPerPage, 
+      showGallery, 
+      viewName 
+    } = this.state;
 
     return (
-      <div className={classes.root}>
-        <Container style={{ maxWidth: '90vw' }}>
-          <Paper className={classes.paper}>
-            <EnhancedTableToolbar
-              numSelected={selected.length}
-              title="Portfolios"
-            />
-            <TableContainer>
-              <Table
-                className={classes.table}
-                aria-labelledby="tableTitle"
-                size="medium"
-                aria-label="enhanced table"
-              >
-                <EnhancedTableHead
-                  classes={classes}
-                  numSelected={selected.length}
-                  order={order}
-                  orderBy={orderBy}
-                  onSelectAllClick={this.handleSelectAllClick}
-                  onRequestSort={this.handleRequestSort}
-                  rowCount={this.state.rows.length}
-                  headCells={headCells}
-                  icon
-                />
-                <TableBody>
-                  {this.state.rows.length > 0 &&
-                    stableSort(this.state.rows, getComparator(order, orderBy))
-                      .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                      .map((row, index) => {
-                        const isItemSelected = this.isSelected(row.name);
-                        const labelId = `enhanced-table-checkbox-${index}`;
-
-                        return (
-                          <TableRow
-                            hover
-                            onClick={(event) =>
-                              this.handleClick(event, row.name, row.id)
-                            }
-                            role="checkbox"
-                            aria-checked={isItemSelected}
-                            tabIndex={-1}
-                            key={row.name}
-                            selected={isItemSelected}
-                          >
-                            <TableCell padding="checkbox">
-                              <Checkbox
-                                onClick={(event) =>
-                                  this.handleClick(event, row.name, row.id)
-                                }
-                                checked={isItemSelected}
-                                inputProps={{ 'aria-labelledby': labelId }}
-                              />
-                            </TableCell>
-                            <TableCell padding="checkbox">
-                              <Grid style={{ margin: '10px' }}>
-                                <Image
-                                  image={
-                                    row.thumbnail && row.thumbnail.photo
-                                      ? {
-                                          source: `/api/image/${row.thumbnail.photo.id}`,
-                                        }
-                                      : null
-                                  }
-                                  height={50}
-                                />
-                              </Grid>
-                            </TableCell>
-                            <TableCell align="left">{row.id}</TableCell>
-                            <TableCell component="th" id={labelId} scope="row">
-                              {row.name}
-                            </TableCell>
-                            <TableCell align="left">{row.facesCount}</TableCell>
-                          </TableRow>
-                        );
-                      })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 20, 30, 50, 100]}
-              component="div"
-              count={this.state.profilesCount}
-              rowsPerPage={rowsPerPage}
+      <React.Fragment>
+        <Button onClick={this.handleClickView} variant="contained" className={classes.btn}>
+          {viewName}
+        </Button>
+        { !showGallery
+            ?
+          (
+            <PortfolioTable
+              classes={classes}
+              handleChangePage={this.handleChangePage}
+              handleChangeRowsPerPage={this.handleChangeRowsPerPage}
+              handleClick={this.handleClick}
+              handleSelectAllClick={this.handleSelectAllClick}
+              handleRequestSort={this.handleRequestSort}
+              headCells={headCells}
+              isSelected={this.isSelected}
+              order={order}
+              orderBy={orderBy}
+              profilesCount={this.state.profilesCount}
+              selected={selected}
               page={page}
-              onPageChange={this.handleChangePage}
-              onRowsPerPageChange={this.handleChangeRowsPerPage}
+              rows={this.state.rows}
+              rowsPerPage={rowsPerPage}
             />
-          </Paper>
-        </Container>
-      </div>
+          )
+            :
+          (
+            <PortfolioGallery
+              classes={classes}
+              height={300}
+              onCheck={this.handleCheckImage}
+              redirect={selected.length === 0}
+              hover
+              rows={this.state.rows}
+              selectMode={selected.length > 0}
+            />
+          )
+        }
+      </React.Fragment>
     );
   }
 }
