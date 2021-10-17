@@ -12,6 +12,13 @@ from .faces.arcface import face_app
 logger = logging.getLogger(__name__)
 
 
+def same_as(column_name):
+    def default_function(context):
+        return context.current_parameters.get(column_name)
+
+    return default_function
+
+
 class Profile(db.Model):
     __tablename__ = "profile"
 
