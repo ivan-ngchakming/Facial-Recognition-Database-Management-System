@@ -10,8 +10,8 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
-import Image from '../images/Image';
-import { ContextMenuProvider } from '../context/MenuContext';
+import Image from '../../../components/images/Image';
+import { ContextMenuProvider } from '../../../components/context/MenuContext';
 
 const styles = (theme) => ({
   root: {
@@ -128,13 +128,12 @@ class PortfolioGallery extends Component {
                             }
                           : null
                       }
-                      imageType={'portfolio'}
                       imgHash={imgHash}
                       height={300}
+                      href={`/profile?id=${row.id}`}
                       onCheck={this.handleCheckImage}
                       redirect={selected.length === 0}
                       hover
-                      row={row}
                       selected={selected.includes(row.id)}
                       selectMode={selected.length > 0}
                     />

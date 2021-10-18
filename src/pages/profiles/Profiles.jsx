@@ -1,10 +1,10 @@
 import { withStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import React, { Component } from 'react';
-import PortfolioTable from '../components/profiles/PortfolioTable';
-import PortfolioGallery from '../components/profiles/PortfolioGallery';
-import { graphqlQuery } from '../graphql';
-import { PROFILES as PROFILES_GQL_Q } from '../graphql/query';
+import PortfolioTable from '../profiles/components/PortfolioTable';
+import PortfolioGallery from '../profiles/components/PortfolioGallery';
+import { graphqlQuery } from '../../graphql';
+import { PROFILES as PROFILES_GQL_Q } from '../../graphql/query';
 
 export function createData(name, id, facecount) {
   return { name, id, facecount };

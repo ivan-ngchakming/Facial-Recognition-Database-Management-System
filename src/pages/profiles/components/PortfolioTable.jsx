@@ -11,10 +11,10 @@ import {
   TableRow,
 } from '@material-ui/core';
 import React, { Component } from 'react';
-import Image from '../images/Image';
-import EnhancedTableHead from '../tables/EnhancedTableHead';
-import EnhancedTableToolbar from '../tables/EnhancedTableToolbar';
-import { getComparator, stableSort } from '../../utils';
+import Image from '../../../components/images/Image';
+import EnhancedTableHead from '../../../components/tables/EnhancedTableHead';
+import EnhancedTableToolbar from '../../../components/tables/EnhancedTableToolbar';
+import { getComparator, stableSort } from '../../../utils';
 
 class PortfolioTable extends Component {
   render() {

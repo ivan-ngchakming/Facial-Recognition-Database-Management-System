@@ -43,14 +43,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Image({
   image,
-  imageType,
   height = 300,
   hover,
+  href,
   redirect,
   selected,
   onCheck,
   selectMode = false,
-  row,
   imgHash,
 }) {
   const classes = useStyles();
@@ -77,38 +76,23 @@ export default function Image({
 
   const handleClick = (event) => {
     if (redirect && event.target.type !== 'checkbox') {
-      if (imageType === 'portfolio') {
-        history.push(`/profile?id=${row.id}`);
-      } else {
-        history.push(`/facial-recognition?id=${image.id}`);
-      }
+      history.push(href);
     }
     if (selectMode) {
-      if (imageType === 'portfolio') {
-        onCheck(row.id);
-      } else {
-        onCheck(image.id);
-      }
+      onCheck(image.id);
     }
   };
 
   const handleChange = () => {
-    if (imageType === 'portfolio') {
-      onCheck(row.id);
-    } else {
-      onCheck(image.id);
-    }
+    onCheck(image.id);
   };
+
   const handleContextMenu = useCallback(
     (e) => {
       e.preventDefault();
       const { clientX, clientY } = e;
       //open popover menu
-      if (imageType === 'portfolio') {
-        openPopOver && openPopOver(clientY, clientX, row.id);
-      } else {
-        openPopOver && openPopOver(clientY, clientX, image.id);
-      }
+      openPopOver && openPopOver(clientY, clientX, image.id);
     },
     [canvasRef, openPopOver, image]
   );

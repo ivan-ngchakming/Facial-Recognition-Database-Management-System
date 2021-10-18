@@ -163,6 +163,7 @@ class Gallery extends Component {
                       image={image}
                       imgHash={imgHash}
                       height={300}
+                      href={`/facial-recognition?id=${image.id}`}
                       onCheck={this.handleCheckImage}
                       redirect={selected.length === 0}
                       hover
