@@ -85,7 +85,7 @@ export default function Image({
     }
     if (selectMode) {
       if (imageType === 'portfolio') {
-        onCheck(row.id)
+        onCheck(row.id);
       } else {
         onCheck(image.id);
       }
@@ -94,7 +94,7 @@ export default function Image({
 
   const handleChange = () => {
     if (imageType === 'portfolio') {
-      onCheck(row.id)
+      onCheck(row.id);
     } else {
       onCheck(image.id);
     }

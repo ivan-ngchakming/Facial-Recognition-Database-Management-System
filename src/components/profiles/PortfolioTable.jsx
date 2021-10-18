@@ -10,7 +10,7 @@ import {
   TablePagination,
   TableRow,
 } from '@material-ui/core';
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import Image from '../images/Image';
 import EnhancedTableHead from '../tables/EnhancedTableHead';
 import EnhancedTableToolbar from '../tables/EnhancedTableToolbar';
@@ -18,30 +18,26 @@ import { getComparator, stableSort } from '../../utils';
 
 class PortfolioTable extends Component {
   render() {
-    const { 
-      classes, 
-      handleChangePage, 
-      handleChangeRowsPerPage, 
-      handleClick, 
-      handleSelectAllClick, 
-      handleRequestSort, 
-      headCells, 
-      isSelected, 
-      order, 
-      orderBy, 
-      profilesCount, 
-      selected, 
-      page, 
-      rows, 
-      rowsPerPage 
+    const {
+      classes,
+      handleChangePage,
+      handleChangeRowsPerPage,
+      handleClick,
+      handleSelectAllClick,
+      handleRequestSort,
+      headCells,
+      isSelected,
+      order,
+      orderBy,
+      profilesCount,
+      selected,
+      page,
+      rows,
+      rowsPerPage,
     } = this.props;
 
     const emptyRows =
-      rowsPerPage -
-      Math.min(
-        rowsPerPage,
-        rows.length - page * rowsPerPage
-      );
+      rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
       <div className={classes.root}>

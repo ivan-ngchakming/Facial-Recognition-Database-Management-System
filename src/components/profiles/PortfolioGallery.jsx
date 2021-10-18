@@ -59,7 +59,7 @@ class PortfolioGallery extends Component {
       return;
     }
     this.setState({ selected: [] });
-  }
+  };
 
   handleCloseDeleteSnackbar = () => {
     this.setState({ openDeleteSnackbar: false });
@@ -108,9 +108,7 @@ class PortfolioGallery extends Component {
                   <Typography variant="body1" className={classes.title}>
                     {selected.length} selected
                   </Typography>
-                  <IconButton
-                    color="inherit"
-                  >
+                  <IconButton color="inherit">
                     <DeleteIcon />
                   </IconButton>
                 </Toolbar>

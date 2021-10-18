@@ -138,9 +138,9 @@ class Profiles extends Component {
   handleClickView = () => {
     this.setState({ showGallery: !this.state.showGallery });
     if (this.state.showGallery) {
-      this.setState({ viewName: 'Gallery View' })
+      this.setState({ viewName: 'Gallery View' });
     } else {
-      this.setState({ viewName: 'Table View' })
+      this.setState({ viewName: 'Table View' });
     }
   };
 
@@ -164,55 +164,54 @@ class Profiles extends Component {
   };
   render() {
     const { classes } = this.props;
-    const { 
-      order, 
-      orderBy, 
-      selected, 
-      page, 
-      rowsPerPage, 
-      showGallery, 
-      viewName 
+    const {
+      order,
+      orderBy,
+      selected,
+      page,
+      rowsPerPage,
+      showGallery,
+      viewName,
     } = this.state;
 
     return (
       <React.Fragment>
-        <Button onClick={this.handleClickView} variant="contained" className={classes.btn}>
+        <Button
+          onClick={this.handleClickView}
+          variant="contained"
+          className={classes.btn}
+        >
           {viewName}
         </Button>
-        { !showGallery
-            ?
-          (
-            <PortfolioTable
-              classes={classes}
-              handleChangePage={this.handleChangePage}
-              handleChangeRowsPerPage={this.handleChangeRowsPerPage}
-              handleClick={this.handleClick}
-              handleSelectAllClick={this.handleSelectAllClick}
-              handleRequestSort={this.handleRequestSort}
-              headCells={headCells}
-              isSelected={this.isSelected}
-              order={order}
-              orderBy={orderBy}
-              profilesCount={this.state.profilesCount}
-              selected={selected}
-              page={page}
-              rows={this.state.rows}
-              rowsPerPage={rowsPerPage}
-            />
-          )
-            :
-          (
-            <PortfolioGallery
-              classes={classes}
-              height={300}
-              onCheck={this.handleCheckImage}
-              redirect={selected.length === 0}
-              hover
-              rows={this.state.rows}
-              selectMode={selected.length > 0}
-            />
-          )
-        }
+        {!showGallery ? (
+          <PortfolioTable
+            classes={classes}
+            handleChangePage={this.handleChangePage}
+            handleChangeRowsPerPage={this.handleChangeRowsPerPage}
+            handleClick={this.handleClick}
+            handleSelectAllClick={this.handleSelectAllClick}
+            handleRequestSort={this.handleRequestSort}
+            headCells={headCells}
+            isSelected={this.isSelected}
+            order={order}
+            orderBy={orderBy}
+            profilesCount={this.state.profilesCount}
+            selected={selected}
+            page={page}
+            rows={this.state.rows}
+            rowsPerPage={rowsPerPage}
+          />
+        ) : (
+          <PortfolioGallery
+            classes={classes}
+            height={300}
+            onCheck={this.handleCheckImage}
+            redirect={selected.length === 0}
+            hover
+            rows={this.state.rows}
+            selectMode={selected.length > 0}
+          />
+        )}
       </React.Fragment>
     );
   }
