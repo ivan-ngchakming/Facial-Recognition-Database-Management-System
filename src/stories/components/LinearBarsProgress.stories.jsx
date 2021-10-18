@@ -1,6 +1,6 @@
 import React from 'react';
 
-import LinearBarsProgress from '../../components/LinearBarsProgress';
+import LinearBarsProgress from '../../components/progress/LinearBarsProgress';
 
 export default {
   component: LinearBarsProgress,
