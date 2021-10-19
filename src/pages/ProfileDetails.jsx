@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { graphqlQuery } from '../graphql';
 import {
   PROFILE as PROFILE_GQL_Q,
-  PHOTOS as PHOTOS_GQL_Q,
+  IMAGES as IMAGES_GQL_Q,
 } from '../graphql/query';
 import CroppedImage from '../components/images/CroppedImage';
 import Gallery from '../components/images/Gallery';
@@ -67,7 +67,7 @@ class ProfileDetails extends Component {
   };
 
   queryImages = (profileId) => {
-    graphqlQuery(PHOTOS_GQL_Q, {
+    graphqlQuery(IMAGES_GQL_Q, {
       page: this.state.currentPage,
       profileId: profileId,
     })

@@ -1,4 +1,4 @@
-export const PHOTO = `
+export const IMAGE = `
   query myQuery ($photoId: ID!){
     photo (photoId: $photoId){
       id
@@ -25,7 +25,7 @@ export const PHOTO = `
   }
 `;
 
-export const PHOTOS = `
+export const IMAGES = `
   query photos($page: Int, $profileId: ID) {
     photos(page: $page, profileId: $profileId) {
       pages
