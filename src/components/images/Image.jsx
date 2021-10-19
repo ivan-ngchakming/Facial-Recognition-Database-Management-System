@@ -45,6 +45,7 @@ export default function Image({
   image,
   height = 300,
   hover,
+  href,
   redirect,
   selected,
   onCheck,
@@ -75,7 +76,7 @@ export default function Image({
 
   const handleClick = (event) => {
     if (redirect && event.target.type !== 'checkbox') {
-      history.push(`/facial-recognition?id=${image.id}`);
+      history.push(href);
     }
     if (selectMode) {
       onCheck(image.id);
@@ -85,6 +86,7 @@ export default function Image({
   const handleChange = () => {
     onCheck(image.id);
   };
+
   const handleContextMenu = useCallback(
     (e) => {
       e.preventDefault();
