@@ -13,7 +13,7 @@ import {
 import React, { Component } from 'react';
 import Image from '../../../components/images/Image';
 import EnhancedTableHead from '../../../components/DataTable/EnhancedTableHead';
-import EnhancedTableToolbar from '../../../components/DataTable/EnhancedTableToolbar';
+import SelectToolbar from '../../../components/SelectToolbar';
 import { getComparator, stableSort } from '../../../utils';
 
 class PortfolioTable extends Component {
@@ -43,10 +43,7 @@ class PortfolioTable extends Component {
       <div className={classes.root}>
         <Container style={{ maxWidth: '90vw' }}>
           <Paper className={classes.paper}>
-            <EnhancedTableToolbar
-              numSelected={selected.length}
-              title="Portfolios"
-            />
+            <SelectToolbar numSelected={selected.length} title="Portfolios" />
             <TableContainer>
               <Table
                 className={classes.table}
