@@ -13,20 +13,20 @@ mutation = MutationType()
 
 
 @mutation.field("photo")
-def resolve_image(_, info, rbytes):
+def resolve_photo(_, info, rbytes):
     image = decode_img(rbytes)
     image = image.convert("RGB")
 
     with runtime(f"Resolved image mutation", logger):
-        image = Photo(image)
-        db.session.add(image)
+        photo = Photo(image)
+        db.session.add(photo)
         db.session.commit()
-    return image
+    return photo
 
 
 @mutation.field("deletePhoto")
 @convert_kwargs_to_snake_case
-def resolve_image(_, info, ids):
+def resolve_photo(_, info, ids):
     logger.debug(f"Deleting images {ids}")
     if ids:
         logger.debug(f"ids not empty")

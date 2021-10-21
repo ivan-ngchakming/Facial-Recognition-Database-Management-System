@@ -70,9 +70,9 @@ class Face(db.Model):
 
     def __repr__(self):
         if self.profile is None:
-            return f"<Face of unknown person in Image {self.photo.id} (id: {self.id})>"
+            return f"<Face of unknown person in Photo {self.photo.id} (id: {self.id})>"
         else:
-            return f"<Face of {self.profile.name} in Image {self.photo.id} (id: {self.id})>"
+            return f"<Face of {self.profile.name} in Photo {self.photo.id} (id: {self.id})>"
 
 
 class Photo(db.Model):
@@ -108,4 +108,4 @@ class Photo(db.Model):
         return PIL.Image.fromarray(self.array)
 
     def __repr__(self):
-        return f"<Image {self.id} ({len(self.faces)} faces)>"
+        return f"<Photo {self.id} ({len(self.faces)} faces)>"

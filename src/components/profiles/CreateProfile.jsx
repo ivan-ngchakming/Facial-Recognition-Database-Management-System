@@ -21,13 +21,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CreateProfile({ callback, faceId }) {
+export default function CreatePortfolio({ callback, faceId }) {
   const classes = useStyles();
 
   return (
     <div>
       <Typography variant="h6" align="center">
-        Create New Profile
+        Create New Portfolio
       </Typography>
 
       <Formik

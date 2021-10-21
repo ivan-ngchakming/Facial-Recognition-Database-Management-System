@@ -26,7 +26,7 @@ const styles = (theme) => ({
   },
 });
 
-class ProfileGallery extends Component {
+class PortfolioGallery extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -93,7 +93,7 @@ class ProfileGallery extends Component {
               {selected.length === 0 ? (
                 <Toolbar>
                   <Typography variant="h5" className={classes.title}>
-                    Profiles
+                    Portfolios
                   </Typography>
                 </Toolbar>
               ) : (
@@ -173,4 +173,4 @@ class ProfileGallery extends Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(ProfileGallery);
+export default withStyles(styles, { withTheme: true })(PortfolioGallery);
