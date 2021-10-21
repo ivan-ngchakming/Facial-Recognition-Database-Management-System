@@ -1,5 +1,5 @@
 import React from 'react';
-import CroppedImage from '../../components/CroppedImage';
+import CroppedImage from '../../components/images/CroppedImage';
 
 export default {
   component: CroppedImage,
