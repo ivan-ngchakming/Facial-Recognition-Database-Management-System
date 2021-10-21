@@ -12,8 +12,8 @@ import {
 } from '@material-ui/core';
 import React, { Component } from 'react';
 import Image from '../../../components/images/Image';
-import EnhancedTableHead from '../../../components/tables/EnhancedTableHead';
-import EnhancedTableToolbar from '../../../components/tables/EnhancedTableToolbar';
+import EnhancedTableHead from '../../../components/DataTable/EnhancedTableHead';
+import EnhancedTableToolbar from '../../../components/DataTable/EnhancedTableToolbar';
 import { getComparator, stableSort } from '../../../utils';
 
 class PortfolioTable extends Component {
