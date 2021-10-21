@@ -63,7 +63,6 @@ export default function Image({
   const showOptions = () => {
     if (hover && !selectMode) {
       setOptionsOpacity(1);
-      // setImageOpacity(0.3);
     }
   };
 
@@ -88,20 +87,20 @@ export default function Image({
   };
 
   const handleContextMenu = useCallback(
-    (e) => {
-      e.preventDefault();
-      const { clientX, clientY } = e;
+    (event) => {
+      event.preventDefault();
+      const { clientX, clientY } = event;
+
       //open popover menu
       openPopOver && openPopOver(clientY, clientX, image.id);
     },
-    [canvasRef, openPopOver, image]
+    [openPopOver, image]
   );
 
   const loadImage = useCallback(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     var imageObj = document.createElement('img');
-    // var imageObj = new Image;
     imageObj.crossOrigin = 'Anonymous';
     imageObj.src = `${image.source}?${imgHash}`;
 
@@ -147,8 +146,6 @@ export default function Image({
       setOptionsOpacity(1);
     }
   }, [image, loadImage, selectMode, optionsOpacity]);
-
-  //add conext click event to image
 
   return (
     <React.Fragment>

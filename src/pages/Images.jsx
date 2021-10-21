@@ -1,9 +1,10 @@
-import { withStyles } from '@material-ui/core/styles';
 import React, { Component } from 'react';
-import Gallery from '../components/images/Gallery';
+import { withStyles } from '@material-ui/core/styles';
+import { CircularProgress, Box, Container, Paper } from '@material-ui/core';
+
 import { graphqlQuery } from '../graphql';
 import { PHOTOS as PHOTOS_GQL_Q } from '../graphql/query';
-import { CircularProgress } from '@material-ui/core';
+import Gallery from '../components/images/Gallery';
 
 const styles = (theme) => ({
   loadingWrapper: {
@@ -61,16 +62,20 @@ class Images extends Component {
     const { classes } = this.props;
     const { images, loading } = this.state;
 
+    if (loading)
+      return (
+        <Box className={classes.loadingWrapper}>
+          <CircularProgress />
+        </Box>
+      );
     return (
-      <React.Fragment>
-        {loading ? (
-          <div className={classes.loadingWrapper}>
-            <CircularProgress />
-          </div>
-        ) : (
-          <Gallery images={images} onChange={this.queryImages} />
-        )}
-      </React.Fragment>
+      <>
+        <Container style={{ maxWidth: '90vw' }}>
+          <Paper style={{ width: '100%', marginBottom: '16px' }}>
+            <Gallery images={images} onChange={this.queryImages} />
+          </Paper>
+        </Container>
+      </>
     );
   }
 }
