@@ -41,7 +41,10 @@ class Gallery extends Component {
   handleCheckImage = (_id) => {
     var newSelected = this.state.selected.slice();
     if (newSelected.includes(_id)) {
-      newSelected.pop(_id);
+      const index = newSelected.indexOf(_id);
+      if (index > -1) {
+        newSelected.splice(index, 1);
+      }
       this.setState({ selected: newSelected });
     } else {
       newSelected.push(_id);
@@ -112,8 +115,10 @@ class Gallery extends Component {
   ];
 
   render() {
-    const { classes, images } = this.props;
+    const { images } = this.props;
     const { selected, openDeleteSnackbar, deleteMsg, imgHash } = this.state;
+
+    console.log(selected);
 
     return (
       <>
@@ -127,30 +132,32 @@ class Gallery extends Component {
           title="Gallery"
         />
         <ContextMenuProvider options={this.contextMenuOptions}>
-          <Grid
-            container
-            xs={12}
-            spacing={2}
-            style={{ marginTop: '10px', marginBottom: '10px' }}
-          >
-            {images &&
-              images.map((image, index) => (
-                <Grid key={index} item>
-                  <Image
-                    image={image}
-                    imgHash={imgHash}
-                    height={290}
-                    href={`/facial-recognition?id=${image.id}`}
-                    onCheck={this.handleCheckImage}
-                    redirect={selected.length === 0}
-                    hover
-                    selected={selected.includes(image.id)}
-                    selectMode={selected.length > 0}
-                  />
-                </Grid>
-              ))}
-            {images && images.length === 0 && 'No Images'}
-          </Grid>
+          <Box display="flex" justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              style={{ margin: '16px' }}
+            >
+              {images &&
+                images.map((image, index) => (
+                  <Grid key={index} item>
+                    <Image
+                      image={image}
+                      imgHash={imgHash}
+                      height={290}
+                      href={`/facial-recognition?id=${image.id}`}
+                      onCheck={this.handleCheckImage}
+                      redirect={selected.length === 0}
+                      hover
+                      selected={selected.includes(image.id)}
+                      selectMode={selected.length > 0}
+                    />
+                  </Grid>
+                ))}
+              {images && images.length === 0 && 'No Images'}
+            </Grid>
+          </Box>
           <Snackbar
             anchorOrigin={{
               vertical: 'bottom',
