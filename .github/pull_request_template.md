@@ -2,7 +2,7 @@
 
 Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context.
 
-Fixes # (issue)
+Closes #0000
 
 ## Type of change
 
@@ -23,4 +23,3 @@ Delete this section if this PR has no UI changes
 - [ ] My pull request title follow [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.2/)
 - [ ] I have installed and run the [pre-commit](https://pre-commit.com/) hook
 - [ ] I have started the app locally and inspected my changes are working as intended
-- [ ] I have assigned myself as the assignee of this PR and added the relevent labels
