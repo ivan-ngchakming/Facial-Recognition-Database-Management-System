@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, IconButton, Snackbar, Box } from '@material-ui/core';
+import {
+  Grid,
+  IconButton,
+  Snackbar,
+  Box,
+  TablePagination,
+} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import Image from './Image';
 import { DELETE_PHOTOS as DELETE_PHOTOS_GQL_M } from '../../graphql/mutation';
@@ -104,6 +110,7 @@ class Gallery extends Component {
       action: this.handleSingleDelete,
     },
   ];
+
   render() {
     const { classes, images } = this.props;
     const { selected, openDeleteSnackbar, deleteMsg, imgHash } = this.state;
@@ -113,37 +120,19 @@ class Gallery extends Component {
         <SelectToolbar
           numSelected={selected.length}
           onDelete={this.handleDeleteSelected}
+          enableCheckAll
+          checked={selected.length > 0}
+          indeterminate={selected.length !== images.length}
+          onCheckAll={this.handleCheckAll}
           title="Gallery"
         />
         <ContextMenuProvider options={this.contextMenuOptions}>
-          {/* {selected.length === 0 ? (
-          <Toolbar>
-            <Typography variant="h5" className={classes.title}>
-              Images
-            </Typography>
-          </Toolbar>
-        ) : (
-          <Toolbar className={classes.tools}>
-            <Checkbox
-              checked={selected.length > 0}
-              onChange={this.handleCheckAll}
-              indeterminate={selected.length !== images.length}
-              color="primary"
-              inputProps={{ 'aria-label': 'select image checkbox' }}
-            />
-            <Typography variant="body1" className={classes.title}>
-              {selected.length} Image{selected.length > 1 ? 's' : null}{' '}
-              selected
-            </Typography>
-            <IconButton
-              onClick={this.handleDeleteSelected}
-              color="inherit"
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Toolbar>
-        )} */}
-          <Grid container xs={12} spacing={2} style={{ marginTop: '10px' }}>
+          <Grid
+            container
+            xs={12}
+            spacing={2}
+            style={{ marginTop: '10px', marginBottom: '10px' }}
+          >
             {images &&
               images.map((image, index) => (
                 <Grid key={index} item>
@@ -160,7 +149,6 @@ class Gallery extends Component {
                   />
                 </Grid>
               ))}
-
             {images && images.length === 0 && 'No Images'}
           </Grid>
           <Snackbar
@@ -186,6 +174,15 @@ class Gallery extends Component {
             }
           />
         </ContextMenuProvider>
+        <TablePagination
+          rowsPerPageOptions={[10, 20, 30, 50, 100]}
+          component="div"
+          count={20}
+          rowsPerPage={10}
+          page={0}
+          // onPageChange={handlePageChange}
+          // onRowsPerPageChange={handleRowsPerPageChange}
+        />
       </>
     );
   }

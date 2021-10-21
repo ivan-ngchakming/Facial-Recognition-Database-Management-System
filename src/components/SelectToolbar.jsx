@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
-import { Toolbar, Tooltip, Typography, IconButton } from '@material-ui/core';
+import {
+  Checkbox,
+  Toolbar,
+  Tooltip,
+  Typography,
+  IconButton,
+} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
@@ -26,7 +32,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SelectToolbar = ({ numSelected, title, onDelete }) => {
+const SelectToolbar = ({
+  numSelected,
+  title,
+  enableCheckAll,
+  checked,
+  indeterminate,
+  onDelete,
+  onCheckAll,
+}) => {
   const classes = useStyles();
 
   return (
@@ -36,14 +50,25 @@ const SelectToolbar = ({ numSelected, title, onDelete }) => {
       })}
     >
       {numSelected > 0 ? (
-        <Typography
-          className={classes.title}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
+        <>
+          {enableCheckAll && (
+            <Checkbox
+              checked={checked}
+              onChange={onCheckAll}
+              indeterminate={indeterminate}
+              color="primary"
+              inputProps={{ 'aria-label': 'select image checkbox' }}
+            />
+          )}
+          <Typography
+            className={classes.title}
+            color="inherit"
+            variant="subtitle1"
+            component="div"
+          >
+            {numSelected} selected
+          </Typography>
+        </>
       ) : (
         <Typography
           className={classes.title}
