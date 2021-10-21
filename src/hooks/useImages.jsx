@@ -1,13 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { graphqlQuery } from '../graphql';
 import { PHOTOS as PHOTOS_GQL_Q } from '../graphql/query';
 
-export default function useImages() {
+export default function useImages(defaultPage, defaultPhotosPerPage) {
   const [images, setImages] = useState([]);
   const [imgCount, setImgCount] = useState(0);
+  const [options, setOptions] = useState({
+    page: defaultPage,
+    photosPerPage: defaultPhotosPerPage,
+  });
 
-  const fetch = () => {
-    graphqlQuery(PHOTOS_GQL_Q, { page: this.state.currentPage })
+  const refetch = useCallback((page, photosPerPage) => {
+    setOptions({ page, photosPerPage });
+  }, []);
+
+  const fetch = useCallback(() => {
+    console.log('Fetching photos', options);
+    graphqlQuery(PHOTOS_GQL_Q, options)
       .then((res) => {
         const data = res.photos;
         setImages(
@@ -21,11 +30,11 @@ export default function useImages() {
       .catch((error) => {
         console.error(error);
       });
-  };
+  }, [options]);
 
   useEffect(() => {
-    fetch();
-  }, []);
+    fetch(options);
+  }, [options, fetch]);
 
-  return [images, fetch, imgCount];
+  return [images, refetch, imgCount];
 }
