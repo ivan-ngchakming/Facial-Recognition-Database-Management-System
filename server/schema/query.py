@@ -22,7 +22,7 @@ def resolve_photo(_, info, photo_id):
 
 @query.field("photos")
 @convert_kwargs_to_snake_case
-def resolve_photos(_, info, page=None, profile_id=None):
+def resolve_photos(_, info, page=None, profile_id=None, photos_per_page=10):
     query = Photo.query
 
     if profile_id is not None:
@@ -33,10 +33,10 @@ def resolve_photos(_, info, page=None, profile_id=None):
         return {"photos": query.all()}
     else:
         count = query.count()
-        pages = math.ceil(count / PHOTOS_PER_PAGE)
+        pages = math.ceil(count / photos_per_page)
         if page > pages and pages != 0:
             raise Exception(f"Page {page} out of range, there are only {pages} pages.")
-        photos = query.offset((page - 1) * PHOTOS_PER_PAGE).limit(PHOTOS_PER_PAGE).all()
+        photos = query.offset((page) * photos_per_page).limit(photos_per_page).all()
         return {"pages": pages, "count": count, "photos": photos}
 
 
