@@ -148,7 +148,7 @@ export default function Image({
   }, [image, loadImage, selectMode, optionsOpacity]);
 
   return (
-    <React.Fragment>
+    <>
       <Card
         className={classes.card}
         onMouseOver={showOptions}
@@ -196,6 +196,6 @@ export default function Image({
           <Avatar variant="square" style={{ height: height, width: height }} />
         )}
       </Card>
-    </React.Fragment>
+    </>
   );
 }
