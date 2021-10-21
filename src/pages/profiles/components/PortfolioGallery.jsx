@@ -10,10 +10,8 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
-import Image from './Image';
-import { DELETE_PHOTOS as DELETE_PHOTOS_GQL_M } from '../../graphql/mutation';
-import { graphqlQuery } from '../../graphql';
-import { ContextMenuProvider } from '../context/MenuContext';
+import Image from '../../../components/images/Image';
+import { ContextMenuProvider } from '../../../components/context/MenuContext';
 
 const styles = (theme) => ({
   root: {
@@ -28,7 +26,7 @@ const styles = (theme) => ({
   },
 });
 
-class Gallery extends Component {
+class PortfolioGallery extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,41 +53,12 @@ class Gallery extends Component {
   };
 
   handleCheckAll = () => {
-    if (this.state.selected.length !== this.props.images.length) {
-      this.setState({ selected: this.props.images.map((image) => image.id) });
-    } else {
-      this.setState({ selected: [] });
+    if (this.state.selected.length !== this.props.rows.length) {
+      const newSelecteds = this.props.rows.map((n) => n.id);
+      this.setState({ selected: newSelecteds });
+      return;
     }
-  };
-
-  handleDeleteSelected = () => {
-    console.debug('Deleting selected images: ', this.state.selected);
-    graphqlQuery(DELETE_PHOTOS_GQL_M, { ids: this.state.selected }).then(
-      (res) => {
-        const deletedImgs = res.deletePhoto;
-        this.setState({
-          selected: [],
-          openDeleteSnackbar: true,
-          deleteMsg: `${deletedImgs.length} images deleted`,
-          imgHash: Date.now(),
-        });
-        this.props.onChange();
-      }
-    );
-  };
-
-  handleSingleDelete = (id) => {
-    console.debug('Deleting selecte image: ', [id]);
-    graphqlQuery(DELETE_PHOTOS_GQL_M, { ids: [id] }).then((res) => {
-      const deletedImgs = res.deletePhoto;
-      this.setState({
-        selected: this.state.selected.filter((item) => item !== id),
-        openDeleteSnackbar: true,
-        deleteMsg: `${deletedImgs.length} images deleted`,
-        imgHash: Date.now(),
-      });
-      this.props.onChange();
-    });
+    this.setState({ selected: [] });
   };
 
   handleCloseDeleteSnackbar = () => {
@@ -109,14 +78,10 @@ class Gallery extends Component {
       renderName: (id) => this.renderSelectOption(id),
       action: this.handleCheckImage,
     },
-    {
-      name: 'delete-option',
-      renderName: () => 'Delete',
-      action: this.handleSingleDelete,
-    },
   ];
+
   render() {
-    const { classes, images } = this.props;
+    const { classes, rows } = this.props;
     const { selected, openDeleteSnackbar, deleteMsg, imgHash } = this.state;
 
     return (
@@ -128,7 +93,7 @@ class Gallery extends Component {
               {selected.length === 0 ? (
                 <Toolbar>
                   <Typography variant="h5" className={classes.title}>
-                    Images
+                    Portfolios
                   </Typography>
                 </Toolbar>
               ) : (
@@ -136,18 +101,14 @@ class Gallery extends Component {
                   <Checkbox
                     checked={selected.length > 0}
                     onChange={this.handleCheckAll}
-                    indeterminate={selected.length !== images.length}
+                    indeterminate={selected.length !== rows.length}
                     color="primary"
                     inputProps={{ 'aria-label': 'select image checkbox' }}
                   />
                   <Typography variant="body1" className={classes.title}>
-                    {selected.length} Image{selected.length > 1 ? 's' : null}{' '}
-                    selected
+                    {selected.length} selected
                   </Typography>
-                  <IconButton
-                    onClick={this.handleDeleteSelected}
-                    color="inherit"
-                  >
+                  <IconButton color="inherit">
                     <DeleteIcon />
                   </IconButton>
                 </Toolbar>
@@ -156,24 +117,30 @@ class Gallery extends Component {
 
             <Grid container xs={12} justifyContent="center" spacing={2}>
               {/* <Grid container justifyContent="flex-start" spacing={2}> */}
-              {images &&
-                images.map((image, index) => (
+              {rows &&
+                rows.map((row, index) => (
                   <Grid key={index} item>
                     <Image
-                      image={image}
+                      image={
+                        row.thumbnail && row.thumbnail.photo
+                          ? {
+                              source: `/api/image/${row.thumbnail.photo.id}`,
+                            }
+                          : null
+                      }
                       imgHash={imgHash}
                       height={300}
-                      href={`/facial-recognition?id=${image.id}`}
+                      href={`/profile?id=${row.id}`}
                       onCheck={this.handleCheckImage}
                       redirect={selected.length === 0}
                       hover
-                      selected={selected.includes(image.id)}
+                      selected={selected.includes(row.id)}
                       selectMode={selected.length > 0}
                     />
                   </Grid>
                 ))}
 
-              {images && images.length === 0 && 'No Images'}
+              {rows && rows.length === 0 && 'No Images'}
               {/* </Grid> */}
             </Grid>
           </Grid>
@@ -206,4 +173,4 @@ class Gallery extends Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(Gallery);
+export default withStyles(styles, { withTheme: true })(PortfolioGallery);

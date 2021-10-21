@@ -4,7 +4,7 @@ import NavBar from './components/nav/NavBar';
 import FacialRecognition from './pages/FacialRecognition';
 import Images from './pages/Images';
 import BatchRecTasks from './pages/BatchRecTasks';
-import Profiles from './pages/Profiles';
+import Profiles from './pages/profiles/Profiles';
 import ProfileDetails from './pages/ProfileDetails';
 import Create from './pages/BatchRecTasks/Create';
 
