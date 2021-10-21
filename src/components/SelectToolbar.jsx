@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
-import { Toolbar, Tooltip, Typography, IconButton } from '@material-ui/core';
+import {
+  Checkbox,
+  Toolbar,
+  Tooltip,
+  Typography,
+  IconButton,
+} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
@@ -26,9 +32,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EnhancedTableToolbar = (props) => {
+const SelectToolbar = ({
+  numSelected,
+  title,
+  enableCheckAll,
+  checked,
+  indeterminate,
+  onDelete,
+  onCheckAll,
+}) => {
   const classes = useStyles();
-  const { numSelected, title } = props;
 
   return (
     <Toolbar
@@ -37,14 +50,25 @@ const EnhancedTableToolbar = (props) => {
       })}
     >
       {numSelected > 0 ? (
-        <Typography
-          className={classes.title}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
+        <>
+          {enableCheckAll && (
+            <Checkbox
+              checked={checked}
+              onChange={onCheckAll}
+              indeterminate={indeterminate}
+              color="primary"
+              inputProps={{ 'aria-label': 'select image checkbox' }}
+            />
+          )}
+          <Typography
+            className={classes.title}
+            color="inherit"
+            variant="subtitle1"
+            component="div"
+          >
+            {numSelected} selected
+          </Typography>
+        </>
       ) : (
         <Typography
           className={classes.title}
@@ -58,7 +82,7 @@ const EnhancedTableToolbar = (props) => {
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete">
+          <IconButton onClick={onDelete} aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -73,9 +97,9 @@ const EnhancedTableToolbar = (props) => {
   );
 };
 
-EnhancedTableToolbar.propTypes = {
+SelectToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
 };
 
-export default EnhancedTableToolbar;
+export default SelectToolbar;

@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import EnhancedTableHead from './EnhancedTableHead';
-import EnhancedTableToolbar from './EnhancedTableToolbar';
+import SelectToolBar from '../SelectToolbar';
 
 const headCells = [
   { id: 'id', numeric: false, disablePadding: false, label: 'id' },
@@ -91,7 +91,7 @@ export default function DataTable({ title, data, refetch, dataCount, idKey }) {
 
   return (
     <>
-      <EnhancedTableToolbar numSelected={selected.length} title={title} />
+      <SelectToolBar numSelected={selected.length} title={title} />
       <TableContainer>
         <Table
           aria-labelledby="tableTitle"
