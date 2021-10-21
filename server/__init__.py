@@ -15,7 +15,11 @@ from .utils.image import img_arr_to_file
 from .utils.logging import get_console_handler
 
 app = Flask(__name__, static_folder="../build/", static_url_path="/")
-CORS(app, resources=r"/api/*", origins="http://localhost:3000")
+CORS(
+    app,
+    resources=r"/api/*",
+    origins=["http://localhost:3000", "http://localhost:6006"],  # react  # storybook
+)
 app.config.from_object(Config)
 
 

@@ -26,9 +26,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EnhancedTableToolbar = (props) => {
+const SelectToolbar = ({ numSelected, title, onDelete }) => {
   const classes = useStyles();
-  const { numSelected, title } = props;
 
   return (
     <Toolbar
@@ -58,7 +57,7 @@ const EnhancedTableToolbar = (props) => {
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete">
+          <IconButton onClick={onDelete} aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -73,9 +72,9 @@ const EnhancedTableToolbar = (props) => {
   );
 };
 
-EnhancedTableToolbar.propTypes = {
+SelectToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
 };
 
-export default EnhancedTableToolbar;
+export default SelectToolbar;

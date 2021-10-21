@@ -101,6 +101,8 @@ export default function Image({
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     var imageObj = document.createElement('img');
+    // var imageObj = new Image;
+    imageObj.crossOrigin = 'Anonymous';
     imageObj.src = `${image.source}?${imgHash}`;
 
     imageObj.onload = () => {
