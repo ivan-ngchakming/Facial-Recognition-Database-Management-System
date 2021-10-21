@@ -125,6 +125,7 @@ class PortfolioGallery extends Component {
                         row.thumbnail && row.thumbnail.photo
                           ? {
                               source: `/api/image/${row.thumbnail.photo.id}`,
+                              id: row.id,
                             }
                           : null
                       }
