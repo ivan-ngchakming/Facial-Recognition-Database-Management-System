@@ -16,7 +16,7 @@ import EnhancedTableHead from '../../../components/tables/EnhancedTableHead';
 import EnhancedTableToolbar from '../../../components/tables/EnhancedTableToolbar';
 import { getComparator, stableSort } from '../../../utils';
 
-class PortfolioTable extends Component {
+class ProfileTable extends Component {
   render() {
     const {
       classes,
@@ -45,7 +45,7 @@ class PortfolioTable extends Component {
           <Paper className={classes.paper}>
             <EnhancedTableToolbar
               numSelected={selected.length}
-              title="Portfolios"
+              title="Profiles"
             />
             <TableContainer>
               <Table
@@ -143,4 +143,4 @@ class PortfolioTable extends Component {
   }
 }
 
-export default PortfolioTable;
+export default ProfileTable;

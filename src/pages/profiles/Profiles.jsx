@@ -1,8 +1,8 @@
 import { withStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import React, { Component } from 'react';
-import PortfolioTable from '../profiles/components/PortfolioTable';
-import PortfolioGallery from '../profiles/components/PortfolioGallery';
+import ProfileTable from '../profiles/components/ProfileTable';
+import ProfileGallery from '../profiles/components/ProfileGallery';
 import { graphqlQuery } from '../../graphql';
 import { PROFILES as PROFILES_GQL_Q } from '../../graphql/query';
 
@@ -72,7 +72,7 @@ class Profiles extends Component {
   }
 
   componentDidMount() {
-    this.fetchPortfolios();
+    this.fetchProfiles();
   }
 
   componentDidUpdate(prevProps, prevState) {}
@@ -146,7 +146,7 @@ class Profiles extends Component {
 
   isSelected = (name) => this.state.selected.indexOf(name) !== -1;
 
-  fetchPortfolios = () => {
+  fetchProfiles = () => {
     graphqlQuery(PROFILES_GQL_Q, {
       page: this.state.page,
       perPage: this.state.rowsPerPage,
@@ -202,7 +202,7 @@ class Profiles extends Component {
             rowsPerPage={rowsPerPage}
           />
         ) : (
-          <PortfolioGallery
+          <ProfileGallery
             classes={classes}
             height={300}
             onCheck={this.handleCheckImage}
