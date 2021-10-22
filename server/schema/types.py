@@ -1,15 +1,15 @@
 type_defs = """
 type Query {
-    photo(photoId: ID!): Photo!
-    photos(page: Int, profileId: ID): PhotoPagination!
+    image(imageId: ID!): Image!
+    images(page: Int, profileId: ID): ImagePagination!
     profile(profileId: ID!): Profile!
     profiles(page: Int, perPage: Int): ProfilePagination!
     identifyFace(faceId: ID!): [IdentifyFaceResult]!
 }
 
 type Mutation {
-    photo(rbytes: String): Photo!
-    deletePhoto(ids: [ID]): [ID]
+    image(rbytes: String): Image!
+    deleteImage(ids: [ID]): [ID]
     profile(_id: ID, name: String, faceIds: [Int], thumbnailId: Int): Profile!
     assignFaceToProfile(faceId: Int!, profileId: Int!): Face!
 }
@@ -28,7 +28,7 @@ type ProfilePagination {
     profiles: [Profile]
 }
 
-type Photo {
+type Image {
     id: Int!
     width: Int!
     height: Int!
@@ -36,10 +36,10 @@ type Photo {
     faces: [Face]
 }
 
-type PhotoPagination {
+type ImagePagination {
     pages: Int
     count: Int
-    photos: [Photo]
+    images: [Image]
 }
 
 type Face {
@@ -47,7 +47,7 @@ type Face {
     location: [Int]
     landmarks: Landmark
     encoding: [Float]
-    photo: Photo
+    image: Image
     profile: Profile
 }
 

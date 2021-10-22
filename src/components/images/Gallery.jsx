@@ -11,7 +11,7 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
 import Image from './Image';
-import { DELETE_PHOTOS as DELETE_PHOTOS_GQL_M } from '../../graphql/mutation';
+import { DELETE_IMAGES as DELETE_IMAGES_GQL_M } from '../../graphql/mutation';
 import { graphqlQuery } from '../../graphql';
 import { ContextMenuProvider } from '../context/MenuContext';
 
@@ -64,9 +64,9 @@ class Gallery extends Component {
 
   handleDeleteSelected = () => {
     console.debug('Deleting selected images: ', this.state.selected);
-    graphqlQuery(DELETE_PHOTOS_GQL_M, { ids: this.state.selected }).then(
+    graphqlQuery(DELETE_IMAGES_GQL_M, { ids: this.state.selected }).then(
       (res) => {
-        const deletedImgs = res.deletePhoto;
+        const deletedImgs = res.deleteImage;
         this.setState({
           selected: [],
           openDeleteSnackbar: true,
@@ -80,8 +80,8 @@ class Gallery extends Component {
 
   handleSingleDelete = (id) => {
     console.debug('Deleting selecte image: ', [id]);
-    graphqlQuery(DELETE_PHOTOS_GQL_M, { ids: [id] }).then((res) => {
-      const deletedImgs = res.deletePhoto;
+    graphqlQuery(DELETE_IMAGES_GQL_M, { ids: [id] }).then((res) => {
+      const deletedImgs = res.deleteImage;
       this.setState({
         selected: this.state.selected.filter((item) => item !== id),
         openDeleteSnackbar: true,

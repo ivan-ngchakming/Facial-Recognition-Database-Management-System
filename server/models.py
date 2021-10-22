@@ -61,21 +61,21 @@ class Face(db.Model):
     )
 
     # Many-to-one relationship
-    photo_id = db.Column(db.Integer, db.ForeignKey("photo.id"))
-    photo = db.relationship(
-        "Photo",
+    image_id = db.Column(db.Integer, db.ForeignKey("image.id"))
+    image = db.relationship(
+        "Image",
         uselist=False,
         backref=backref("faces", cascade="all,delete,delete-orphan"),
     )
 
     def __repr__(self):
         if self.profile is None:
-            return f"<Face of unknown person in Photo {self.photo.id} (id: {self.id})>"
+            return f"<Face of unknown person in Image {self.image.id} (id: {self.id})>"
         else:
-            return f"<Face of {self.profile.name} in Photo {self.photo.id} (id: {self.id})>"
+            return f"<Face of {self.profile.name} in Image {self.image.id} (id: {self.id})>"
 
 
-class Photo(db.Model):
+class Image(db.Model):
     __tablename__ = "photo"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -108,4 +108,4 @@ class Photo(db.Model):
         return PIL.Image.fromarray(self.array)
 
     def __repr__(self):
-        return f"<Photo {self.id} ({len(self.faces)} faces)>"
+        return f"<Image {self.id} ({len(self.faces)} faces)>"

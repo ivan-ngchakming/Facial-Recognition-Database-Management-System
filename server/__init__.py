@@ -65,13 +65,13 @@ def graphql():
 
 from flask import send_file
 
-from .models import Photo
+from .models import Image
 
 
 @app.route("/api/image/<int:id>")
 def post_image(id):
     """ post image and return the response """
-    img_arr = Photo.query.get(id).array
+    img_arr = Image.query.get(id).array
     img = img_arr_to_file(img_arr)
     return send_file(img, mimetype="image/jpeg")
 

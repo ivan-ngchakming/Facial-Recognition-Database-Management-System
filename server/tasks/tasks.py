@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 from server.database import db
 from server.faces.arcface.utils import cosine_similarity_batch
-from server.models import Photo, Profile, Face
+from server.models import Image, Profile, Face
 
 
 logger = logging.getLogger(__name__)
@@ -20,14 +20,14 @@ def face_identify(task, filepath, tolerace=0.7):
 
     logger.info(f"Starting task {task.id}")
 
-    # Create Photo object
-    image = Image.open(filepath)
-    photo = Photo(image)
-    db.session.add(photo)
+    # Create Image object
+    temp_image = Image.open(filepath)
+    image = Image(temp_image)
+    db.session.add(image)
 
     # Identify face
     profiles = Profile.query.all()
-    unknown_face_objs = photo.faces
+    unknown_face_objs = image.faces
 
     logger.debug(f"{task.id}: {len(unknown_face_objs)} faces found")
 

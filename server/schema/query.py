@@ -11,33 +11,33 @@ logger = logging.getLogger(__name__)
 
 query = QueryType()
 
-PHOTOS_PER_PAGE = 20
+IMAGES_PER_PAGE = 20
 
 
-@query.field("photo")
+@query.field("image")
 @convert_kwargs_to_snake_case
-def resolve_photo(_, info, photo_id):
-    return Photo.query.get(photo_id)
+def resolve_image(_, info, image_id):
+    return Image.query.get(image_id)
 
 
-@query.field("photos")
+@query.field("images")
 @convert_kwargs_to_snake_case
-def resolve_photos(_, info, page=None, profile_id=None):
-    query = Photo.query
+def resolve_images(_, info, page=None, profile_id=None):
+    query = Image.query
 
     if profile_id is not None:
-        query = query.join(Photo.faces)
+        query = query.join(Image.faces)
         query = query.filter(Face.profile_id == profile_id)
 
     if page is None:
-        return {"photos": query.all()}
+        return {"images": query.all()}
     else:
         count = query.count()
-        pages = math.ceil(count / PHOTOS_PER_PAGE)
+        pages = math.ceil(count / IMAGES_PER_PAGE)
         if page > pages and pages != 0:
             raise Exception(f"Page {page} out of range, there are only {pages} pages.")
-        photos = query.offset((page - 1) * PHOTOS_PER_PAGE).limit(PHOTOS_PER_PAGE).all()
-        return {"pages": pages, "count": count, "photos": photos}
+        images = query.offset((page - 1) * IMAGES_PER_PAGE).limit(IMAGES_PER_PAGE).all()
+        return {"pages": pages, "count": count, "images": images}
 
 
 @query.field("profile")
