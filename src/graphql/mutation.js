@@ -1,6 +1,6 @@
 export const IMAGE = `
-  mutation photo($rbytes: String) {
-    photo(rbytes: $rbytes) {
+  mutation image($rbytes: String) {
+    image(rbytes: $rbytes) {
       id
       width
       height
@@ -29,8 +29,8 @@ export const IMAGE = `
 `;
 
 export const DELETE_IMAGES = `
-  mutation deletePhotos ($ids: [ID]) {
-    deletePhoto(ids: $ids)
+  mutation deleteImages ($ids: [ID]) {
+    deleteImage(ids: $ids)
   }
 `;
 
@@ -60,7 +60,7 @@ export const ASSIGN_FACE_TO_PROFILE = `
         thumbnail {
           id
           location
-          photo {
+          image {
             id
             width
             height
@@ -80,7 +80,7 @@ export const PROFILE = `
       thumbnail {
         id
         location
-        photo {
+        image {
           id
           width
           height

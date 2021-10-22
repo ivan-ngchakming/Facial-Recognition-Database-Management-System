@@ -30,14 +30,14 @@ export default function DetailedProfileCard({ profile }) {
         {profile.name}
       </Typography>
 
-      {profile.thumbnail && profile.thumbnail.photo && (
+      {profile.thumbnail && profile.thumbnail.image && (
         <div className={classes.imgWrapper}>
           <CroppedImage
-            img={`/api/image/${profile.thumbnail.photo.id}`}
+            img={`/api/image/${profile.thumbnail.image.id}`}
             faceLocation={[
               ...profile.thumbnail.location,
-              profile.thumbnail.photo.width,
-              profile.thumbnail.photo.height,
+              profile.thumbnail.image.width,
+              profile.thumbnail.image.height,
             ]}
           />
         </div>

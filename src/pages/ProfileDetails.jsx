@@ -72,11 +72,11 @@ class ProfileDetails extends Component {
       profileId: profileId,
     })
       .then((res) => {
-        const data = res.photos;
+        const data = res.images;
         this.setState({
-          images: data.photos.map((photo) => ({
-            id: photo.id,
-            source: `/api/image/${photo.id}`,
+          images: data.images.map((image) => ({
+            id: image.id,
+            source: `/api/image/${image.id}`,
           })),
           imgCount: data.count,
           totalPages: data.pages,
@@ -106,15 +106,15 @@ class ProfileDetails extends Component {
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Card className={classes.card}>
-                  {profile.thumbnail.photo && (
+                  {profile.thumbnail.image && (
                     <CroppedImage
                       imgWidth={250}
                       classes={classes}
-                      img={`/api/image/${profile.thumbnail.photo.id}`}
+                      img={`/api/image/${profile.thumbnail.image.id}`}
                       faceLocation={[
                         ...profile.thumbnail.location,
-                        profile.thumbnail.photo.width,
-                        profile.thumbnail.photo.height,
+                        profile.thumbnail.image.width,
+                        profile.thumbnail.image.height,
                       ]}
                     />
                   )}

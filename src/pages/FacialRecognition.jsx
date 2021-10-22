@@ -73,11 +73,11 @@ class FacialRecognition extends Component {
 
         graphqlQuery(IMAGE_GQL_M, { rbytes: binaryStr }).then((res) => {
           console.debug(res);
-          const faceLocations = getFaceLocations(res.photo);
-          this.updateFaceState(res.photo.faces, faceLocations);
+          const faceLocations = getFaceLocations(res.image);
+          this.updateFaceState(res.image.faces, faceLocations);
           this.setState({
             isUploading: false,
-            imgId: res.photo.id,
+            imgId: res.image.id,
           });
         });
       };
@@ -87,10 +87,10 @@ class FacialRecognition extends Component {
 
   fetchImage = (id) => {
     this.setState({ isUploading: true, imgId: id }, () => {
-      graphqlQuery(PHOTO_GQL_Q, { photoId: id }).then((res) => {
+      graphqlQuery(IMAGE_GQL_Q, { imageId: id }).then((res) => {
         console.debug('Fetched image', res);
-        const faceLocations = getFaceLocations(res.photo);
-        this.updateFaceState(res.photo.faces, faceLocations);
+        const faceLocations = getFaceLocations(res.image);
+        this.updateFaceState(res.image.faces, faceLocations);
         this.setState({
           isUploading: false,
         });

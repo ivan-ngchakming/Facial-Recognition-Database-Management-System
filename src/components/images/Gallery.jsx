@@ -66,7 +66,7 @@ class Gallery extends Component {
     console.debug('Deleting selected images: ', this.state.selected);
     graphqlQuery(DELETE_IMAGES_GQL_M, { ids: this.state.selected }).then(
       (res) => {
-        const deletedImgs = res.deletePhoto;
+        const deletedImgs = res.deleteImage;
         this.setState({
           selected: [],
           openDeleteSnackbar: true,
@@ -81,7 +81,7 @@ class Gallery extends Component {
   handleSingleDelete = (id) => {
     console.debug('Deleting selecte image: ', [id]);
     graphqlQuery(DELETE_IMAGES_GQL_M, { ids: [id] }).then((res) => {
-      const deletedImgs = res.deletePhoto;
+      const deletedImgs = res.deleteImage;
       this.setState({
         selected: this.state.selected.filter((item) => item !== id),
         openDeleteSnackbar: true,

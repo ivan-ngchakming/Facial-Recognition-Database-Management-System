@@ -122,9 +122,9 @@ class PortfolioGallery extends Component {
                   <Grid key={index} item>
                     <Image
                       image={
-                        row.thumbnail && row.thumbnail.photo
+                        row.thumbnail && row.thumbnail.image
                           ? {
-                              source: `/api/image/${row.thumbnail.photo.id}`,
+                              source: `/api/image/${row.thumbnail.image.id}`,
                             }
                           : null
                       }

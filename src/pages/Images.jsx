@@ -35,11 +35,11 @@ class Images extends Component {
   queryImages = () => {
     graphqlQuery(IMAGES_GQL_Q, { page: this.state.currentPage })
       .then((res) => {
-        const data = res.photos;
+        const data = res.images;
         this.setState({
-          images: data.photos.map((photo) => ({
-            id: photo.id,
-            source: `/api/image/${photo.id}`,
+          images: data.images.map((image) => ({
+            id: image.id,
+            source: `/api/image/${image.id}`,
           })),
           imgCount: data.count,
           totalPages: data.pages,

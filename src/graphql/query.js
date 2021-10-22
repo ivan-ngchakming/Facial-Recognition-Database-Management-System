@@ -1,6 +1,6 @@
 export const IMAGE = `
-  query myQuery ($photoId: ID!){
-    photo (photoId: $photoId){
+  query myQuery ($imageId: ID!){
+    image (imageId: $imageId){
       id
       width
       height
@@ -13,7 +13,7 @@ export const IMAGE = `
           thumbnail {
             id
             location
-            photo {
+            image {
               id
               width
               height
@@ -26,11 +26,11 @@ export const IMAGE = `
 `;
 
 export const IMAGES = `
-  query photos($page: Int, $profileId: ID) {
-    photos(page: $page, profileId: $profileId) {
+  query images($page: Int, $profileId: ID) {
+    images(page: $page, profileId: $profileId) {
       pages
       count
-      photos {
+      images {
         id
       }
     }
@@ -54,7 +54,7 @@ export const PROFILE = `
       facesCount
       thumbnail {
         location
-        photo {
+        image {
           id
           width
           height
@@ -75,7 +75,7 @@ export const PROFILES = `
         facesCount
         thumbnail {
           id
-          photo {
+          image {
             id
           }
         }

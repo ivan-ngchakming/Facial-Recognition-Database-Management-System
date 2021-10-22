@@ -101,9 +101,9 @@ class PortfolioTable extends Component {
                               <Grid style={{ margin: '10px' }}>
                                 <Image
                                   image={
-                                    row.thumbnail && row.thumbnail.photo
+                                    row.thumbnail && row.thumbnail.image
                                       ? {
-                                          source: `/api/image/${row.thumbnail.photo.id}`,
+                                          source: `/api/image/${row.thumbnail.image.id}`,
                                         }
                                       : null
                                   }
