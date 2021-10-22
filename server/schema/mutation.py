@@ -17,7 +17,7 @@ def resolve_photo(_, info, rbytes):
     image = decode_img(rbytes)
     image = image.convert("RGB")
 
-    with runtime(f"Resolved image mutation", logger):
+    with runtime(f"Resolved photo mutation", logger):
         photo = Photo(image)
         db.session.add(photo)
         db.session.commit()
@@ -27,7 +27,7 @@ def resolve_photo(_, info, rbytes):
 @mutation.field("deletePhoto")
 @convert_kwargs_to_snake_case
 def resolve_photo(_, info, ids):
-    logger.debug(f"Deleting images {ids}")
+    logger.debug(f"Deleting photos {ids}")
     if ids:
         logger.debug(f"ids not empty")
         Photo.query.filter(Photo.id.in_(ids)).delete()
