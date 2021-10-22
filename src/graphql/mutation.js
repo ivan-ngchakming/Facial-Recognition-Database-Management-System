@@ -1,4 +1,4 @@
-export const IMAGE = `
+export const PHOTO = `
   mutation photo($rbytes: String) {
     photo(rbytes: $rbytes) {
       id
@@ -28,7 +28,7 @@ export const IMAGE = `
   }
 `;
 
-export const DELETE_IMAGES = `
+export const DELETE_PHOTOS = `
   mutation deletePhotos ($ids: [ID]) {
     deletePhoto(ids: $ids)
   }

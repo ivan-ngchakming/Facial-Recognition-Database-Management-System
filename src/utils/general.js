@@ -1,8 +1,8 @@
 export function getFaceLocations(image) {
   return image.faces.map((face) => [
     ...face.location,
-    image.width,
-    image.height,
+    photo.width,
+    photo.height,
   ]);
 }
 

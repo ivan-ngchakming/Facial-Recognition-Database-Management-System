@@ -3,8 +3,8 @@ import { withStyles } from '@material-ui/core/styles';
 import React, { Component } from 'react';
 import ImageAnalytics from '../components/images/ImageAnalytics';
 import { graphqlQuery } from '../graphql';
-import { IMAGE as IMAGE_GQL_M } from '../graphql/mutation';
-import { IMAGE as IMAGE_GQL_Q } from '../graphql/query';
+import { PHOTO as PHOTO_GQL_M } from '../graphql/mutation';
+import { PHOTO as PHOTO_GQL_Q } from '../graphql/query';
 import { getFaceLocations } from '../utils';
 import UploadImage from '../components/images/UploadImage';
 import { withRouter } from 'react-router-dom';
@@ -71,7 +71,7 @@ class FacialRecognition extends Component {
         var binaryStr = reader.result;
         binaryStr = binaryStr.replace('data:image/jpeg;base64,', '');
 
-        graphqlQuery(IMAGE_GQL_M, { rbytes: binaryStr }).then((res) => {
+        graphqlQuery(PHOTO_GQL_M, { rbytes: binaryStr }).then((res) => {
           console.debug(res);
           const faceLocations = getFaceLocations(res.photo);
           this.updateFaceState(res.photo.faces, faceLocations);
@@ -88,7 +88,7 @@ class FacialRecognition extends Component {
   fetchImage = (id) => {
     this.setState({ isUploading: true, imgId: id }, () => {
       graphqlQuery(PHOTO_GQL_Q, { photoId: id }).then((res) => {
-        console.debug('Fetched image', res);
+        console.debug('Fetched photo', res);
         const faceLocations = getFaceLocations(res.photo);
         this.updateFaceState(res.photo.faces, faceLocations);
         this.setState({

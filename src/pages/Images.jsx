@@ -2,7 +2,7 @@ import { withStyles } from '@material-ui/core/styles';
 import React, { Component } from 'react';
 import Gallery from '../components/images/Gallery';
 import { graphqlQuery } from '../graphql';
-import { IMAGES as IMAGES_GQL_Q } from '../graphql/query';
+import { PHOTOS as PHOTOS_GQL_Q } from '../graphql/query';
 import { CircularProgress } from '@material-ui/core';
 
 const styles = (theme) => ({
@@ -33,7 +33,7 @@ class Images extends Component {
   componentDidUpdate(prevProps, prevState) {}
 
   queryImages = () => {
-    graphqlQuery(IMAGES_GQL_Q, { page: this.state.currentPage })
+    graphqlQuery(PHOTOS_GQL_Q, { page: this.state.currentPage })
       .then((res) => {
         const data = res.photos;
         this.setState({
