@@ -6,18 +6,16 @@ export default {
   title: 'Components/DataTable',
 };
 
-// const data = {
-// 	10: {
-// 		0: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-// 		1: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-// 		2: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
-// 		3: [31, 32, 33, 34, 35, 36, 37, 38, 39, 40],
-// 	},
-// 	20: {
-// 		0: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-// 		1: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40],
-// 	},
-// }
+const headCells = [
+  { id: 'id', numeric: false, disablePadding: false, label: 'id' },
+  { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
+  {
+    id: 'facecount',
+    numeric: false,
+    disablePadding: false,
+    label: 'Face Count',
+  },
+];
 
 const data = {
   10: {
@@ -47,7 +45,15 @@ const Template = (args) => {
     setData(getData(page, rowsPerPage));
   };
 
-  return <DataTable {...args} data={data} dataCount={40} refetch={refetch} />;
+  return (
+    <DataTable
+      {...args}
+      data={data}
+      dataCount={40}
+      refetch={refetch}
+      headCells={headCells}
+    />
+  );
 };
 
 export const Primary = Template.bind({});

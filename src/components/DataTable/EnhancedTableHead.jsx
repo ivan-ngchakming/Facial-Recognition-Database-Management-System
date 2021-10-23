@@ -66,12 +66,11 @@ function EnhancedTableHead(props) {
             inputProps={{ 'aria-label': 'select all' }}
           />
         </TableCell>
-        {icon && <TableCell padding="checkbox" />}
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
+            align="left"
+            padding={headCell.padding ? headCell.padding : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
