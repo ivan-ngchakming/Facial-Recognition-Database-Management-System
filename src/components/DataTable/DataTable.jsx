@@ -12,18 +12,16 @@ import { useHistory } from 'react-router-dom';
 import EnhancedTableHead from './EnhancedTableHead';
 import SelectToolBar from '../SelectToolbar';
 
-const headCells = [
-  { id: 'id', numeric: false, disablePadding: false, label: 'id' },
-  { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
-  {
-    id: 'facecount',
-    numeric: false,
-    disablePadding: false,
-    label: 'Face Count',
-  },
-];
-
-export default function DataTable({ title, data, refetch, dataCount, idKey }) {
+export default function DataTable({
+  title,
+  data,
+  refetch,
+  dataCount,
+  idKey = 'id',
+  onSelect,
+  headCells,
+  ToolBar,
+}) {
   const history = useHistory();
   const [options, setOptions] = useState({
     order: 'asc',
@@ -85,13 +83,21 @@ export default function DataTable({ title, data, refetch, dataCount, idKey }) {
 
   useEffect(() => {
     refetch(options.page, options.rowsPerPage);
-  }, [options]);
+  }, [options, refetch]);
+
+  useEffect(() => {
+    if (onSelect) onSelect(selected);
+  }, [selected]);
 
   const isSelected = (row) => selected.indexOf(row[idKey]) !== -1;
 
   return (
     <>
-      <SelectToolBar numSelected={selected.length} title={title} />
+      {ToolBar ? (
+        <ToolBar selectedItems={selected} />
+      ) : (
+        <SelectToolBar numSelected={selected.length} title={title} />
+      )}
       <TableContainer>
         <Table
           aria-labelledby="tableTitle"
@@ -112,17 +118,18 @@ export default function DataTable({ title, data, refetch, dataCount, idKey }) {
             {data.map((row) => {
               const isItemSelected = isSelected(row);
               return (
-                <TableRow>
+                <TableRow onClick={(event) => handleClick(event, row)}>
                   <TableCell padding="checkbox">
                     <Checkbox
                       onClick={(event) => handleClick(event, row)}
                       checked={isItemSelected}
                     />
                   </TableCell>
-                  <TableCell padding="checkbox"></TableCell>
-                  <TableCell>{row.id}</TableCell>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell></TableCell>
+                  {headCells.map((cell) => (
+                    <TableCell padding={cell.padding ? cell.padding : ''}>
+                      {cell.render ? cell.render(row[cell.id]) : row[cell.id]}
+                    </TableCell>
+                  ))}
                 </TableRow>
               );
             })}
