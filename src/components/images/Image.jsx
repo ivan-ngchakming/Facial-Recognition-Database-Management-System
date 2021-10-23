@@ -138,7 +138,7 @@ export default function Image({
   }, [selectMode]);
 
   useEffect(() => {
-    if (canvasRef && image) {
+    if (canvasRef && image && image.source) {
       loadImage();
     }
 
@@ -158,7 +158,7 @@ export default function Image({
           height: height,
         }}
       >
-        {image ? (
+        {image && image.source ? (
           <CardActionArea
             onClick={handleClick}
             style={{ cursor: 'context-menu' }}

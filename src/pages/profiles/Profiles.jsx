@@ -13,16 +13,18 @@ const headCells = [
     id: 'thumbnail',
     label: '',
     padding: 'checkbox',
-    render: (value) => (
-      <Grid style={{ margin: '10px' }}>
-        <Image
-          image={{
-            source: value ? `/api/image/${value.photo.id}` : null,
-          }}
-          height={50}
-        />
-      </Grid>
-    ),
+    render: (value) => {
+      const image = value
+        ? {
+            source: `/api/image/${value.photo.id}`,
+          }
+        : null;
+      return (
+        <Grid style={{ margin: '10px' }}>
+          <Image image={image} height={50} />
+        </Grid>
+      );
+    },
   },
   { id: 'id', label: 'id' },
   { id: 'name', label: 'Name' },
