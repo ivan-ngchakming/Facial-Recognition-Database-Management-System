@@ -5,22 +5,32 @@ import {
   Snackbar,
   Box,
   TablePagination,
+  Tooltip,
 } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
+import FilterListIcon from '@material-ui/icons/FilterList';
 import Image from './Image';
 import { DELETE_PHOTOS as DELETE_PHOTOS_GQL_M } from '../../graphql/mutation';
 import { graphqlQuery } from '../../graphql';
 import { ContextMenuProvider } from '../context/MenuContext';
 import SelectToolbar from '../SelectToolbar';
 
-const Gallery = ({ images, count, onChange }) => {
+const Gallery = ({
+  images,
+  count,
+  onChange,
+  onSelect,
+  defaultRowsPerPage = 10,
+  ToolBar,
+}) => {
   const [selected, setSelected] = useState([]);
   const [openDeleteSnackbar, setOpenDeleteSnackbar] = useState(false);
   const [deleteMsg, setDeleteMsg] = useState(null);
   const [imgHash, setImgHash] = useState(Date.now());
   const [options, setOptions] = useState({
-    page: 3,
-    rowsPerPage: 10,
+    page: 0,
+    rowsPerPage: defaultRowsPerPage,
   });
 
   const handleCheckImage = (_id) => {
@@ -98,6 +108,10 @@ const Gallery = ({ images, count, onChange }) => {
     window.scrollTo(0, 0);
   }, [options, onChange]);
 
+  useEffect(() => {
+    if (onSelect) onSelect(selected);
+  }, [selected]);
+
   const contextMenuOptions = [
     {
       name: 'select-option',
@@ -113,15 +127,33 @@ const Gallery = ({ images, count, onChange }) => {
 
   return (
     <>
-      <SelectToolbar
-        numSelected={selected.length}
-        onDelete={handleDeleteSelected}
-        enableCheckAll
-        checked={selected.length > 0}
-        indeterminate={selected.length !== images.length}
-        onCheckAll={handleCheckAll}
-        title="Gallery"
-      />
+      {ToolBar ? (
+        <ToolBar selectedItems={selected} onCheckAll={handleCheckAll} />
+      ) : (
+        <SelectToolbar
+          numSelected={selected.length}
+          enableCheckAll
+          checked={selected.length > 0}
+          indeterminate={selected.length !== images.length}
+          onCheckAll={handleCheckAll}
+          title="Gallery"
+          selectedButtons={[
+            <Tooltip title="Delete">
+              <IconButton onClick={handleDeleteSelected} aria-label="delete">
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>,
+          ]}
+          buttons={[
+            <Tooltip title="Filter list">
+              <IconButton aria-label="filter list">
+                <FilterListIcon />
+              </IconButton>
+            </Tooltip>,
+          ]}
+        />
+      )}
+
       <ContextMenuProvider options={contextMenuOptions}>
         <Box display="flex" justifyContent="center">
           <Grid
