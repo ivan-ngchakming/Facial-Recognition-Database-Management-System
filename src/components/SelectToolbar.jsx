@@ -2,15 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
-import {
-  Checkbox,
-  Toolbar,
-  Tooltip,
-  Typography,
-  IconButton,
-} from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import { Checkbox, Toolbar, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,8 +30,9 @@ const SelectToolbar = ({
   enableCheckAll,
   checked,
   indeterminate,
-  onDelete,
   onCheckAll,
+  buttons,
+  selectedButtons,
 }) => {
   const classes = useStyles();
 
@@ -80,19 +73,7 @@ const SelectToolbar = ({
         </Typography>
       )}
 
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton onClick={onDelete} aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+      {numSelected > 0 ? selectedButtons : buttons}
     </Toolbar>
   );
 };

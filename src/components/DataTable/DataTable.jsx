@@ -18,7 +18,9 @@ export default function DataTable({
   refetch,
   dataCount,
   idKey = 'id',
+  onSelect,
   headCells,
+  ToolBar,
 }) {
   const history = useHistory();
   const [options, setOptions] = useState({
@@ -81,13 +83,21 @@ export default function DataTable({
 
   useEffect(() => {
     refetch(options.page, options.rowsPerPage);
-  }, [options]);
+  }, [options, refetch]);
+
+  useEffect(() => {
+    if (onSelect) onSelect(selected);
+  }, [selected]);
 
   const isSelected = (row) => selected.indexOf(row[idKey]) !== -1;
 
   return (
     <>
-      <SelectToolBar numSelected={selected.length} title={title} />
+      {ToolBar ? (
+        <ToolBar selectedItems={selected} />
+      ) : (
+        <SelectToolBar numSelected={selected.length} title={title} />
+      )}
       <TableContainer>
         <Table
           aria-labelledby="tableTitle"
