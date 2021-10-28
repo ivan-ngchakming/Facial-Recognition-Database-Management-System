@@ -88,7 +88,6 @@ class FacialRecognition extends Component {
   fetchImage = (id) => {
     this.setState({ isUploading: true, imgId: id }, () => {
       graphqlQuery(PHOTO_GQL_Q, { photoId: id }).then((res) => {
-        console.debug('Fetched photo', res);
         const faceLocations = getFaceLocations(res.photo);
         this.updateFaceState(res.photo.faces, faceLocations);
         this.setState({

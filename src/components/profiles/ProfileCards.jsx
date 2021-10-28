@@ -56,8 +56,6 @@ export default function ProfileCards({ face, matchResults }) {
     }
   }, [face, profile]);
 
-  console.debug('Profile', profile);
-
   return (
     <div>
       {matchResults &&

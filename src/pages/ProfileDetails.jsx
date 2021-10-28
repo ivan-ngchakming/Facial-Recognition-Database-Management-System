@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Paper, Grid, Card, Typography } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
 import { graphqlQuery } from '../graphql';
@@ -9,13 +9,11 @@ import Gallery from '../components/images/Gallery';
 
 const ProfileDetails = () => {
   const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [images, refetchImgs, imgCount] = useImages(0, 10);
 
   const location = useLocation();
 
   const fetchProfile = (profileId) => {
-    console.log('Fetching profile ', profileId);
     graphqlQuery(PROFILE_GQL_Q, { profileId: profileId })
       .then((res) => {
         setProfile(res.profile);
@@ -25,11 +23,14 @@ const ProfileDetails = () => {
       });
   };
 
-  const handleRefetchImgs = (page, photosPerPage) => {
-    const params = new URLSearchParams(location.search);
-    const profileId = Number(params.get('id'));
-    refetchImgs(page, photosPerPage, profileId);
-  };
+  const handleRefetchImgs = useCallback(
+    (page, photosPerPage) => {
+      const params = new URLSearchParams(location.search);
+      const profileId = Number(params.get('id'));
+      refetchImgs(page, photosPerPage, profileId);
+    },
+    [location.search, refetchImgs]
+  );
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -78,7 +79,11 @@ const ProfileDetails = () => {
           </Grid>
 
           <Grid item xs={12}>
-            <Gallery images={images} onChange={handleRefetchImgs} />
+            <Gallery
+              images={images}
+              count={imgCount}
+              onChange={handleRefetchImgs}
+            />
           </Grid>
         </Grid>
       ) : (
