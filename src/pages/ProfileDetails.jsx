@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Paper, Grid, Card, Typography } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
 import { graphqlQuery } from '../graphql';
@@ -8,12 +8,17 @@ import CroppedImage from '../components/images/CroppedImage';
 import Gallery from '../components/images/Gallery';
 
 const ProfileDetails = () => {
-  const [profile, setProfile] = useState(null);
-  const [images, refetchImgs, imgCount] = useImages(0, 10);
-
   const location = useLocation();
 
-  const fetchProfile = (profileId) => {
+  const profileId = useMemo(() => {
+    const params = new URLSearchParams(location.search);
+    return Number(params.get('id'));
+  }, [location]);
+
+  const [profile, setProfile] = useState(null);
+  const [images, refetchImgs, imgCount] = useImages(0, 10, profileId);
+
+  const fetchProfile = useCallback((profileId) => {
     graphqlQuery(PROFILE_GQL_Q, { profileId: profileId })
       .then((res) => {
         setProfile(res.profile);
@@ -21,7 +26,7 @@ const ProfileDetails = () => {
       .catch((err) => {
         console.error(err);
       });
-  };
+  }, []);
 
   const handleRefetchImgs = useCallback(
     (page, photosPerPage) => {
@@ -33,12 +38,10 @@ const ProfileDetails = () => {
   );
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const profileId = Number(params.get('id'));
     if (profileId) {
       fetchProfile(profileId);
     }
-  }, [location]);
+  }, [profileId, fetchProfile]);
 
   return (
     <React.Fragment>
@@ -87,7 +90,6 @@ const ProfileDetails = () => {
           </Grid>
         </Grid>
       ) : (
-        // </Container>
         'No profile selected'
       )}
     </React.Fragment>
