@@ -67,8 +67,7 @@ export default function UploadImage({ uploadImage }) {
   };
 
   const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
-    console.debug('File received', acceptedFiles);
+    console.log('File received', acceptedFiles);
     const file = acceptedFiles[0];
     setImgFile(file);
     const imgURLObj = URL.createObjectURL(file);
