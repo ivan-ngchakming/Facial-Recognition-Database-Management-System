@@ -9,6 +9,7 @@ import {
   Button,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Page } from '../../types';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PageCard({ page }) {
+export default function PageCard({ page }: { page: Page }) {
   const classes = useStyles();
   const history = useHistory();
 
@@ -32,11 +33,7 @@ export default function PageCard({ page }) {
       <Card className={classes.card}>
         <CardActionArea onClick={handleClick}>
           <CardContent>
-            <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
-            >
+            <Typography color="textSecondary" gutterBottom>
               {page.category}
             </Typography>
             <Typography variant="h5" component="h2">
