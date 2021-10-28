@@ -1,3 +1,5 @@
+import { Page } from './types';
+
 export const SITEMAP = [
   {
     category: 'Home',
@@ -30,4 +32,4 @@ export const SITEMAP = [
     description:
       'Batch upload image, detect and match face against profiles saved in database.',
   },
-];
+] as Page[];
