@@ -2,9 +2,9 @@ import { Button, Grid, Paper, Typography, Zoom } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react';
 import ResizeObserver from 'react-resize-observer';
-import FaceCards from '../faces/FaceCards';
+import FaceCards from './faces/FaceCards';
 import ImageAnnotator from './ImageAnnotator';
-import ProfileCards from '../profiles/ProfileCards';
+import ProfileCards from './profiles/ProfileCards';
 
 const MIN_GRID_HEIGHT = 400;
 

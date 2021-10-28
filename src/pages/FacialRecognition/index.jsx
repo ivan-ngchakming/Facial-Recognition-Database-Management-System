@@ -1,13 +1,15 @@
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Container, CircularProgress, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import React, { Component } from 'react';
-import ImageAnalytics from '../components/images/ImageAnalytics';
-import { graphqlQuery } from '../graphql';
-import { PHOTO as PHOTO_GQL_M } from '../graphql/mutation';
-import { PHOTO as PHOTO_GQL_Q } from '../graphql/query';
-import { getFaceLocations } from '../utils';
-import UploadImage from '../components/images/UploadImage';
-import { withRouter } from 'react-router-dom';
+
+import { graphqlQuery } from '../../graphql';
+import { PHOTO as PHOTO_GQL_M } from '../../graphql/mutation';
+import { PHOTO as PHOTO_GQL_Q } from '../../graphql/query';
+import { getFaceLocations } from '../../utils';
+
+import ImageAnalytics from './components/ImageAnalytics';
+import UploadImage from './components/UploadImage';
 
 const styles = (theme) => ({
   root: {

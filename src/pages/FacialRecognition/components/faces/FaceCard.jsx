@@ -6,15 +6,15 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from 'react';
-import { graphqlQuery } from '../../graphql';
+import { graphqlQuery } from '../../../../graphql';
 import {
   IDENTIFYFACE as IDENTIFYFACE_GQL_Q,
   PROFILE as PROFILE_GQL_Q,
-} from '../../graphql/query';
-import { roundOff } from '../../utils/general';
-import CroppedImage from '../images/CroppedImage';
+} from '../../../../graphql/query';
+import { roundOff } from '../../../../utils/general';
+import CroppedImage from '../../../../components/images/CroppedImage';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import LinearBarsProgress from '../progress/LinearBarsProgress';
+import LinearBarsProgress from '../../../../components/progress/LinearBarsProgress';
 
 const useStyles = makeStyles((theme) => ({
   faceCard: {

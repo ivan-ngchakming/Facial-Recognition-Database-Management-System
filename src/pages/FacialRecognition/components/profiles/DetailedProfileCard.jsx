@@ -1,7 +1,7 @@
 import { Button, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import CroppedImage from '../images/CroppedImage';
+import CroppedImage from '../../../../components/images/CroppedImage';
 
 const useStyle = makeStyles((theme) => ({
   imgWrapper: {

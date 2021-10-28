@@ -3,8 +3,8 @@ import { Button, Grid, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { graphqlQuery } from '../../graphql';
-import { PROFILE as PROFILE_GQL_M } from '../../graphql/mutation';
+import { graphqlQuery } from '../../../../graphql';
+import { PROFILE as PROFILE_GQL_M } from '../../../../graphql/mutation';
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
