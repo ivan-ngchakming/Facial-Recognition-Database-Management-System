@@ -19,6 +19,7 @@ export default function DataTable({
   dataCount,
   idKey = 'id',
   onSelect,
+  onDoubleClick,
   headCells,
   ToolBar,
 }) {
@@ -65,7 +66,7 @@ export default function DataTable({
     } else {
       // double click
       if (event.detail === 2) {
-        history.push(`/profile?id=${row.id}`);
+        if (onDoubleClick) onDoubleClick(row);
       }
     }
   };

@@ -1,7 +1,15 @@
 import { Box, Typography } from '@material-ui/core';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import LinearProgress, {
+  LinearProgressProps,
+} from '@material-ui/core/LinearProgress';
 
-export default function LinearProgressWithLabel(props) {
+type LinearProgressWithLabelProps = {
+  value: number;
+} & LinearProgressProps;
+
+export default function LinearProgressWithLabel(
+  props: LinearProgressWithLabelProps
+) {
   return (
     <Box display="flex" alignItems="center">
       <Box width="100%" mr={1}>

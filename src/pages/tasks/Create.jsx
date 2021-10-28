@@ -34,7 +34,7 @@ export default function Create() {
 
   const submit = () => {
     createTask(values.dir);
-    history.push('/batch-rec-tasks');
+    history.push('/tasks');
   };
 
   return (
