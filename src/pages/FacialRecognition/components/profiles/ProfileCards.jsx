@@ -2,8 +2,8 @@ import { Button, List } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import ProfileCard from './ProfileCard';
 import { makeStyles } from '@material-ui/core/styles';
-import { graphqlQuery } from '../../graphql';
-import { ASSIGN_FACE_TO_PROFILE as ASSIGN_FACE_TO_PROFILE_GQL_M } from '../../graphql/mutation';
+import { graphqlQuery } from '../../../../graphql';
+import { ASSIGN_FACE_TO_PROFILE as ASSIGN_FACE_TO_PROFILE_GQL_M } from '../../../../graphql/mutation';
 import CreatePortfolio from './CreatePortfolio';
 import DetailedProfileCard from './DetailedProfileCard';
 
