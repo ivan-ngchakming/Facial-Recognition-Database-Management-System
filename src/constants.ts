@@ -26,9 +26,9 @@ export const SITEMAP = [
     description: 'View, edit or delete all saved profiles.',
   },
   {
-    category: 'Batch Tasks',
-    text: 'Batch Facial Recognition',
-    url: '/batch-rec-tasks',
+    category: 'Tasks',
+    text: 'Tasks',
+    url: '/tasks',
     description:
       'Batch upload image, detect and match face against profiles saved in database.',
   },
