@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Grid, Tooltip, IconButton, Switch } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -35,6 +36,7 @@ const headCells = [
 ];
 
 const Profiles = () => {
+  const history = useHistory();
   const [profiles, refetchProfiles, profilesCount] = useProfiles(1, 10);
   const [isGalleryView, setIsGalleryView] = useState(false);
   const [selected, setSelected] = useState([]);
@@ -85,6 +87,10 @@ const Profiles = () => {
     setSelected([...selected]);
   };
 
+  const handleDoubleClick = (row) => {
+    history.push(`/profile?id=${row.id}`);
+  };
+
   return (
     <>
       {isGalleryView ? (
@@ -103,6 +109,7 @@ const Profiles = () => {
           dataCount={profilesCount}
           refetch={refetchProfiles}
           onSelect={handleSelect}
+          onDoubleClick={handleDoubleClick}
           headCells={headCells}
           ToolBar={ToolBar}
         />
