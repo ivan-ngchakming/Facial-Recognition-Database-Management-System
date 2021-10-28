@@ -43,7 +43,6 @@ export default function CreatePortfolio({ callback, faceId }) {
             thumbnailId: faceId,
           })
             .then((res) => {
-              console.debug(res);
               resetForm();
               callback(res.profile);
             })
