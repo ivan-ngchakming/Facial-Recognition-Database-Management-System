@@ -16,8 +16,38 @@ Powered by python and react, and packaged into a single executable that can be u
 
 Download the latest release from the [right side bar](https://github.com/ivan0313/Facial-Recognition-Database-Management-System/releases).
 
-Please note that the current release works on windows only,
-download [Visual C++ Redistributable for Visual Studio 2019](https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0) for FRDMS to work properly.
+### Windows
+
+- Download FRDMS_WIN.exe.
+
+- download [Visual C++ Redistributable for Visual Studio 2019](https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0) for FRDMS to work properly.
+
+- Double click on FRDMS_WIN.exe to start application.
+
+### MacOS
+
+- Download FRDMS_MACOS
+- Open terminal
+
+- Browse to Download directory
+
+   ```bash
+   cd Download
+   ```
+
+- Change permission
+
+   ```bash
+   chmod 777 ./FRDMS_MACOS
+   ```
+
+- Start the application
+
+   ```bash
+   ./FRDMS_MACOS
+   ```
+
+### Starter Database
 
 Download FRDMS.db and place it in the same directory as FRDMS.exe to use a sample starter database. Or start FRDMS.exe directly to create a blank database.
 

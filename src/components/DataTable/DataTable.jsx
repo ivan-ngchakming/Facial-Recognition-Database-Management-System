@@ -8,7 +8,6 @@ import {
   TablePagination,
   TableRow,
 } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
 import EnhancedTableHead from './EnhancedTableHead';
 import SelectToolBar from '../SelectToolbar';
 
@@ -23,7 +22,6 @@ export default function DataTable({
   headCells,
   ToolBar,
 }) {
-  const history = useHistory();
   const [options, setOptions] = useState({
     order: 'asc',
     orderBy: 'id',
@@ -88,7 +86,7 @@ export default function DataTable({
 
   useEffect(() => {
     if (onSelect) onSelect(selected);
-  }, [selected]);
+  }, [selected, onSelect]);
 
   const isSelected = (row) => selected.indexOf(row[idKey]) !== -1;
 

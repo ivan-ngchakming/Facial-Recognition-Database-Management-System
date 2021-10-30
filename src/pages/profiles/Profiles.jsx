@@ -39,7 +39,7 @@ const Profiles = () => {
   const history = useHistory();
   const [profiles, refetchProfiles, profilesCount] = useProfiles(1, 10);
   const [isGalleryView, setIsGalleryView] = useState(false);
-  const [selected, setSelected] = useState([]);
+  const [, setSelected] = useState([]);
 
   const handleGallerySwitch = (event) => {
     setIsGalleryView(event.target.checked);
