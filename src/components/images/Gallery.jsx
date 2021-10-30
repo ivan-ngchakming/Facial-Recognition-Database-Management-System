@@ -110,7 +110,7 @@ const Gallery = ({
 
   useEffect(() => {
     if (onSelect) onSelect(selected);
-  }, [selected]);
+  }, [selected, onSelect]);
 
   const contextMenuOptions = [
     {

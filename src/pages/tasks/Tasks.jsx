@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Typography, Tooltip, IconButton } from '@material-ui/core';
+import { Tooltip, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import RefreshIcon from '@material-ui/icons/Refresh';
@@ -20,7 +20,7 @@ const headCells = [
 
 export default function Tasks() {
   const [tasks, fetchTasks] = useTasks();
-  const [selected, setSelected] = useState([]);
+  const [, setSelected] = useState([]);
 
   const toolBarButtons = [
     <Tooltip title="Refresh">
