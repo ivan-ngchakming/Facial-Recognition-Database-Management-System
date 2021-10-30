@@ -48,7 +48,6 @@ function EnhancedTableHead(props) {
     rowCount,
     onRequestSort,
     headCells,
-    icon,
     endPadding,
   } = props;
   const createSortHandler = (property) => (event) => {
