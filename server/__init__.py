@@ -1,4 +1,5 @@
 import os
+import sys
 import logging
 
 from ariadne import graphql_sync
@@ -14,11 +15,19 @@ from .faces.arcface import face_app
 from .utils.image import img_arr_to_file
 from .utils.logging import get_console_handler
 
-app = Flask(__name__, static_folder="../build/", static_url_path="/")
+if getattr(sys, "frozen", False):
+    static_folder = os.path.join(sys._MEIPASS, "build")
+else:
+    static_folder = "../build/"
+app = Flask(__name__, static_folder=static_folder, static_url_path="/")
 CORS(
     app,
     resources=r"/api/*",
-    origins=["http://localhost:3000", "http://localhost:6006"],  # react  # storybook
+    origins=[
+        "http://localhost:3000",  # react
+        "http://localhost:6006",  # storybook
+        "http://localhost:8080",  # wsgi
+    ],
 )
 app.config.from_object(Config)
 
