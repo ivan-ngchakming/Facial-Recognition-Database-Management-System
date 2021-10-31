@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Tooltip, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
@@ -57,9 +57,12 @@ export default function Tasks() {
     );
   };
 
-  const handleSelect = (selected) => {
-    setSelected([...selected]);
-  };
+  const handleSelect = useCallback(
+    (selected) => {
+      setSelected([...selected]);
+    },
+    [setSelected]
+  );
 
   return (
     <>
