@@ -1,9 +1,11 @@
 import logging
 
+import numpy as np
 from ariadne import MutationType, convert_kwargs_to_snake_case
+from sqlalchemy.exc import IntegrityError
 
-from ..models import Photo, Face, Profile
 from ..database import db
+from ..models import Face, Photo, Profile
 from ..utils.dev import runtime
 from ..utils.image import decode_img
 
@@ -18,9 +20,15 @@ def resolve_photo(_, info, rbytes):
     image = image.convert("RGB")
 
     with runtime(f"Resolved photo mutation", logger):
-        photo = Photo(image)
-        db.session.add(photo)
-        db.session.commit()
+        try:
+            photo = Photo(image)
+            db.session.add(photo)
+            db.session.commit()
+        except IntegrityError:
+            logger.debug("Image already exist in database")
+            db.session.rollback()
+            photo = Photo.query.filter(Photo.array == np.array(image)).one()
+
     return photo
 
 
