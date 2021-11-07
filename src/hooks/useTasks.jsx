@@ -1,15 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import { graphqlQuery } from '../graphql';
+import { TASKS as TASKS_GQL_M } from '../graphql';
 
 export default function useTasks() {
   const [tasks, setTasks] = useState([]);
 
   const fetch = useCallback(() => {
-    axios
-      .get('/api/tasks/status')
+    graphqlQuery(TASKS_GQL_M)
       .then((res) => {
-        console.log(res.data);
-        setTasks(res.data);
+        console.log(res.tasks);
+        setTasks(res.tasks);
       })
       .catch((error) => {
         console.error(error);

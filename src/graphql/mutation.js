@@ -92,3 +92,13 @@ export const PROFILE = `
     }
   }
 `;
+
+export const BATCH_FACE_REC = `
+  mutation batchFaceRec ($dirpath: String, $priority: Float) {
+    batchFaceRec(dirpath: $dirpath, priority: $priority) {
+      taskCollectionId
+      status
+      progress
+    }
+  }
+`;

@@ -10,12 +10,13 @@ import SelectToolbar from '../../components/SelectToolbar';
 import LinearProgressWithLabel from '../../components/progress/LinearProgressWithLabel';
 
 const headCells = [
-  { id: 'task_collection_id', label: 'id' },
+  { id: 'taskCollectionId', label: 'id' },
   {
     id: 'progress',
     label: 'Progress',
     render: (value) => <LinearProgressWithLabel value={value * 100} />,
   },
+  { id: 'status', label: 'Status' },
 ];
 
 export default function Tasks() {

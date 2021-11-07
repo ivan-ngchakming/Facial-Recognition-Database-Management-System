@@ -3,7 +3,8 @@ import os
 
 from flask import Blueprint, jsonify, request
 
-from .controllers import Task, TaskCollection, manager
+from server.taskmanager import manager
+from .controllers import Task, TaskCollection
 from .tasks import example_task, face_identify
 
 tasks = Blueprint("tasks", __name__)
