@@ -15,10 +15,12 @@ from .faces.arcface import face_app
 from .utils.image import img_arr_to_file
 from .utils.logging import get_console_handler
 
+
 if getattr(sys, "frozen", False):
     static_folder = os.path.join(sys._MEIPASS, "build")
 else:
     static_folder = "../build/"
+
 app = Flask(__name__, static_folder=static_folder, static_url_path="/")
 CORS(
     app,

@@ -1,4 +1,4 @@
-type_defs = """
+type_def = """
 type Query {
     photo(photoId: ID!): Photo!
     photos(page: Int, profileId: ID, photosPerPage: Int): PhotoPagination!
