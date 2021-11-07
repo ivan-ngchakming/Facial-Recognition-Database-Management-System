@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export async function graphqlQuery(query, variables, apiUrl = '/graphql') {
+export async function graphqlQuery(query, variables = {}, apiUrl = '/graphql') {
   var response = await axios.post(
     apiUrl,
     {

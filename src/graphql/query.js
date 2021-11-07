@@ -83,3 +83,13 @@ export const PROFILES = `
     }
   }
 `;
+
+export const TASKS = `
+  query tasks {
+    tasks {
+      taskCollectionId
+      status
+      progress
+    }
+  }
+`;

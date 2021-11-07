@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import {
   TextField,
   Container,
@@ -9,6 +8,8 @@ import {
   Grid,
 } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+import { graphqlQuery } from '../../graphql';
+import { BATCH_FACE_REC } from '../../graphql';
 
 export default function Create() {
   const history = useHistory();
@@ -21,14 +22,9 @@ export default function Create() {
   };
 
   const createTask = (dir) => {
-    const formData = new FormData();
-    formData.append('dir', dir);
-    formData.append('priority', 5);
-
-    axios.post('/api/tasks/face-rec', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+    graphqlQuery(BATCH_FACE_REC, {
+      dirpath: dir,
+      priority: 5,
     });
   };
 
