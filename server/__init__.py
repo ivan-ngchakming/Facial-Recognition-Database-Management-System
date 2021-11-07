@@ -59,11 +59,6 @@ task_manager.init_app(app)
 face_app.init_models()
 
 
-from .tasks import tasks
-
-app.register_blueprint(tasks, url_prefix="/api/tasks")
-
-
 @app.route("/graphql", methods=["GET", "POST"])
 def graphql():
     if request.method == "GET":
