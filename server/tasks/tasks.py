@@ -10,13 +10,15 @@ from server.models import Photo, Profile, Face
 
 logger = logging.getLogger(__name__)
 
+TOLERACE = 0.6
+
 
 def example_task(task, t):
     logger.info(f"Starting task {task.id}")
     time.sleep(t)
 
 
-def face_identify(task, filepath, tolerace=0.7):
+def face_identify(task, filepath, tolerace=TOLERACE):
 
     logger.info(f"Starting task {task.id}")
 
@@ -48,7 +50,11 @@ def face_identify(task, filepath, tolerace=0.7):
         logger.debug(f"All profiles compared, final score: {scores}")
 
         # add face to profile
-        best_match = scores[0]
+        try:
+            best_match = scores[0]
+        except IndexError:
+            best_match = {"score": -1}
+
         if best_match["score"] > tolerace:
             best_match["profile"].faces.append(unknown_face_obj)
             logger.debug(
@@ -72,7 +78,7 @@ def face_identify(task, filepath, tolerace=0.7):
     return results
 
 
-def face_verification(unknown_face, tolerace=0.7):
+def face_verification(unknown_face, tolerace=TOLERACE):
     logger.debug(f"Running face against other faces with no profiles")
     face_objs = Face.query.filter(Face.profile == None).all()
 
