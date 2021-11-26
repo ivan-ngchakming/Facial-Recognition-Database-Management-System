@@ -124,3 +124,5 @@ For guidance on setting up a development environment and how to make a contribut
 ## Special Thanks
 
 Special thanks to [Kabiirk](https://github.com/Kabiirk) for making the project logo.
+
+.
